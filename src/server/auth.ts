@@ -6,7 +6,6 @@ import {
 } from "next-auth";
 import { type Adapter } from "next-auth/adapters";
 import DiscordProvider from "next-auth/providers/discord";
-import type { DiscordProfile } from "next-auth/providers/discord";
 
 import { env } from "@/env";
 import { db } from "@/server/db";
@@ -21,21 +20,15 @@ declare module "next-auth" {
   interface Session extends DefaultSession {
     user: {
       id: string;
-      email: string;
-      role: Role;
+      // ...other properties
+      // role: UserRole;
     } & DefaultSession["user"];
   }
 
-  interface User {
-    email: string;
-    role: Role;
-  }
-}
-
-enum Role {
-  EMPLOYEE = "EMPLOYEE",
-  HRADMIN = "HRADMIN",
-  SUPERADMIN = "SUPERADMIN",
+  // interface User {
+  //   // ...other properties
+  //   // role: UserRole;
+  // }
 }
 
 /**
@@ -50,7 +43,6 @@ export const authOptions: NextAuthOptions = {
       user: {
         ...session.user,
         id: user.id,
-        role: user.role,
       },
     }),
   },
@@ -59,16 +51,6 @@ export const authOptions: NextAuthOptions = {
     DiscordProvider({
       clientId: env.DISCORD_CLIENT_ID,
       clientSecret: env.DISCORD_CLIENT_SECRET,
-      profile(profile: DiscordProfile) {
-        const role: Role = (profile.role as Role) ?? Role.EMPLOYEE;
-        return {
-          id: profile.id.toString(),
-          name: profile.username,
-          email: profile.email,
-          image: profile.avatar,
-          role,
-        };
-      },
     }),
     /**
      * ...add more providers here.
