@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { HamburgerMenuIcon } from "@radix-ui/react-icons";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { getServerAuthSession } from "@/server/auth";
+import SignInButton from "./ui/signin-button";
 
 const navLinks = [
   {
@@ -44,11 +45,13 @@ export default async function Navbar() {
           <ThemeSwitch />
         </span>
 
-        <Button asChild className="hidden text-xs md:block md:text-sm">
-          <Link href={session ? "/app" : "/api/auth/signin"}>
-            {session ? "Dashboard" : "Sign in"}
-          </Link>
-        </Button>
+        {session?.user ? (
+          <Button asChild className="hidden text-xs md:block md:text-sm">
+            <Link href="/app">Dashboard</Link>
+          </Button>
+        ) : (
+          <SignInButton />
+        )}
 
         <Sheet>
           <SheetTrigger asChild className="md:hidden">
