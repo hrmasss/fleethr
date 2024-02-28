@@ -54,14 +54,16 @@ model Session {
 }
 
 model User {
-    id            String    @id @default(cuid())
+    id            String         @id @default(cuid())
     name          String?
-    email         String?   @unique
+    email         String?        @unique
     emailVerified DateTime?
     image         String?
     accounts      Account[]
     sessions      Session[]
     posts         Post[]
+    organizations Organization[]
+    subscriptions Subscription[]
 }
 
 model VerificationToken {
@@ -73,17 +75,38 @@ model VerificationToken {
 }
 
 model Module {
-    id          String   @id @default(cuid())
-    name        String   @unique
-    description String?  @db.Text
+    id          String         @id @default(cuid())
+    name        String         @unique
+    description String?        @db.Text
     features    String[]
     price       Float
-    dependsOn   Module[] @relation("ModuleDependencies")
-    dependedBy  Module[] @relation("ModuleDependencies")
+    dependsOn   Module[]       @relation("ModuleDependencies")
+    dependedBy  Module[]       @relation("ModuleDependencies")
+    subscribers Subscription[]
+}
+
+enum SubscriptionType {
+    YEARLY
+    MONTHLY
+}
+
+model Subscription {
+    id           String           @id @default(cuid())
+    user         User             @relation(fields: [userId], references: [id])
+    userId       String           @unique
+    module       Module           @relation(fields: [moduleId], references: [id])
+    moduleId     String
+    startingDate DateTime
+    endDate      DateTime
+    autoRenewal  Boolean
+    type         SubscriptionType
 }
 
 model Organization {
     id          String  @id @default(cuid())
     name        String  @unique
     description String? @db.Text
+    owner       User    @relation(fields: [ownerId], references: [id])
+    ownerId     String
+    size        Int
 }
