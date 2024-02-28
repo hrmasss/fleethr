@@ -3,7 +3,6 @@ import type { Metadata } from "next";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Sora } from "next/font/google";
 import { TRPCReactProvider } from "@/trpc/react";
-import Navbar from "@/components/navbar";
 
 const sora = Sora({
   subsets: ["latin"],
@@ -31,7 +30,6 @@ export default function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
-            <Navbar />
             {children}
           </ThemeProvider>
         </TRPCReactProvider>
