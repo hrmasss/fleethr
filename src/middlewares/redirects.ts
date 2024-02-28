@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 
 export function withRedirects(middleware: NextMiddleware) {
   return async (request: NextRequest, event: NextFetchEvent) => {
-    // Middleware logic
+    // Redirect to next auth sign in page
     if (request.nextUrl.pathname === "/login") {
       return NextResponse.redirect(new URL("/api/auth/signin", request.url));
     }

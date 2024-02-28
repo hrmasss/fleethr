@@ -45,7 +45,7 @@ export default async function Navbar() {
         </span>
 
         <Button asChild className="hidden text-xs md:block md:text-sm">
-          <Link href={session ? "/dashboard" : "/api/auth/signin"}>
+          <Link href={session ? "/app" : "/api/auth/signin"}>
             {session ? "Dashboard" : "Sign in"}
           </Link>
         </Button>
@@ -58,7 +58,7 @@ export default async function Navbar() {
             <ul className="flex h-full flex-col items-center justify-center space-y-6">
               <Link
                 className="text-xl"
-                href={session ? "/app/dashboard" : "/api/auth/signin"}
+                href={session ? "/app" : "/api/auth/signin"}
               >
                 {session ? "Dashboard" : "Sign in"}
               </Link>
