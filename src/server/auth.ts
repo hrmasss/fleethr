@@ -100,11 +100,11 @@ export const authOptions: NextAuthOptions = {
           where: { email: credentials.email },
         });
 
-        if (!user) return null;
+        if (!user?.password) return null;
 
         const isValidPassword = await compare(
           credentials.password,
-          user.password as string,
+          user.password,
         );
 
         if (!isValidPassword) return null;
