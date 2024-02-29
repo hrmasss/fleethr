@@ -64,8 +64,9 @@ model User {
     name          String?
     email         String?        @unique
     emailVerified DateTime?
+    password      String?
     image         String?
-    role          UserRole           @default(EMPLOYEE)
+    role          UserRole?      @default(EMPLOYEE)
     accounts      Account[]
     sessions      Session[]
     posts         Post[]

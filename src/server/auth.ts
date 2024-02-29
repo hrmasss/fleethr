@@ -7,6 +7,8 @@ import {
 import { type Adapter } from "next-auth/adapters";
 import DiscordProvider from "next-auth/providers/discord";
 import type { DiscordProfile } from "next-auth/providers/discord";
+import CredentialsProvider from "next-auth/providers/credentials";
+import { compare } from "bcryptjs";
 import { env } from "@/env";
 import { db } from "@/server/db";
 
@@ -83,6 +85,37 @@ export const authOptions: NextAuthOptions = {
   },
   adapter: PrismaAdapter(db) as Adapter,
   providers: [
+    CredentialsProvider({
+      name: "Credentials",
+      credentials: {
+        email: { label: "Email", type: "email" },
+        password: { label: "Password", type: "password" },
+      },
+
+      // @ts-expect-error Next auth issues with strict mode (See issue #2701 on github)
+      authorize: async (credentials) => {
+        if (!credentials?.email || !credentials?.password) return null;
+
+        const user = await db.user.findUnique({
+          where: { email: credentials.email },
+        });
+
+        if (!user) return null;
+
+        const isValidPassword = await compare(
+          credentials.password,
+          user.password as string,
+        );
+
+        if (!isValidPassword) return null;
+
+        return {
+          ...user,
+          password: null,
+        };
+      },
+    }),
+
     DiscordProvider({
       clientId: env.DISCORD_CLIENT_ID,
       clientSecret: env.DISCORD_CLIENT_SECRET,
