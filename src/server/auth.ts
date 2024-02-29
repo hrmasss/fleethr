@@ -6,7 +6,7 @@ import {
 } from "next-auth";
 import { type Adapter } from "next-auth/adapters";
 import DiscordProvider from "next-auth/providers/discord";
-
+import type { DiscordProfile } from "next-auth/providers/discord";
 import { env } from "@/env";
 import { db } from "@/server/db";
 
@@ -21,14 +21,20 @@ declare module "next-auth" {
     user: {
       id: string;
       // ...other properties
-      // role: UserRole;
+      role: UserRole;
     } & DefaultSession["user"];
   }
 
-  // interface User {
-  //   // ...other properties
-  //   // role: UserRole;
-  // }
+  interface User {
+    // ...other properties
+    role: UserRole;
+  }
+}
+
+enum UserRole {
+  EMPLOYEE = "EMPLOYEE",
+  HRADMIN = "HRADMIN",
+  SUPERADMIN = "SUPERADMIN",
 }
 
 /**
@@ -41,19 +47,55 @@ export const authOptions: NextAuthOptions = {
     strategy: "jwt",
   },
   callbacks: {
-    session: ({ session, token }) => ({
-      ...session,
-      user: {
-        ...session.user,
-        id: token.sub,
-      },
-    }),
+    session: async ({ session, token }) => {
+      let userRole = UserRole.EMPLOYEE;
+      if (session.user && token.sub) {
+        const user = await db.user.findUnique({
+          where: { id: token.sub },
+          select: { role: true },
+        });
+        if (user) userRole = user.role as UserRole;
+      }
+
+      return {
+        ...session,
+        user: {
+          ...session.user,
+          id: token.sub,
+          role: userRole,
+        },
+      };
+    },
+
+    jwt: async ({ token }) => {
+      let userRole = UserRole.EMPLOYEE;
+      if (token.sub) {
+        const user = await db.user.findUnique({
+          where: { id: token.sub },
+          select: { role: true },
+        });
+        if (user) userRole = user.role as UserRole;
+      }
+
+      token.role = userRole;
+      return token;
+    },
   },
   adapter: PrismaAdapter(db) as Adapter,
   providers: [
     DiscordProvider({
       clientId: env.DISCORD_CLIENT_ID,
       clientSecret: env.DISCORD_CLIENT_SECRET,
+      profile(profile: DiscordProfile) {
+        const role: UserRole = (profile.role as UserRole) ?? UserRole.EMPLOYEE;
+        return {
+          id: profile.id.toString(),
+          name: profile.username,
+          email: profile.email,
+          image: profile.avatar,
+          role,
+        };
+      },
     }),
     /**
      * ...add more providers here.
