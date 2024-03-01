@@ -9,13 +9,12 @@ export default async function Dashboard() {
 
   if (!session?.user) redirect("/login");
 
-  const userOrganizationsCount = await db.user.findUnique({
+  const user = await db.user.findUnique({
     where: { id: session?.user.id },
-    select: { _count: { select: { organizations: true } } },
+    include: { Organization: true },
   });
 
-  if (!userOrganizationsCount?._count.organizations)
-    redirect("/app/get-started");
+  if (!user?.Organization) redirect("/app/get-started");
 
   return (
     <main className="flex flex-col justify-center gap-4 px-2 py-8 lg:px-24">
