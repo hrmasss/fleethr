@@ -112,7 +112,7 @@ model Subscription {
 
 model Organization {
     id            String         @id @default(cuid())
-    name          String         @unique
+    name          String
     description   String?        @db.Text
     maxSize       Int
     subscriptions Subscription[]
