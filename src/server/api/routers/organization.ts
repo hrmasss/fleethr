@@ -1,10 +1,23 @@
 import { createOrganizationSchema } from "@/schemas/organization";
 import { createTRPCRouter, protectedProcedure } from "@/server/api/trpc";
+import { TRPCError } from "@trpc/server";
 
 export const organizationRouter = createTRPCRouter({
   create: protectedProcedure
     .input(createOrganizationSchema)
     .mutation(async ({ ctx, input }) => {
+      // Check if user is already associated with an organization
+      const user = await ctx.db.user.findFirst({
+        where: { id: ctx.session.user.id },
+        include: { Organization: true },
+      });
+
+      if (user?.Organization)
+        throw new TRPCError({
+          code: "CONFLICT",
+          message: "User is already in an organization",
+        });
+
       // Create the organization
       const organization = await ctx.db.organization.create({
         data: { ...input, maxSize: parseInt(input.maxSize) },

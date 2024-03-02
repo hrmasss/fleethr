@@ -4,6 +4,8 @@ import { api } from "@/trpc/react";
 import { createOrganizationSchema } from "@/schemas/organization";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { useEffect } from "react";
+import { useToast } from "@/components/ui/use-toast";
 
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -20,6 +22,7 @@ import {
 
 export default function Organization() {
   const { mutate, error } = api.organization.create.useMutation();
+  const { toast } = useToast();
 
   const form = useForm<createOrganizationSchema>({
     resolver: zodResolver(createOrganizationSchema),
@@ -34,11 +37,25 @@ export default function Organization() {
     mutate(values);
   }
 
+  useEffect(() => {
+    if (error) {
+      toast({
+        title: "Uh oh! Something went wrong.",
+        description: error.message,
+        variant: "destructive",
+      });
+    }
+  }, [error, toast]);
+
   return (
-    <>
+    <div>
       <h3 className="text-xl font-bold">Organization details</h3>
+      <p className="text-sm text-muted-foreground">
+        You can add other information or update them later from settings.
+      </p>
+
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 py-4">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 py-4">
           <FormField
             control={form.control}
             name="name"
@@ -58,7 +75,10 @@ export default function Organization() {
             name="maxSize"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Maximum members</FormLabel>
+                <FormLabel>
+                  Maximum members
+                  <p className="text-sm text-muted-foreground">This will affect module pricing</p>
+                </FormLabel>
                 <FormControl>
                   <RadioGroup
                     onValueChange={field.onChange}
@@ -68,7 +88,7 @@ export default function Organization() {
                     <FormItem className="flex items-center space-x-3 space-y-0">
                       <FormControl>
                         <RadioGroupItem
-                          className="border-foreground"
+                          className="border-foreground text-foreground"
                           value="20"
                         />
                       </FormControl>
@@ -77,7 +97,7 @@ export default function Organization() {
                     <FormItem className="flex items-center space-x-3 space-y-0">
                       <FormControl>
                         <RadioGroupItem
-                          className="border-foreground"
+                          className="border-foreground text-foreground"
                           value="100"
                         />
                       </FormControl>
@@ -86,7 +106,7 @@ export default function Organization() {
                     <FormItem className="flex items-center space-x-3 space-y-0">
                       <FormControl>
                         <RadioGroupItem
-                          className="border-foreground"
+                          className="border-foreground text-foreground"
                           value="500"
                         />
                       </FormControl>
@@ -117,10 +137,10 @@ export default function Organization() {
           />
 
           <Button type="submit" size="lg">
-            Submit
+            Save
           </Button>
         </form>
       </Form>
-    </>
+    </div>
   );
 }

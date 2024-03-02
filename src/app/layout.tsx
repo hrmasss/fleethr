@@ -4,6 +4,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { Sora } from "next/font/google";
 import { TRPCReactProvider } from "@/trpc/react";
 import { AuthSessionProvider } from "@/components/session-provider";
+import { Toaster } from "@/components/ui/toaster";
 const sora = Sora({
   subsets: ["latin"],
   variable: "--font-sans",
@@ -32,6 +33,7 @@ export default function RootLayout({
               disableTransitionOnChange
             >
               {children}
+              <Toaster />
             </ThemeProvider>
           </AuthSessionProvider>
         </TRPCReactProvider>
