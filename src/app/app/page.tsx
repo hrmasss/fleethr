@@ -14,14 +14,14 @@ export default async function Dashboard() {
     include: {
       organization: {
         include: {
-          subscriptions: true,
+          subscription: true,
         },
       },
     },
   });
 
   // Redirect new users to the get started flow
-  if (!user?.organization?.subscriptions) redirect("/app/get-started");
+  if (!user?.organization?.subscription) redirect("/app/get-started");
 
   return (
     <main className="flex flex-col justify-center gap-4 px-2 py-8 lg:px-24">

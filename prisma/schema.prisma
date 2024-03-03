@@ -76,7 +76,7 @@ model Organization {
     name          String
     description   String?       @db.Text
     maxSize       Int
-    subscriptions Subscription?
+    subscription Subscription?
     members       User[]
 }
 

@@ -6,12 +6,12 @@ export const organizationRouter = createTRPCRouter({
   create: protectedProcedure
     .input(createOrganizationSchema)
     .mutation(async ({ ctx, input }) => {
-      // Check if user is already associated with an organization
       const user = await ctx.db.user.findFirst({
         where: { id: ctx.session.user.id },
         include: { organization: true },
       });
 
+      // Check if user is already associated with an organization
       if (user?.organization)
         throw new TRPCError({
           code: "CONFLICT",

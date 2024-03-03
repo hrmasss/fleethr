@@ -1,4 +1,5 @@
 import { organizationRouter } from "@/server/api/routers/organization";
+import { subscriptionRouter } from "@/server/api/routers/subscription";
 import { moduleRouter } from "@/server/api/routers/modules";
 import { createTRPCRouter } from "@/server/api/trpc";
 
@@ -9,6 +10,7 @@ import { createTRPCRouter } from "@/server/api/trpc";
  */
 export const appRouter = createTRPCRouter({
   organization: organizationRouter,
+  subscription: subscriptionRouter,
   module: moduleRouter,
 });
 

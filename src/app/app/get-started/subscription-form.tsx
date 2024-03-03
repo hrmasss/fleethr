@@ -31,7 +31,8 @@ interface Props {
 
 export default function SubscriptionForm({ onSuccess }: Props) {
   const { data: modules } = api.module.getAll.useQuery();
-  // const { mutate, error, isSuccess } = api.organization.create.useMutation();
+  const { mutate, error, isSuccess, isLoading } =
+    api.subscription.create.useMutation();
 
   const { toast } = useToast();
 
@@ -44,36 +45,29 @@ export default function SubscriptionForm({ onSuccess }: Props) {
     },
   });
 
-  function onSubmit(data: createSubscriptionSchema) {
-    toast({
-      title: "You submitted the following values:",
-      description: (
-        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-        </pre>
-      ),
-    });
+  function onSubmit(values: createSubscriptionSchema) {
+    mutate(values);
   }
 
-  // useEffect(() => {
-  //   if (error) {
-  //     toast({
-  //       title: "Uh oh! Something went wrong.",
-  //       description: error.message,
-  //       variant: "destructive",
-  //     });
-  //   }
-  // }, [error, toast]);
+  useEffect(() => {
+    if (error) {
+      toast({
+        title: "Uh oh! Something went wrong.",
+        description: error.message,
+        variant: "destructive",
+      });
+    }
+  }, [error, toast]);
 
-  // useEffect(() => {
-  //   if (isSuccess) {
-  //     toast({
-  //       title: "Success!",
-  //       description: "Organization data saved successfully.",
-  //     });
-  //     onSuccess();
-  //   }
-  // }, [isSuccess, toast, onSuccess]);
+  useEffect(() => {
+    if (isSuccess) {
+      toast({
+        title: "Success!",
+        description: "Subscription data saved successfully.",
+      });
+      onSuccess();
+    }
+  }, [isSuccess, toast, onSuccess]);
 
   return (
     <div>
@@ -215,8 +209,28 @@ export default function SubscriptionForm({ onSuccess }: Props) {
               </FormItem>
             )}
           />
-          <Button type="submit" size="lg">
-            Save
+
+          <FormField
+            control={form.control}
+            name="autoRenewal"
+            render={({ field }) => (
+              <FormItem className="group flex flex-row items-start space-x-3 space-y-0">
+                <FormControl>
+                  <Checkbox
+                    className="ring-primary group-hover:animate-pulse group-hover:ring-2"
+                    checked={field.value}
+                    onCheckedChange={field.onChange}
+                  />
+                </FormControl>
+                <div className="space-y-1 leading-none">
+                  <FormLabel>Renew automatically</FormLabel>
+                </div>
+              </FormItem>
+            )}
+          />
+
+          <Button type="submit" size="lg" disabled={isLoading}>
+            {isLoading ? "Saving..." : "Save"}
           </Button>
         </form>
       </Form>
