@@ -9,10 +9,10 @@ export const organizationRouter = createTRPCRouter({
       // Check if user is already associated with an organization
       const user = await ctx.db.user.findFirst({
         where: { id: ctx.session.user.id },
-        include: { Organization: true },
+        include: { organization: true },
       });
 
-      if (user?.Organization)
+      if (user?.organization)
         throw new TRPCError({
           code: "CONFLICT",
           message: "User is already in an organization.",
@@ -35,7 +35,7 @@ export const organizationRouter = createTRPCRouter({
   get: protectedProcedure.query(async ({ ctx }) => {
     const user = await ctx.db.user.findFirst({
       where: { id: ctx.session.user.id },
-      include: { Organization: true },
+      include: { organization: true },
     });
 
     if (!user)
@@ -44,6 +44,6 @@ export const organizationRouter = createTRPCRouter({
         message: "User does not exist.",
       });
 
-    return user.Organization;
+    return user.organization;
   }),
 });

@@ -70,7 +70,7 @@ model User {
     accounts       Account[]
     sessions       Session[]
     posts          Post[]
-    Organization   Organization? @relation(fields: [organizationId], references: [id])
+    organization   Organization? @relation(fields: [organizationId], references: [id])
     organizationId String?
 }
 
@@ -83,13 +83,13 @@ model VerificationToken {
 }
 
 model Module {
-    id          String         @id @default(cuid())
-    name        String         @unique
-    description String?        @db.Text
-    features    String[]
-    price       Float
-    dependsOn   Module[]       @relation("ModuleDependencies")
-    dependedBy  Module[]       @relation("ModuleDependencies")
+    id           String         @id @default(cuid())
+    name         String         @unique
+    description  String?        @db.Text
+    features     String[]
+    price        Float
+    dependsOn    Module[]       @relation("ModuleDependencies")
+    dependedBy   Module[]       @relation("ModuleDependencies")
     subscribers Subscription[]
 }
 
@@ -99,22 +99,22 @@ enum SubscriptionType {
 }
 
 model Subscription {
-    id             String           @id @default(cuid())
-    organization   Organization     @relation(fields: [organizationId], references: [id])
-    organizationId String           @unique
-    module         Module           @relation(fields: [moduleId], references: [id])
-    moduleId       String
-    startingDate   DateTime
-    endDate        DateTime
-    autoRenewal    Boolean
-    type           SubscriptionType
+    id               String            @id @default(cuid())
+    organization     Organization      @relation(fields: [organizationId], references: [id])
+    organizationId   String            @unique
+    modules          Module[]
+    paymentCompleted DateTime?
+    startingDate     DateTime
+    endDate          DateTime
+    autoRenewal      Boolean
+    type             SubscriptionType? @default(MONTHLY)
 }
 
 model Organization {
-    id            String         @id @default(cuid())
+    id            String        @id @default(cuid())
     name          String
-    description   String?        @db.Text
+    description   String?       @db.Text
     maxSize       Int
-    subscriptions Subscription[]
+    subscriptions Subscription?
     members       User[]
 }

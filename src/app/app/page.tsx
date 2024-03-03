@@ -10,11 +10,18 @@ export default async function Dashboard() {
   if (!session?.user) redirect("/login");
 
   const user = await db.user.findUnique({
-    where: { id: session?.user.id },
-    include: { Organization: true },
+    where: { id: session.user.id },
+    include: {
+      organization: {
+        include: {
+          subscriptions: true,
+        },
+      },
+    },
   });
 
-  if (!user?.Organization) redirect("/app/get-started");
+  // Redirect new users to the get started flow
+  if (!user?.organization?.subscriptions) redirect("/app/get-started");
 
   return (
     <main className="flex flex-col justify-center gap-4 px-2 py-8 lg:px-24">
