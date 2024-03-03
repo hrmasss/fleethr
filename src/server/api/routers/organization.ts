@@ -38,10 +38,10 @@ export const organizationRouter = createTRPCRouter({
       include: { Organization: true },
     });
 
-    if (!user?.Organization)
+    if (!user)
       throw new TRPCError({
-        code: "BAD_REQUEST",
-        message: "User is not in any organization.",
+        code: "UNAUTHORIZED",
+        message: "User does not exist.",
       });
 
     return user.Organization;

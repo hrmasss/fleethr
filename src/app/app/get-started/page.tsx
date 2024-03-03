@@ -2,30 +2,33 @@
 
 import { api } from "@/trpc/react";
 import { useEffect, useState } from "react";
-import Organization from "./organization";
+import OrganizationForm from "./organization-form";
+import LoadingSkeleton from "./loading-skeleton";
 
 export default function GetStarted() {
   const [step, setStep] = useState(0);
-  const { data: organization } = api.organization.get.useQuery();
-
-  const handleSuccess = (message: string) => {
-    console.log(message);
-
-    setStep((prev) => prev + 1);
-  };
+  const { data: organization, isLoading: orgLoading } =
+    api.organization.get.useQuery();
+  const subscription = false; // Retrive subscription data from server
 
   useEffect(() => {
-    if (organization) {
-      setStep(1);
-    }
-  }, [organization]);
+    if (organization && subscription) {
+      setStep(3);
+    } else if (organization && !subscription) {
+      setStep(2);
+    } else if (!orgLoading) setStep(1);
+  }, [organization, subscription, orgLoading]);
 
   const renderForm = () => {
     switch (step) {
       case 0:
-        return <Organization onSuccess={handleSuccess} />;
+        return <LoadingSkeleton />;
       case 1:
+        return <OrganizationForm />;
+      case 2:
         return <p>Step 2 </p>;
+      case 3:
+        return <p>Step 3 </p>;
       default:
         return null;
     }
@@ -39,18 +42,9 @@ export default function GetStarted() {
           <h1 className="text-3xl font-bold md:hidden">FleetHR</h1>
           <div className="breadcrumbs text-sm font-medium md:text-xl">
             <ul className="flex font-bold text-muted-foreground md:my-4 md:justify-center md:text-2xl">
-              <li
-                className={step === 0 ? "text-primary" : "cursor-pointer"}
-                onClick={() => setStep(0)}
-              >
-                Organization
-              </li>
-              <li className={step === 1 ? "text-primary" : "cursor-pointer"}>
-                Modules
-              </li>
-              <li className={step === 2 ? "text-primary" : "cursor-pointer"}>
-                People
-              </li>
+              <li className={step === 1 ? "text-primary" : ""}>Organization</li>
+              <li className={step === 2 ? "text-primary" : ""}>Modules</li>
+              <li className={step === 3 ? "text-primary" : ""}>People</li>
             </ul>
           </div>
           {renderForm()}

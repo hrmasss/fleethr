@@ -20,12 +20,9 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 
-interface Props {
-  onSuccess: (message: string) => void;
-}
-
-export default function Organization({ onSuccess }: Props) {
+export default function OrganizationForm() {
   const { mutate, error, isSuccess } = api.organization.create.useMutation();
+
   const { toast } = useToast();
 
   const form = useForm<createOrganizationSchema>({
@@ -52,8 +49,13 @@ export default function Organization({ onSuccess }: Props) {
   }, [error, toast]);
 
   useEffect(() => {
-    if (isSuccess) onSuccess("Successfully saved organization");
-  }, [isSuccess, onSuccess]);
+    if (isSuccess) {
+      toast({
+        title: "Success!",
+        description: "Organization data saved successfully.",
+      });
+    }
+  }, [isSuccess, toast]);
 
   return (
     <div>
