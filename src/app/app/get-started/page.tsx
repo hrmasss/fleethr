@@ -3,7 +3,7 @@
 import { api } from "@/trpc/react";
 import { useEffect, useState } from "react";
 import OrganizationForm from "./organization-form";
-import LoadingSkeleton from "./loading-skeleton";
+import FormSkeleton from "./form-skeleton";
 
 export default function GetStarted() {
   const [step, setStep] = useState(0);
@@ -22,7 +22,7 @@ export default function GetStarted() {
   const renderForm = () => {
     switch (step) {
       case 0:
-        return <LoadingSkeleton />;
+        return <FormSkeleton />;
       case 1:
         return <OrganizationForm />;
       case 2:
