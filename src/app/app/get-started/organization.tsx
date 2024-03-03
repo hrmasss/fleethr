@@ -20,8 +20,12 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 
-export default function Organization() {
-  const { mutate, error } = api.organization.create.useMutation();
+interface Props {
+  onSuccess: (message: string) => void;
+}
+
+export default function Organization({ onSuccess }: Props) {
+  const { mutate, error, isSuccess } = api.organization.create.useMutation();
   const { toast } = useToast();
 
   const form = useForm<createOrganizationSchema>({
@@ -46,6 +50,10 @@ export default function Organization() {
       });
     }
   }, [error, toast]);
+
+  useEffect(() => {
+    if (isSuccess) onSuccess("Successfully saved organization");
+  }, [isSuccess, onSuccess]);
 
   return (
     <div>
@@ -77,7 +85,9 @@ export default function Organization() {
               <FormItem>
                 <FormLabel>
                   Maximum members
-                  <p className="text-sm text-muted-foreground">This will affect module pricing</p>
+                  <p className="text-sm text-muted-foreground">
+                    This will affect module pricing
+                  </p>
                 </FormLabel>
                 <FormControl>
                   <RadioGroup
