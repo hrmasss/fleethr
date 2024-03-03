@@ -109,16 +109,48 @@ export default function ModulesForm({ onSuccess }: Props) {
                                   className="absolute right-4 top-4 ring-primary group-hover:animate-pulse group-hover:ring-2"
                                   checked={field.value?.includes(module.id)}
                                   onCheckedChange={(checked) => {
-                                    return checked
-                                      ? field.onChange([
-                                          ...field.value,
-                                          module.id,
-                                        ])
-                                      : field.onChange(
-                                          field.value?.filter(
-                                            (value) => value !== module.id,
-                                          ),
-                                        );
+                                    // Copy the current selected modules
+                                    let updatedModules = [...field.value];
+
+                                    if (checked) {
+                                      // Add the current module
+                                      updatedModules = updatedModules.concat(
+                                        module.id,
+                                      );
+
+                                      // Add the dependency if not already selected
+                                      module.dependsOn.forEach((dependency) => {
+                                        if (
+                                          !updatedModules.includes(
+                                            dependency.id,
+                                          )
+                                        ) {
+                                          updatedModules.push(dependency.id);
+                                        }
+                                      });
+                                    } else {
+                                      // Remove the current module
+                                      updatedModules = updatedModules.filter(
+                                        (id) => id !== module.id,
+                                      );
+
+                                      // Remove modules that depend on the current module
+                                      modules.forEach((mod) => {
+                                        if (
+                                          mod.dependsOn.find(
+                                            (dep) => dep.id === module.id,
+                                          )
+                                        ) {
+                                          updatedModules =
+                                            updatedModules.filter(
+                                              (id) => id !== mod.id,
+                                            );
+                                        }
+                                      });
+                                    }
+
+                                    // Update the selected modules
+                                    field.onChange(updatedModules);
                                   }}
                                 />
                               </FormControl>
