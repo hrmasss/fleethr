@@ -2,7 +2,7 @@
 
 import { api } from "@/trpc/react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
+import { createSubscriptionSchema } from "@/schemas/subscription";
 import { useForm } from "react-hook-form";
 import { useEffect } from "react";
 import { useToast } from "@/components/ui/use-toast";
@@ -13,6 +13,7 @@ import {
   FormControl,
   FormField,
   FormItem,
+  FormLabel,
   FormMessage,
 } from "@/components/ui/form";
 import {
@@ -22,31 +23,28 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 
 interface Props {
   onSuccess: () => void;
 }
 
-const ModulesFormSchema = z.object({
-  modules: z.array(z.string()).refine((value) => value.some((item) => item), {
-    message: "You have to select at least one module.",
-  }),
-});
-
-export default function ModulesForm({ onSuccess }: Props) {
+export default function SubscriptionForm({ onSuccess }: Props) {
   const { data: modules } = api.module.getAll.useQuery();
   // const { mutate, error, isSuccess } = api.organization.create.useMutation();
 
   const { toast } = useToast();
 
-  const form = useForm<z.infer<typeof ModulesFormSchema>>({
-    resolver: zodResolver(ModulesFormSchema),
+  const form = useForm<createSubscriptionSchema>({
+    resolver: zodResolver(createSubscriptionSchema),
     defaultValues: {
       modules: [],
+      type: "MONTHLY",
+      autoRenewal: false,
     },
   });
 
-  function onSubmit(data: z.infer<typeof ModulesFormSchema>) {
+  function onSubmit(data: createSubscriptionSchema) {
     toast({
       title: "You submitted the following values:",
       description: (
@@ -79,18 +77,62 @@ export default function ModulesForm({ onSuccess }: Props) {
 
   return (
     <div>
-      <h3 className="text-xl font-bold">Select modules</h3>
+      <h3 className="text-xl font-bold">Subscription</h3>
       <p className="text-sm text-muted-foreground">
-        Click on a module to see it&apos;s details. Select modules using the
-        checkbox. All dependencies will be selected automatically.
+        You can complete payment later.
       </p>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 py-4">
+          <FormField
+            control={form.control}
+            name="type"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Subscription type</FormLabel>
+                <FormControl>
+                  <RadioGroup
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                    className="flex flex-col space-y-1"
+                  >
+                    <FormItem className="flex items-center space-x-3 space-y-0">
+                      <FormControl>
+                        <RadioGroupItem
+                          className="border-foreground text-foreground"
+                          value="MONTHLY"
+                        />
+                      </FormControl>
+                      <FormLabel className="font-normal">Monthly</FormLabel>
+                    </FormItem>
+                    <FormItem className="flex items-center space-x-3 space-y-0">
+                      <FormControl>
+                        <RadioGroupItem
+                          className="border-foreground text-foreground"
+                          value="YEARLY"
+                        />
+                      </FormControl>
+                      <FormLabel className="font-normal">Yearly</FormLabel>
+                    </FormItem>
+                  </RadioGroup>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
           <FormField
             control={form.control}
             name="modules"
             render={() => (
-              <FormItem className="py-8">
+              <FormItem>
+                <FormLabel>
+                  Select modules
+                  <p className="text-sm text-muted-foreground">
+                    Click on a module to see it&apos;s details. Select modules
+                    using the checkbox. All dependencies will be selected
+                    automatically.
+                  </p>
+                </FormLabel>
                 <div className="grid gap-4 space-y-0 md:grid-cols-2">
                   {modules?.map((module) => (
                     <FormField

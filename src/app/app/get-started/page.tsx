@@ -3,7 +3,7 @@
 import { api } from "@/trpc/react";
 import { useEffect, useState } from "react";
 import OrganizationForm from "./organization-form";
-import ModulesForm from "./modules-form";
+import SubscriptionForm from "./subscription-form";
 import FormSkeleton from "./form-skeleton";
 
 export default function GetStarted() {
@@ -29,7 +29,7 @@ export default function GetStarted() {
       case 1:
         return <OrganizationForm onSuccess={handleSuccess} />;
       case 2:
-        return <ModulesForm onSuccess={handleSuccess} />;
+        return <SubscriptionForm onSuccess={handleSuccess} />;
       case 3:
         return <p>Step 3 </p>;
       default:
@@ -46,7 +46,7 @@ export default function GetStarted() {
           <div className="breadcrumbs text-sm font-medium md:text-xl">
             <ul className="flex font-bold text-muted-foreground md:my-4 md:justify-center md:text-2xl">
               <li className={step === 1 ? "text-primary" : ""}>Organization</li>
-              <li className={step === 2 ? "text-primary" : ""}>Modules</li>
+              <li className={step === 2 ? "text-primary" : ""}>Subscription</li>
               <li className={step === 3 ? "text-primary" : ""}>People</li>
             </ul>
           </div>
