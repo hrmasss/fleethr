@@ -1,4 +1,3 @@
-import { postRouter } from "@/server/api/routers/post";
 import { organizationRouter } from "@/server/api/routers/organization";
 import { moduleRouter } from "@/server/api/routers/modules";
 import { createTRPCRouter } from "@/server/api/trpc";
