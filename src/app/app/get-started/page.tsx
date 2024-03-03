@@ -19,12 +19,14 @@ export default function GetStarted() {
     } else if (!orgLoading) setStep(1);
   }, [organization, subscription, orgLoading]);
 
+  const handleSuccess = () => setStep((prev) => prev + 1);
+
   const renderForm = () => {
     switch (step) {
       case 0:
         return <FormSkeleton />;
       case 1:
-        return <OrganizationForm />;
+        return <OrganizationForm onSuccess={handleSuccess} />;
       case 2:
         return <p>Step 2 </p>;
       case 3:

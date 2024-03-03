@@ -20,7 +20,11 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 
-export default function OrganizationForm() {
+interface Props {
+  onSuccess: () => void;
+}
+
+export default function OrganizationForm({ onSuccess }: Props) {
   const { mutate, error, isSuccess } = api.organization.create.useMutation();
 
   const { toast } = useToast();
@@ -54,8 +58,9 @@ export default function OrganizationForm() {
         title: "Success!",
         description: "Organization data saved successfully.",
       });
+      onSuccess();
     }
-  }, [isSuccess, toast]);
+  }, [isSuccess, toast, onSuccess]);
 
   return (
     <div>
