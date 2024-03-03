@@ -25,7 +25,8 @@ interface Props {
 }
 
 export default function OrganizationForm({ onSuccess }: Props) {
-  const { mutate, error, isSuccess } = api.organization.create.useMutation();
+  const { mutate, error, isSuccess, isLoading } =
+    api.organization.create.useMutation();
 
   const { toast } = useToast();
 
@@ -153,8 +154,8 @@ export default function OrganizationForm({ onSuccess }: Props) {
             )}
           />
 
-          <Button type="submit" size="lg">
-            Save
+          <Button type="submit" size="lg" disabled={isLoading}>
+            {isLoading ? "Saving..." : "Save"}
           </Button>
         </form>
       </Form>
