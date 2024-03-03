@@ -3,6 +3,7 @@
 import { api } from "@/trpc/react";
 import { useEffect, useState } from "react";
 import OrganizationForm from "./organization-form";
+import ModulesForm from "./modules-form";
 import FormSkeleton from "./form-skeleton";
 
 export default function GetStarted() {
@@ -28,7 +29,7 @@ export default function GetStarted() {
       case 1:
         return <OrganizationForm onSuccess={handleSuccess} />;
       case 2:
-        return <p>Step 2 </p>;
+        return <ModulesForm onSuccess={handleSuccess} />;
       case 3:
         return <p>Step 3 </p>;
       default:
