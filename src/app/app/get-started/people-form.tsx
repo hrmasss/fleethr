@@ -1,0 +1,167 @@
+"use client";
+
+import { api } from "@/trpc/react";
+import { createUserSchema } from "@/schemas/user";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { useEffect } from "react";
+import { useToast } from "@/components/ui/use-toast";
+
+import { CaretRightIcon } from "@radix-ui/react-icons";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import Link from "next/link";
+
+export default function PeopleForm() {
+  const { mutate, error, isSuccess, isLoading } = api.user.create.useMutation();
+
+  const { toast } = useToast();
+
+  const form = useForm<createUserSchema>({
+    resolver: zodResolver(createUserSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+      confirmPassword: "",
+      role: "EMPLOYEE",
+    },
+  });
+
+  function onSubmit(values: createUserSchema) {
+    mutate(values);
+  }
+
+  useEffect(() => {
+    if (error) {
+      toast({
+        title: "Uh oh! Something went wrong.",
+        description: error.message,
+        variant: "destructive",
+      });
+    }
+  }, [error, toast]);
+
+  useEffect(() => {
+    if (isSuccess) {
+      toast({
+        title: "Success!",
+        description: "User account created successfully.",
+      });
+    }
+  }, [isSuccess, toast]);
+
+  return (
+    <div>
+      <h3 className="text-xl font-bold">Add users (optional)</h3>
+      <p className="text-sm text-muted-foreground">
+        You can add some users now or you can skip this step and add them later.
+      </p>
+
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 py-4">
+          <FormField
+            control={form.control}
+            name="role"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>User role</FormLabel>
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                >
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select the role of the user" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    <SelectItem value="EMPLOYEE">Employee</SelectItem>
+                    <SelectItem value="HRADMIN">HR Admin</SelectItem>
+                  </SelectContent>
+                </Select>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="email"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Email</FormLabel>
+                <FormControl>
+                  <Input
+                    type="email"
+                    placeholder="someone@example.com"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="password"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Password</FormLabel>
+                <FormControl>
+                  <Input type="password" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="confirmPassword"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Confirm password</FormLabel>
+                <FormControl>
+                  <Input type="password" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <div className="grid gap-4 md:grid-cols-2">
+            <Button type="submit" size="lg" disabled={isLoading}>
+              {isLoading ? "Adding user..." : "Add user"}
+            </Button>
+
+            <Button asChild size="lg" variant="outline">
+              <Link
+                href="/app"
+                className="group order-1 flex items-center font-semibold text-primary"
+              >
+                Go to dashboard
+                <CaretRightIcon className="h-6 w-6 transition-all duration-300 group-hover:translate-x-2" />
+              </Link>
+            </Button>
+          </div>
+        </form>
+      </Form>
+    </div>
+  );
+}

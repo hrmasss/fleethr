@@ -9,9 +9,11 @@ export enum UserRole {
 export const createUserSchema = z
   .object({
     email: z.string().email("Please provide a valid email"),
-    password: z.string().min(8),
+    password: z
+      .string()
+      .min(8, { message: "Password must contain at least 8 characters" }),
     confirmPassword: z.string(),
-    role: z.nativeEnum(UserRole).optional().default(UserRole.EMPLOYEE),
+    role: z.enum(["EMPLOYEE", "HRADMIN"]).optional().default("EMPLOYEE"),
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: "Passwords don't match",

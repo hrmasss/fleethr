@@ -4,6 +4,7 @@ import { api } from "@/trpc/react";
 import { useEffect, useState } from "react";
 import OrganizationForm from "./organization-form";
 import SubscriptionForm from "./subscription-form";
+import PeopleForm from "./people-form";
 import FormSkeleton from "./form-skeleton";
 
 export default function GetStarted() {
@@ -32,7 +33,7 @@ export default function GetStarted() {
       case 2:
         return <SubscriptionForm onSuccess={handleSuccess} />;
       case 3:
-        return <p>Step 3 </p>;
+        return <PeopleForm />;
       default:
         return null;
     }
