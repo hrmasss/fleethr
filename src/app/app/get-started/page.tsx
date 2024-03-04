@@ -10,15 +10,16 @@ export default function GetStarted() {
   const [step, setStep] = useState(0);
   const { data: organization, isLoading: orgLoading } =
     api.organization.get.useQuery();
-  const subscription = false; // Retrive subscription data from server
+  const { data: subscription, isLoading: subLoading } =
+    api.subscription.get.useQuery();
 
   useEffect(() => {
     if (organization && subscription) {
       setStep(3);
     } else if (organization && !subscription) {
       setStep(2);
-    } else if (!orgLoading) setStep(1);
-  }, [organization, subscription, orgLoading]);
+    } else if (!(orgLoading || subLoading)) setStep(1);
+  }, [organization, subscription, orgLoading, subLoading]);
 
   const handleSuccess = () => setStep((prev) => prev + 1);
 
