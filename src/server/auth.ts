@@ -1,4 +1,5 @@
 import { PrismaAdapter } from "@auth/prisma-adapter";
+import { UserRole } from "@/schemas/user";
 import {
   getServerSession,
   type DefaultSession,
@@ -31,12 +32,6 @@ declare module "next-auth" {
     // ...other properties
     role: UserRole;
   }
-}
-
-enum UserRole {
-  EMPLOYEE = "EMPLOYEE",
-  HRADMIN = "HRADMIN",
-  SUPERADMIN = "SUPERADMIN",
 }
 
 /**
