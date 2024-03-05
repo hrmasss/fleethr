@@ -67,8 +67,10 @@ export default function PeopleForm() {
         title: "Success!",
         description: "User account created successfully.",
       });
+
+      form.reset();
     }
-  }, [isSuccess, toast]);
+  }, [isSuccess, toast, form]);
 
   return (
     <div>
