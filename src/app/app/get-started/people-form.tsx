@@ -4,12 +4,16 @@ import { api } from "@/trpc/react";
 import { createUserSchema } from "@/schemas/user";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useToast } from "@/components/ui/use-toast";
-
-import { CaretRightIcon } from "@radix-ui/react-icons";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
+import {
+  CaretRightIcon,
+  EyeClosedIcon,
+  EyeOpenIcon,
+} from "@radix-ui/react-icons";
 import {
   Select,
   SelectContent,
@@ -25,9 +29,10 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import Link from "next/link";
 
 export default function PeopleForm() {
+  const [passVisible, setPassVisible] = useState(false);
+  const [passConfirmVisible, setPassConfirmVisible] = useState(false);
   const { mutate, error, isSuccess, isLoading } = api.user.create.useMutation();
 
   const { toast } = useToast();
@@ -124,7 +129,25 @@ export default function PeopleForm() {
               <FormItem>
                 <FormLabel>Password</FormLabel>
                 <FormControl>
-                  <Input type="password" {...field} />
+                  <div className="relative">
+                    <Input
+                      type={passVisible ? "text" : "password"}
+                      {...field}
+                    />
+                    <Button
+                      size="icon"
+                      type="button"
+                      variant="ghost"
+                      className="absolute right-0 top-0 hover:bg-transparent"
+                      onClick={() => setPassVisible((prev) => !prev)}
+                    >
+                      {passVisible ? (
+                        <EyeOpenIcon className="h-4 w-4" />
+                      ) : (
+                        <EyeClosedIcon className="h-4 w-4" />
+                      )}
+                    </Button>
+                  </div>
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -138,7 +161,25 @@ export default function PeopleForm() {
               <FormItem>
                 <FormLabel>Confirm password</FormLabel>
                 <FormControl>
-                  <Input type="password" {...field} />
+                  <div className="relative">
+                    <Input
+                      type={passConfirmVisible ? "text" : "password"}
+                      {...field}
+                    />
+                    <Button
+                      size="icon"
+                      type="button"
+                      variant="ghost"
+                      className="absolute right-0 top-0 hover:bg-transparent"
+                      onClick={() => setPassConfirmVisible((prev) => !prev)}
+                    >
+                      {passConfirmVisible ? (
+                        <EyeOpenIcon className="h-4 w-4" />
+                      ) : (
+                        <EyeClosedIcon className="h-4 w-4" />
+                      )}
+                    </Button>
+                  </div>
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -150,7 +191,7 @@ export default function PeopleForm() {
               {isLoading ? "Adding user..." : "Add user"}
             </Button>
 
-            <Button asChild size="lg" variant="outline">
+            <Button asChild size="lg" variant="outline" type="button">
               <Link
                 href="/app"
                 className="group order-1 flex items-center font-semibold text-primary"
