@@ -115,7 +115,7 @@ export default function PeopleForm() {
                 <FormControl>
                   <Input
                     type="email"
-                    placeholder="someone@example.com"
+                    placeholder="name@company.com"
                     {...field}
                   />
                 </FormControl>
@@ -133,6 +133,7 @@ export default function PeopleForm() {
                 <FormControl>
                   <div className="relative">
                     <Input
+                      placeholder="••••••••"
                       type={passVisible ? "text" : "password"}
                       {...field}
                     />
@@ -165,6 +166,7 @@ export default function PeopleForm() {
                 <FormControl>
                   <div className="relative">
                     <Input
+                      placeholder="••••••••"
                       type={passConfirmVisible ? "text" : "password"}
                       {...field}
                     />
