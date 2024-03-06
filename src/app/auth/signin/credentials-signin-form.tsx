@@ -82,6 +82,7 @@ export default function CredentialsSignInForm() {
               <FormControl>
                 <div className="relative">
                   <Input
+                    className="pr-8"
                     placeholder="••••••••"
                     type={passVisible ? "text" : "password"}
                     {...field}

@@ -8,6 +8,11 @@ export enum UserRole {
 
 export const createUserSchema = z
   .object({
+    name: z
+      .string()
+      .min(3, { message: "Name is too short" })
+      .max(255, { message: "Name is too long" })
+      .optional(),
     email: z.string().email("Please provide a valid email"),
     password: z
       .string()

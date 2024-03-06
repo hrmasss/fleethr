@@ -34,7 +34,7 @@ import Spinner from "@/components/ui/spinner";
 export default function PeopleForm() {
   const [passVisible, setPassVisible] = useState(false);
   const [passConfirmVisible, setPassConfirmVisible] = useState(false);
-  const { mutate, error, isSuccess, isLoading } = api.user.create.useMutation();
+  const { mutate, error, isSuccess, isLoading } = api.user.addUserToOrganization.useMutation();
 
   const { toast } = useToast();
 
@@ -134,6 +134,7 @@ export default function PeopleForm() {
                 <FormControl>
                   <div className="relative">
                     <Input
+                      className="pr-8"
                       placeholder="••••••••"
                       type={passVisible ? "text" : "password"}
                       {...field}
@@ -167,6 +168,7 @@ export default function PeopleForm() {
                 <FormControl>
                   <div className="relative">
                     <Input
+                      className="pr-8"
                       placeholder="••••••••"
                       type={passConfirmVisible ? "text" : "password"}
                       {...field}

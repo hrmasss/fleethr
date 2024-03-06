@@ -1,9 +1,50 @@
 import { createUserSchema } from "@/schemas/user";
-import { createTRPCRouter, protectedProcedure } from "@/server/api/trpc";
+import {
+  createTRPCRouter,
+  protectedProcedure,
+  publicProcedure,
+} from "@/server/api/trpc";
 import { TRPCError } from "@trpc/server";
 import { hash } from "bcryptjs";
 export const userRouter = createTRPCRouter({
-  create: protectedProcedure
+  createNew: publicProcedure
+    .input(createUserSchema)
+    .mutation(async ({ ctx, input }) => {
+      // Check if there's no user in session
+
+      if (ctx.session?.user)
+        throw new TRPCError({
+          code: "CONFLICT",
+          message: "Alredy signed in to an account.",
+        });
+
+      // Check if the provided email is already in use
+      const user = await ctx.db.user.findFirst({
+        where: { email: input.email },
+      });
+
+      if (user)
+        throw new TRPCError({
+          code: "CONFLICT",
+          message: `${input.email} is already in use!`,
+        });
+
+      // Hash the password
+      const hashedPassword = await hash(input.password, 8);
+
+      // Create the user
+      const newUser = await ctx.db.user.create({
+        data: {
+          name: input.name,
+          email: input.email,
+          password: hashedPassword,
+        },
+      });
+
+      return { ...newUser, password: null };
+    }),
+
+  addUserToOrganization: protectedProcedure
     .input(createUserSchema)
     .mutation(async ({ ctx, input }) => {
       // Check if the creator has an organization before adding users
