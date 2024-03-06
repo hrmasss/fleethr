@@ -1,6 +1,10 @@
 import { cn } from "@/lib/utils";
 
-export default function Spinner({ className }: { className?: string }) {
+export interface ISVGProps extends React.SVGProps<SVGSVGElement> {
+  className?: string;
+}
+
+export default function Spinner({ className }: ISVGProps) {
   return (
     <svg
       className={cn(

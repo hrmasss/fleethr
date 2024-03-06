@@ -6,7 +6,6 @@ import { createSubscriptionSchema } from "@/schemas/subscription";
 import { useForm } from "react-hook-form";
 import { useEffect } from "react";
 import { useToast } from "@/components/ui/use-toast";
-
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -24,6 +23,7 @@ import {
 } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import Spinner from "@/components/ui/spinner";
 
 interface Props {
   onSuccess: () => void;
@@ -230,7 +230,13 @@ export default function SubscriptionForm({ onSuccess }: Props) {
           />
 
           <Button type="submit" size="lg" disabled={isLoading}>
-            {isLoading ? "Saving..." : "Save"}
+            {isLoading ? (
+              <span className="flex">
+                <Spinner /> Saving, please wait...
+              </span>
+            ) : (
+              "Save"
+            )}
           </Button>
         </form>
       </Form>

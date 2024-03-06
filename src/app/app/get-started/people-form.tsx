@@ -29,6 +29,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import Spinner from "@/components/ui/spinner";
 
 export default function PeopleForm() {
   const [passVisible, setPassVisible] = useState(false);
@@ -192,7 +193,13 @@ export default function PeopleForm() {
 
           <div className="grid gap-4 md:grid-cols-2">
             <Button type="submit" size="lg" disabled={isLoading}>
-              {isLoading ? "Adding user..." : "Add user"}
+              {isLoading ? (
+                <span className="flex">
+                  <Spinner /> Adding user, please wait...
+                </span>
+              ) : (
+                "Add user"
+              )}
             </Button>
 
             <Button asChild size="lg" variant="outline" type="button">

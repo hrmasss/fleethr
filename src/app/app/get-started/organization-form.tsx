@@ -6,7 +6,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useEffect } from "react";
 import { useToast } from "@/components/ui/use-toast";
-
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -19,6 +18,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import Spinner from "@/components/ui/spinner";
 
 interface Props {
   onSuccess: () => void;
@@ -155,7 +155,13 @@ export default function OrganizationForm({ onSuccess }: Props) {
           />
 
           <Button type="submit" size="lg" disabled={isLoading}>
-            {isLoading ? "Saving..." : "Save"}
+            {isLoading ? (
+              <span className="flex">
+                <Spinner /> Saving, please wait...
+              </span>
+            ) : (
+              "Save"
+            )}
           </Button>
         </form>
       </Form>

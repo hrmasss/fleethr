@@ -113,10 +113,10 @@ export default function CredentialsSignInForm() {
           Forgot password?
         </Link>
 
-        <Button type="submit" className="w-full">
+        <Button disabled={loading} type="submit" className="w-full">
           {loading ? (
             <span className="flex">
-              <Spinner className="text-primary-foreground"/>
+              <Spinner className="text-primary-foreground" />
               Signing in, please wait...
             </span>
           ) : (
