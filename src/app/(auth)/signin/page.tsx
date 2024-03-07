@@ -1,5 +1,5 @@
 import AuthLayout from "@/components/auth/auth-layout";
-import CredentialsSignInForm from "./credentials-signin-form";
+import SignInForm from "./credentials-signin-form";
 import Link from "next/link";
 
 export default function SigninPage() {
@@ -16,7 +16,7 @@ export default function SigninPage() {
         </>
       }
       buttonText="Sign in"
-      form={<CredentialsSignInForm />}
+      form={<SignInForm />}
     />
   );
 }

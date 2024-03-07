@@ -20,7 +20,7 @@ import {
 } from "@/components/ui/form";
 import Spinner from "@/components/ui/spinner";
 
-export default function CredentialsSignInForm() {
+export default function SignInForm() {
   const [passVisible, setPassVisible] = useState(false);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
