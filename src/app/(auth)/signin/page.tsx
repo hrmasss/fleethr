@@ -15,7 +15,6 @@ export default function SigninPage() {
           .
         </>
       }
-      buttonText="Sign in"
       form={<SignInForm />}
     />
   );
