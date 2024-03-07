@@ -29,7 +29,7 @@ export default async function Dashboard() {
       <div>
         <h2 className="text-3xl">Hello, {session.user.name}</h2>
         <Button asChild className="mt-4">
-          <Link href="/auth/signout">Sign out</Link>
+          <Link href="/logout">Sign out</Link>
         </Button>
       </div>
     </main>

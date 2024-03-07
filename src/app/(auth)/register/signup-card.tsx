@@ -31,7 +31,7 @@ export default function SignUpCard({ providers }: Props) {
         <CardTitle className="text-2xl font-bold">Welcome</CardTitle>
         <CardDescription>
           Let&apos;s get you onboard. Already have an account?{" "}
-          <Link href="/auth/signin" className="text-primary">
+          <Link href="/login" className="text-primary">
             Sign in
           </Link>
           .

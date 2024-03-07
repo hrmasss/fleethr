@@ -50,7 +50,7 @@ export default async function Navbar() {
           </Button>
         ) : (
           <Button asChild className="hidden text-xs md:block md:text-sm">
-            <Link href="/auth/signin">Sign in</Link>
+            <Link href="/login">Sign in</Link>
           </Button>
         )}
 
@@ -62,7 +62,7 @@ export default async function Navbar() {
             <ul className="flex h-full flex-col items-center justify-center space-y-6">
               <Link
                 className="text-xl"
-                href={session?.user ? "/app" : "/auth/signin"}
+                href={session?.user ? "/app" : "/login"}
               >
                 {session?.user ? "Dashboard" : "Sign in"}
               </Link>

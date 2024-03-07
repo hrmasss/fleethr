@@ -41,8 +41,8 @@ declare module "next-auth" {
  */
 export const authOptions: NextAuthOptions = {
   pages: {
-    signIn: "/auth/signin",
-    signOut: "/auth/signout",
+    signIn: "/login",
+    signOut: "/logout",
   },
   session: {
     strategy: "jwt",
