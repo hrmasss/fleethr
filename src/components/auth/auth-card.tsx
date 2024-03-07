@@ -14,28 +14,30 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import SignUpForm from "./signup-form";
-import Link from "next/link";
 
-interface Props {
+interface AuthCardProps {
+  title: string;
+  description: React.ReactNode | string;
+  buttonText: string;
   providers: Record<
     LiteralUnion<BuiltInProviderType, string>,
     ClientSafeProvider
   > | null;
+  form: React.ReactNode;
 }
 
-export default function SignUpCard({ providers }: Props) {
+export default function AuthCard({
+  title,
+  description,
+  buttonText,
+  providers,
+  form,
+}: AuthCardProps) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="text-2xl font-bold">Welcome</CardTitle>
-        <CardDescription>
-          Let&apos;s get you onboard. Already have an account?{" "}
-          <Link href="/login" className="text-primary">
-            Sign in
-          </Link>
-          .
-        </CardDescription>
+        <CardTitle className="text-2xl font-bold">{title}</CardTitle>
+        <CardDescription>{description}</CardDescription>
       </CardHeader>
       <CardContent>
         {providers && (
@@ -51,7 +53,7 @@ export default function SignUpCard({ providers }: Props) {
                   variant="outline"
                   className="w-full ring-1 ring-primary"
                 >
-                  Sign up with {oAuthProvider.name}
+                  {buttonText} with {oAuthProvider.name}
                 </Button>
               ))}
           </div>
@@ -65,7 +67,7 @@ export default function SignUpCard({ providers }: Props) {
           </div>
         )}
 
-        <SignUpForm />
+        {form}
       </CardContent>
     </Card>
   );

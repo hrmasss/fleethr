@@ -1,29 +1,22 @@
-import { getProviders } from "next-auth/react";
-import { getServerAuthSession } from "@/server/auth";
-import { redirect } from "next/navigation";
-import HighFive from "@/assets/ui/high-five.png";
-import SignUpCard from "./signup-card";
-import Image from "next/image";
+import AuthLayout from "@/components/auth/auth-layout";
+import CredentialsSignUpForm from "./credentials-signup-form";
+import Link from "next/link";
 
-export default async function SignUpPage() {
-  const session = await getServerAuthSession();
-
-  // If the user is already logged in, redirect.
-  if (session?.user) redirect("/app");
-
-  const providers = await getProviders();
-
+export default function RegisterPage() {
   return (
-    <section className="grid min-h-screen p-4 lg:grid-cols-2">
-      <div className="hidden items-end justify-center lg:flex">
-        <div className="aspect-square max-w-[600px]">
-          <Image priority className="dark:invert" src={HighFive} alt="" />
-        </div>
-      </div>
-
-      <main className="flex items-center justify-center">
-        <SignUpCard providers={providers} />
-      </main>
-    </section>
+    <AuthLayout
+      title="Create an account"
+      description={
+        <>
+          Let&apos;s get you set up. Already have an account?{" "}
+          <Link href="/signin" className="text-primary">
+            Sign in
+          </Link>
+          .
+        </>
+      }
+      buttonText="Sign up"
+      form={<CredentialsSignUpForm />}
+    />
   );
 }

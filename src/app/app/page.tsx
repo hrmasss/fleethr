@@ -7,7 +7,7 @@ import Link from "next/link";
 export default async function Dashboard() {
   const session = await getServerAuthSession();
 
-  if (!session?.user) redirect("/login");
+  if (!session?.user) redirect("/signin");
 
   const user = await db.user.findUnique({
     where: { id: session.user.id },
@@ -29,7 +29,7 @@ export default async function Dashboard() {
       <div>
         <h2 className="text-3xl">Hello, {session.user.name}</h2>
         <Button asChild className="mt-4">
-          <Link href="/logout">Sign out</Link>
+          <Link href="/signout">Sign out</Link>
         </Button>
       </div>
     </main>

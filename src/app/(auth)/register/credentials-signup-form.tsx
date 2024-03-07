@@ -50,7 +50,7 @@ export default function SignUpForm() {
         title: "Account created successfully!",
         description: "Please sign in to your account.",
       });
-      router.push("/login");
+      router.push("/signin");
     }
   }, [isSuccess, toast, router]);
 
