@@ -7,7 +7,9 @@ import {
 } from "next-auth";
 import { type Adapter } from "next-auth/adapters";
 import DiscordProvider from "next-auth/providers/discord";
+import GoogleProvider from "next-auth/providers/google";
 import type { DiscordProfile } from "next-auth/providers/discord";
+import type { GoogleProfile } from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { compare } from "bcryptjs";
 import { env } from "@/env";
@@ -111,6 +113,21 @@ export const authOptions: NextAuthOptions = {
         return {
           ...user,
           password: null,
+        };
+      },
+    }),
+
+    GoogleProvider({
+      clientId: env.GOOGLE_CLIENT_ID,
+      clientSecret: env.GOOGLE_CLIENT_SECRET,
+      profile(profile: GoogleProfile) {
+        const role: UserRole = (profile.role as UserRole) ?? UserRole.EMPLOYEE;
+        return {
+          id: profile.sub,
+          name: profile.name,
+          email: profile.email,
+          image: profile.picture,
+          role,
         };
       },
     }),

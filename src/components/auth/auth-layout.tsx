@@ -8,7 +8,6 @@ import AuthCard from "@/components/auth/auth-card";
 interface AuthLayoutProps {
   title: string;
   description: React.ReactNode | string;
-  buttonText: "Sign in" | "Sign up";
   form: React.ReactNode;
   redirectUrl?: string;
 }
@@ -16,7 +15,6 @@ interface AuthLayoutProps {
 export default async function AuthLayout({
   title,
   description,
-  buttonText,
   form,
   redirectUrl = "/app",
 }: AuthLayoutProps) {
@@ -36,7 +34,6 @@ export default async function AuthLayout({
         <AuthCard
           title={title}
           description={description}
-          buttonText={buttonText}
           providers={providers}
           form={form}
         />
