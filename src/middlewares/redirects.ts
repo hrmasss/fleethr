@@ -19,6 +19,7 @@ export function withRedirects(middleware: NextMiddleware) {
       return NextResponse.redirect(new URL("/app", request.url));
     }
 
+    // Redirect unauthenticated users from /app* to signin page
     if (request.nextUrl.pathname.startsWith("/app") && !user) {
       return NextResponse.redirect(new URL("/signin", request.url));
     }
