@@ -21,10 +21,10 @@ export default async function Dashboard() {
   });
 
   // Redirect new users to the get started flow
-  if (!user?.organization?.subscription) redirect("/app/get-started");
+  if (!user?.organization?.subscription) redirect("/get-started");
 
   return (
-    <main className="flex flex-col justify-center gap-4 px-2 py-8 lg:px-24">
+    <main className="flex flex-col justify-center gap-4 px-2">
       <h1 className="border-b py-4 text-5xl">Dashboard</h1>
       <div>
         <h2 className="text-3xl">Hello, {session.user.name}</h2>
