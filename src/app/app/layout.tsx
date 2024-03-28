@@ -1,3 +1,4 @@
+import AppNavbar from "@/components/app-navbar";
 import AppSidebar from "@/components/app-sidebar";
 import { getServerAuthSession } from "@/server/auth";
 
@@ -17,9 +18,7 @@ export default async function Layout({
       <aside className="hidden w-fit lg:block">
         <AppSidebar user={session?.user} />
       </aside>
-      <div className="sticky top-0 border-b bg-card/90 p-2 shadow-sm backdrop-blur lg:hidden">
-        navbar
-      </div>
+      <AppNavbar className="lg:hidden" />
       <div className="grow overflow-y-auto p-2 md:p-6">{children}</div>
     </div>
   );

@@ -22,7 +22,8 @@ export function ThemeSwitch({ className, variant }: Props) {
     case "text":
       return (
         <span className={cn("capitalize", className)} onClick={changeTheme}>
-          {resolvedTheme} Mode
+          <span className="hidden dark:flex">Dark Mode</span>
+          <span className="dark:hidden">Light Mode</span>
         </span>
       );
 
@@ -30,14 +31,20 @@ export function ThemeSwitch({ className, variant }: Props) {
       return (
         <span
           onClick={changeTheme}
-          className={cn("flex cursor-pointer items-center gap-2 size-full", className)}
+          className={cn(
+            "flex size-full cursor-pointer items-center gap-2",
+            className,
+          )}
         >
           <span>
             <SunIcon className="size-4 dark:hidden" />
             <MoonIcon className="hidden size-4 dark:block" />
             <span className="sr-only">Switch theme</span>
           </span>
-          <span className="capitalize">{resolvedTheme} Mode</span>
+          <span>
+            <span className="hidden dark:flex">Dark Mode</span>
+            <span className="dark:hidden">Light Mode</span>
+          </span>
         </span>
       );
 
