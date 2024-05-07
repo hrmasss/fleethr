@@ -30,7 +30,8 @@ import {
   IconChevronDown,
 } from "@tabler/icons-react";
 import classes from "@/components/styles/header.module.css";
-import Logo from "@/components/fleethr-logo";
+import Logo from "@/components/images/logo";
+import { cn } from "@/lib/utils";
 
 const mockdata = [
   {
@@ -65,7 +66,7 @@ const mockdata = [
   },
 ];
 
-export function Header() {
+export function Header({ className }: { className?: string }) {
   const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] =
     useDisclosure(false);
   const [linksOpened, { toggle: toggleLinks }] = useDisclosure(false);
@@ -93,15 +94,15 @@ export function Header() {
   ));
 
   return (
-    <Box pb={120}>
-      <header className={classes.header}>
+    <Box>
+      <header className={cn(classes.header, className)}>
         <Group justify="space-between" h="100%">
           <a href="/" className="flex items-center gap-2">
             <Logo className="size-8" />
             <span className="hidden text-xl font-bold md:flex">fleethr</span>
           </a>
 
-          <Group h="100%" gap={0} visibleFrom="sm">
+          <Group h="100%" gap={0} visibleFrom="sm" className="flex-nowrap">
             <a href="#" className={classes.link}>
               Home
             </a>

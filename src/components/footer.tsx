@@ -7,7 +7,8 @@ import {
   IconBrandInstagram,
 } from "@tabler/icons-react";
 import classes from "@/components/styles/footer.module.css";
-import Logo from "@/components/fleethr-logo";
+import Logo from "@/components/images/logo";
+import { cn } from "@/lib/utils";
 
 const links = [
   { link: "#", label: "Contact" },
@@ -17,7 +18,7 @@ const links = [
   { link: "#", label: "Careers" },
 ];
 
-export function Footer() {
+export function Footer({ className }: { className?: string }) {
   const items = links.map((link) => (
     <Anchor
       c="dimmed"
@@ -32,14 +33,16 @@ export function Footer() {
   ));
 
   return (
-    <div className={classes.footer}>
+    <div className={cn(classes.footer, className)}>
       <div className={classes.inner}>
         <a href="/" className="flex items-center gap-2">
           <Logo className="size-6" />
-          <span className="hidden text-xl font-bold md:flex">fleethr</span>
+          <span className="text-xl font-bold">fleethr</span>
         </a>
 
-        <Group className={classes.links}>{items}</Group>
+        <Group justify="center" className={classes.links}>
+          {items}
+        </Group>
 
         <Group gap="xs" justify="flex-end" wrap="nowrap">
           <ActionIcon size="lg" variant="default" radius="xl">

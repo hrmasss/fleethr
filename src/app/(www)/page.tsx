@@ -1,12 +1,10 @@
-import { getServerAuthSession } from "@/server/auth";
+import { Hero } from "@/components/hero";
 
-export default async function Home() {
-  const user = (await getServerAuthSession())?.user;
+export default function Home() {
 
   return (
-    <div className="flex flex-col items-center justify-center text-5xl font-bold text-center">
-      <span className="block my-2 text-lg">{user && `Hello, ${user.name}`}</span>
-      Let&apos;s go
-    </div>
+    <main>
+      <Hero />
+    </main>
   );
 }
