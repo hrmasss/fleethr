@@ -79,7 +79,7 @@ export function Header({ className }: { className?: string }) {
         <ThemeIcon size={34} variant="default" radius="md">
           <item.icon
             style={{ width: rem(22), height: rem(22) }}
-            color={theme.colors.blue[6]}
+            color={theme.primaryColor}
           />
         </ThemeIcon>
         <div>
@@ -122,7 +122,6 @@ export function Header({ className }: { className?: string }) {
                     </Box>
                     <IconChevronDown
                       style={{ width: rem(16), height: rem(16) }}
-                      color={theme.colors.blue[6]}
                     />
                   </Center>
                 </a>
