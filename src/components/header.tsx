@@ -32,6 +32,7 @@ import {
 import classes from "@/components/styles/header.module.css";
 import Logo from "@/components/images/logo";
 import { cn } from "@/lib/utils";
+import { ThemeSwitch } from "./theme-switch";
 
 const mockdata = [
   {
@@ -102,7 +103,7 @@ export function Header({ className }: { className?: string }) {
             <span className="hidden text-xl font-bold md:flex">fleethr</span>
           </a>
 
-          <Group h="100%" gap={0} visibleFrom="sm" className="flex-nowrap">
+          <Group h="100%" gap={0} visibleFrom="md" className="flex-nowrap">
             <a href="#" className={classes.link}>
               Home
             </a>
@@ -164,7 +165,8 @@ export function Header({ className }: { className?: string }) {
             </a>
           </Group>
 
-          <Group visibleFrom="sm">
+          <Group visibleFrom="md">
+            <ThemeSwitch />
             <Button variant="default">Log in</Button>
             <Button>Sign up</Button>
           </Group>
@@ -172,7 +174,7 @@ export function Header({ className }: { className?: string }) {
           <Burger
             opened={drawerOpened}
             onClick={toggleDrawer}
-            hiddenFrom="sm"
+            hiddenFrom="md"
           />
         </Group>
       </header>
@@ -182,9 +184,9 @@ export function Header({ className }: { className?: string }) {
         onClose={closeDrawer}
         size="100%"
         padding="md"
-        title="Navigation"
-        hiddenFrom="sm"
-        zIndex={1000000}
+        title="Menu"
+        hiddenFrom="md"
+        zIndex={100}
       >
         <ScrollArea h={`calc(100vh - ${rem(80)})`} mx="-md">
           <Divider my="sm" />
@@ -192,7 +194,10 @@ export function Header({ className }: { className?: string }) {
           <a href="#" className={classes.link}>
             Home
           </a>
-          <UnstyledButton className={classes.link} onClick={toggleLinks}>
+          <UnstyledButton
+            className={cn(classes.link, "w-full")}
+            onClick={toggleLinks}
+          >
             <Center inline>
               <Box component="span" mr={5}>
                 Features
@@ -210,6 +215,9 @@ export function Header({ className }: { className?: string }) {
           <a href="#" className={classes.link}>
             Academy
           </a>
+          <span className={classes.link}>
+            <ThemeSwitch variant="text" />
+          </span>
 
           <Divider my="sm" />
 

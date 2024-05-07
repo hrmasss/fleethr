@@ -28,7 +28,9 @@ export default function RootLayout({
       </head>
       <body className={`font-sans ${sora.variable}`}>
         <TRPCReactProvider>
-          <MantineProvider>{children}</MantineProvider>
+          <MantineProvider defaultColorScheme="auto">
+            {children}
+          </MantineProvider>
         </TRPCReactProvider>
       </body>
     </html>
