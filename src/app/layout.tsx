@@ -1,7 +1,9 @@
 import "@/styles/globals.css";
+import "@mantine/core/styles.css";
 import type { Metadata } from "next";
 import { Sora } from "next/font/google";
 import { TRPCReactProvider } from "@/trpc/react";
+import { ColorSchemeScript, MantineProvider } from "@mantine/core";
 
 const sora = Sora({
   subsets: ["latin"],
@@ -21,8 +23,13 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <head>
+        <ColorSchemeScript />
+      </head>
       <body className={`font-sans ${sora.variable}`}>
-        <TRPCReactProvider>{children}</TRPCReactProvider>
+        <TRPCReactProvider>
+          <MantineProvider>{children}</MantineProvider>
+        </TRPCReactProvider>
       </body>
     </html>
   );
