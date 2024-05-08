@@ -8,12 +8,13 @@
   border-left: rem(1px) solid
     light-dark(var(--mantine-color-gray-3), var(--mantine-color-dark-7));
   min-height: 100vh;
-  max-width: rem(550px);
-  padding-top: rem(80px);
+  max-width: rem(650px);
+  padding: rem(80px);
   margin-left: auto;
 
   @media (max-width: $mantine-breakpoint-sm) {
     max-width: 100%;
+    padding-inline: rem(20px);
   }
 }
 

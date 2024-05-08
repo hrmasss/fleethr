@@ -54,7 +54,7 @@ export function LoginForm() {
 
   return (
     <div className={classes.wrapper}>
-      <Paper className={classes.form} radius={0} px={30} py={60}>
+      <Paper className={classes.form} radius={0} py={60}>
         <Title order={2} className={classes.title} ta="center" mt="md" mb={50}>
           Welcome back to FleetHR!
         </Title>
@@ -79,7 +79,7 @@ export function LoginForm() {
             {...form.getInputProps("password")}
           />
 
-          {!error && <Text c="red">{error}</Text>}
+          {error && <Text c="red">{error}</Text>}
 
           <Button type="submit" fullWidth mt="xl" size="md" autoContrast>
             {loading ? (

@@ -10,7 +10,7 @@ import { mantineTheme } from "@/lib/mantine-theme";
 
 const theme = createTheme(mantineTheme);
 
-const sora = Sora({
+export const sora = Sora({
   subsets: ["latin"],
   variable: "--font-sans",
 });
