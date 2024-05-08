@@ -2,20 +2,21 @@
 
 import { Anchor, Group, ActionIcon, rem } from "@mantine/core";
 import {
+  IconBrandFacebook,
   IconBrandTwitter,
-  IconBrandYoutube,
   IconBrandInstagram,
 } from "@tabler/icons-react";
 import classes from "@/components/styles/footer.module.css";
 import Logo from "@/components/images/logo";
 import { cn } from "@/lib/utils";
+import Link from "next/link";
+import { publicNavlinks as navlinks, socials } from "@/lib/nav-data";
 
 const links = [
-  { link: "#", label: "Contact" },
-  { link: "#", label: "Privacy" },
-  { link: "#", label: "Blog" },
-  { link: "#", label: "Store" },
-  { link: "#", label: "Careers" },
+  { link: navlinks.contact, label: "Contact" },
+  { link: navlinks.privacy, label: "Privacy" },
+  { link: navlinks.blog, label: "Blog" },
+  { link: navlinks.features, label: "Features" },
 ];
 
 export function Footer({ className }: { className?: string }) {
@@ -45,19 +46,37 @@ export function Footer({ className }: { className?: string }) {
         </Group>
 
         <Group gap="xs" justify="flex-end" wrap="nowrap">
-          <ActionIcon size="lg" variant="default" radius="xl">
+          <ActionIcon
+            size="lg"
+            variant="default"
+            radius="xl"
+            component={Link}
+            href={socials.facebook}
+          >
+            <IconBrandFacebook
+              style={{ width: rem(18), height: rem(18) }}
+              stroke={1.5}
+            />
+          </ActionIcon>
+          <ActionIcon
+            size="lg"
+            variant="default"
+            radius="xl"
+            component={Link}
+            href={socials.twitter}
+          >
             <IconBrandTwitter
               style={{ width: rem(18), height: rem(18) }}
               stroke={1.5}
             />
           </ActionIcon>
-          <ActionIcon size="lg" variant="default" radius="xl">
-            <IconBrandYoutube
-              style={{ width: rem(18), height: rem(18) }}
-              stroke={1.5}
-            />
-          </ActionIcon>
-          <ActionIcon size="lg" variant="default" radius="xl">
+          <ActionIcon
+            size="lg"
+            variant="default"
+            radius="xl"
+            component={Link}
+            href={socials.instagram}
+          >
             <IconBrandInstagram
               style={{ width: rem(18), height: rem(18) }}
               stroke={1.5}

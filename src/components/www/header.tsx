@@ -18,52 +18,56 @@ import {
   ScrollArea,
   rem,
   useMantineTheme,
+  Stack,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import {
   IconNotification,
   IconCode,
-  IconBook,
-  IconChartPie3,
+  IconTimeline,
   IconFingerprint,
   IconCoin,
   IconChevronDown,
+  IconRocket,
 } from "@tabler/icons-react";
 import classes from "@/components/styles/header.module.css";
 import Logo from "@/components/images/logo";
 import { cn } from "@/lib/utils";
-import { ThemeSwitch } from "./theme-switch";
+import { ThemeSwitch } from "../theme-switch";
+import Link from "next/link";
+import { publicNavlinks as navlinks } from "@/lib/nav-data";
 
-const mockdata = [
+const features = [
   {
     icon: IconCode,
-    title: "Open source",
-    description: "This Pokémon’s cry is very loud and distracting",
+    title: "Open Source",
+    description: "Built on open-source technologies.",
   },
   {
     icon: IconCoin,
-    title: "Free for everyone",
-    description: "The fluid of Smeargle’s tail secretions changes",
-  },
-  {
-    icon: IconBook,
-    title: "Documentation",
-    description: "Yanma is capable of seeing 360 degrees without",
+    title: "Modular Pricing",
+    description: "Choose and pay only for the modules you need.",
   },
   {
     icon: IconFingerprint,
-    title: "Security",
-    description: "The shell’s rounded shape and the grooves on its.",
+    title: "Robust Security",
+    description: "Industry-standard security measures.",
   },
   {
-    icon: IconChartPie3,
-    title: "Analytics",
-    description: "This Pokémon uses its flying ability to quickly chase",
+    icon: IconTimeline,
+    title: "Advanced Analytics",
+    description: "Powerful analytics tools for data-driven decision-making.",
   },
   {
     icon: IconNotification,
-    title: "Notifications",
-    description: "Combusken battles with the intensely hot flames it spews",
+    title: "Intuitive User Interface",
+    description: "Clean and user-friendly interface for enhanced productivity.",
+  },
+  {
+    icon: IconRocket,
+    title: "Easy Onboarding",
+    description:
+      "Streamlined onboarding process for a quick and hassle-free setup.",
   },
 ];
 
@@ -73,7 +77,7 @@ export function Header({ className }: { className?: string }) {
   const [linksOpened, { toggle: toggleLinks }] = useDisclosure(false);
   const theme = useMantineTheme();
 
-  const links = mockdata.map((item) => (
+  const links = features.map((item) => (
     <UnstyledButton className={classes.subLink} key={item.title}>
       <Group wrap="nowrap" align="flex-start">
         <ThemeIcon size={34} variant="default" radius="md">
@@ -98,15 +102,15 @@ export function Header({ className }: { className?: string }) {
     <Box>
       <header className={cn(classes.header, className)}>
         <Group justify="space-between" h="100%">
-          <a href="/" className="flex items-center gap-2">
+          <Link href="/" className="flex items-center gap-2">
             <Logo className="size-8" />
             <span className="hidden text-xl font-bold md:flex">fleethr</span>
-          </a>
+          </Link>
 
           <Group h="100%" gap={0} visibleFrom="md" className="flex-nowrap">
-            <a href="#" className={classes.link}>
+            <Link href="/" className={classes.link}>
               Home
-            </a>
+            </Link>
             <HoverCard
               width={600}
               position="bottom"
@@ -115,7 +119,7 @@ export function Header({ className }: { className?: string }) {
               withinPortal
             >
               <HoverCard.Target>
-                <a href="#" className={classes.link}>
+                <Link href={navlinks.features} className={classes.link}>
                   <Center inline>
                     <Box component="span" mr={5}>
                       Features
@@ -124,13 +128,13 @@ export function Header({ className }: { className?: string }) {
                       style={{ width: rem(16), height: rem(16) }}
                     />
                   </Center>
-                </a>
+                </Link>
               </HoverCard.Target>
 
               <HoverCard.Dropdown style={{ overflow: "hidden" }}>
                 <Group justify="space-between" px="md">
                   <Text fw={500}>Features</Text>
-                  <Anchor href="#" fz="xs">
+                  <Anchor component={Link} href={navlinks.features} fz="xs">
                     View all
                   </Anchor>
                 </Group>
@@ -148,26 +152,36 @@ export function Header({ className }: { className?: string }) {
                         Get started
                       </Text>
                       <Text size="xs" c="dimmed">
-                        Their food sources have decreased, and their numbers
+                        Flexible HR management, tailored to you.
                       </Text>
                     </div>
-                    <Button variant="default">Get started</Button>
+                    <Button
+                      variant="default"
+                      component={Link}
+                      href={navlinks.singup}
+                    >
+                      Get started
+                    </Button>
                   </Group>
                 </div>
               </HoverCard.Dropdown>
             </HoverCard>
-            <a href="#" className={classes.link}>
-              Learn
-            </a>
-            <a href="#" className={classes.link}>
-              Academy
-            </a>
+            <Link href={navlinks.pricing} className={classes.link}>
+              Pricing
+            </Link>
+            <Link href={navlinks.contact} className={classes.link}>
+              Contact us
+            </Link>
           </Group>
 
           <Group visibleFrom="md">
             <ThemeSwitch />
-            <Button variant="default">Log in</Button>
-            <Button>Sign up</Button>
+            <Button variant="default" component={Link} href={navlinks.login}>
+              Log in
+            </Button>
+            <Button component={Link} href={navlinks.singup}>
+              Sign up
+            </Button>
           </Group>
 
           <Burger
@@ -190,39 +204,59 @@ export function Header({ className }: { className?: string }) {
         <ScrollArea h={`calc(100vh - ${rem(80)})`} mx="-md">
           <Divider my="sm" />
 
-          <a href="#" className={classes.link}>
-            Home
-          </a>
-          <UnstyledButton
-            className={cn(classes.link, "w-full")}
-            onClick={toggleLinks}
-          >
-            <Center inline>
-              <Box component="span" mr={5}>
-                Features
-              </Box>
-              <IconChevronDown
-                style={{ width: rem(16), height: rem(16) }}
-                color={theme.colors.blue[6]}
-              />
-            </Center>
-          </UnstyledButton>
-          <Collapse in={linksOpened}>{links}</Collapse>
-          <a href="#" className={classes.link}>
-            Learn
-          </a>
-          <a href="#" className={classes.link}>
-            Academy
-          </a>
-          <span className={classes.link}>
-            <ThemeSwitch variant="text" />
-          </span>
+          <Stack gap="md">
+            <Link href="/" className={classes.link} onClick={closeDrawer}>
+              Home
+            </Link>
+            <UnstyledButton
+              className={cn(classes.link, "w-full")}
+              onClick={toggleLinks}
+            >
+              <Center inline>
+                <Box component="span" mr={5}>
+                  Features
+                </Box>
+                <IconChevronDown style={{ width: rem(16), height: rem(16) }} />
+              </Center>
+            </UnstyledButton>
+            <Collapse in={linksOpened}>{links}</Collapse>
+            <Link
+              href={navlinks.pricing}
+              className={classes.link}
+              onClick={closeDrawer}
+            >
+              Pricing
+            </Link>
+            <Link
+              href={navlinks.contact}
+              className={classes.link}
+              onClick={closeDrawer}
+            >
+              Contact us
+            </Link>
+            <span className={classes.link}>
+              <ThemeSwitch variant="text" />
+            </span>
+          </Stack>
 
           <Divider my="sm" />
 
-          <Group justify="center" grow pb="xl" px="md">
-            <Button variant="default">Log in</Button>
-            <Button>Sign up</Button>
+          <Group justify="center" grow p="md">
+            <Button
+              variant="default"
+              component={Link}
+              href={navlinks.login}
+              onClick={closeDrawer}
+            >
+              Log in
+            </Button>
+            <Button
+              component={Link}
+              href={navlinks.singup}
+              onClick={closeDrawer}
+            >
+              Sign up
+            </Button>
           </Group>
         </ScrollArea>
       </Drawer>

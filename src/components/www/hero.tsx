@@ -13,6 +13,8 @@ import {
 import { IconCheck } from "@tabler/icons-react";
 import HeroImage from "@/components/images/hero-image";
 import classes from "@/components/styles/hero.module.css";
+import { publicNavlinks as navlinks } from "@/lib/nav-data";
+import Link from "next/link";
 
 export function Hero() {
   return (
@@ -24,9 +26,8 @@ export function Hero() {
             resource platform
           </Title>
           <Text c="dimmed" mt="md">
-            Build fully functional accessible web applications faster than ever
-            – Mantine includes more than 120 customizable components and hooks
-            to cover you in any situation
+            Flexible, open-source HR management platform with modular pricing,
+            intuitive interface, and analytics.
           </Text>
 
           <List
@@ -43,30 +44,39 @@ export function Hero() {
             }
           >
             <List.Item>
-              <b>TypeScript based</b> – build type safe applications, all
-              components and hooks export types
+              <b>Open Source</b> – FleetHR is built on open-source technologies,
+              ensuring transparency.
             </List.Item>
             <List.Item>
-              <b>Free and open source</b> – all packages have MIT license, you
-              can use Mantine in any project
+              <b>Modular Pricing</b> – Choose and pay only for the modules you
+              need, eliminating unnecessary costs.
             </List.Item>
             <List.Item>
-              <b>No annoying focus ring</b> – focus ring will appear only when
-              user navigates with keyboard
+              <b>Intuitive User Interface</b> – Experience a clean and
+              user-friendly interface.
             </List.Item>
           </List>
 
           <Group mt={30}>
-            <Button radius="xl" size="md" className={classes.control}>
+            <Button
+              variant="gradient"
+              radius="xl"
+              size="md"
+              className={classes.control}
+              component={Link}
+              href={navlinks.singup}
+            >
               Get started
             </Button>
             <Button
               variant="default"
               radius="xl"
               size="md"
+              component={Link}
+              href={navlinks.pricing}
               className={classes.control}
             >
-              Source code
+              See Pricing
             </Button>
           </Group>
         </div>
