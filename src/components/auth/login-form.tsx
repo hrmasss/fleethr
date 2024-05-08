@@ -1,6 +1,6 @@
 "use client";
 
-import { protectedLinks, publicLinks } from "@/lib/nav-data";
+import { publicLinks } from "@/lib/nav-data";
 import { CredentialsSchema } from "@/schemas/auth";
 import classes from "@/styles/components/login-form.module.css";
 import { useForm } from "@mantine/form";
@@ -41,11 +41,11 @@ export function LoginForm() {
 
     const response = await signIn("credentials", {
       ...data,
-      callbackUrl: protectedLinks.dashboard,
+      callbackUrl: publicLinks.dashboard,
       redirect: false,
     });
 
-    if (response?.ok) router.push(protectedLinks.dashboard);
+    if (response?.ok) router.push(publicLinks.dashboard);
     else if (response?.status === 401) setError("Invalid email or password");
     else setError("Something went wrong, try again later");
 
