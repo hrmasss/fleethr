@@ -13,10 +13,10 @@ import Link from "next/link";
 import { publicNavlinks as navlinks, socials } from "@/lib/nav-data";
 
 const links = [
-  { link: navlinks.contact, label: "Contact" },
-  { link: navlinks.privacy, label: "Privacy" },
-  { link: navlinks.blog, label: "Blog" },
-  { link: navlinks.features, label: "Features" },
+  { href: navlinks.contact, label: "Contact" },
+  { href: navlinks.privacy, label: "Privacy" },
+  { href: navlinks.blog, label: "Blog" },
+  { href: navlinks.features, label: "Features" },
 ];
 
 export function Footer({ className }: { className?: string }) {
@@ -24,9 +24,9 @@ export function Footer({ className }: { className?: string }) {
     <Anchor
       c="dimmed"
       key={link.label}
-      href={link.link}
+      href={link.href}
       lh={1}
-      onClick={(event) => event.preventDefault()}
+      component={Link}
       size="sm"
     >
       {link.label}

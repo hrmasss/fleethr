@@ -4,7 +4,7 @@ export const publicNavlinks = {
   features: "#features",
   faq: "#faq",
   singup: "#",
-  contact: "#",
+  contact: "#contact",
   blog: "#",
   privacy: "#",
 };

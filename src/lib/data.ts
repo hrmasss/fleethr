@@ -5,6 +5,10 @@ import {
   IconFingerprint,
   IconCoin,
   IconRocket,
+  IconAt,
+  IconPhone,
+  IconMapPin,
+  IconSun,
 } from "@tabler/icons-react";
 
 export const features = [
@@ -78,4 +82,11 @@ export const faqs = [
     answer:
       "FleetHR offers advanced analytics tools that provide valuable insights into your HR operations. You can track key metrics, identify areas for improvement, and make data-driven decisions to optimize your HR processes and strategies.",
   },
+];
+
+export const contactInfo = [
+  { title: "Email", description: "support@fleethr.com", icon: IconAt },
+  { title: "Phone", description: "+8801688784512", icon: IconPhone },
+  { title: "Address", description: "DSC, Ashuliya, Savar", icon: IconMapPin },
+  { title: "Working hours", description: "10 a.m. – 5 p.m.", icon: IconSun },
 ];
