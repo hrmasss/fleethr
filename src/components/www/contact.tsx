@@ -19,6 +19,7 @@ import { zodResolver } from "mantine-form-zod-resolver";
 import { SendMessage } from "@/schemas/message";
 import { ContactIconsList } from "@/components/www/contact-icon-list";
 import classes from "@/styles/components/contact.module.css";
+import { notifications } from "@mantine/notifications";
 
 export function Contact({ id }: { id?: string }) {
   const theme = useMantineTheme();
@@ -38,6 +39,13 @@ export function Contact({ id }: { id?: string }) {
 
   const handleSubmit = (data: SendMessage) => {
     console.log(data);
+
+    notifications.show({
+      title: "Thank you for reaching out!",
+      message: `${data.name ? data.name + " we" : "We"} got your message. Expect a response very soon.`,
+      withBorder: true,
+    });
+
     form.reset();
   };
 
