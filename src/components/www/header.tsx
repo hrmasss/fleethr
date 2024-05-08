@@ -27,7 +27,7 @@ import Logo from "@/components/images/logo";
 import { cn } from "@/lib/utils";
 import { ThemeSwitch } from "@/components/theme-switch";
 import Link from "next/link";
-import { publicNavlinks as navlinks } from "@/lib/nav-data";
+import { publicLinks as navlinks } from "@/lib/nav-data";
 import { features } from "@/lib/data";
 
 export function Header({ className }: { className?: string }) {

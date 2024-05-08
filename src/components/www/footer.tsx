@@ -10,7 +10,7 @@ import classes from "@/styles/components/footer.module.css";
 import Logo from "@/components/images/logo";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
-import { publicNavlinks as navlinks, socials } from "@/lib/nav-data";
+import { publicLinks as navlinks, socials } from "@/lib/nav-data";
 
 const links = [
   { href: navlinks.contact, label: "Contact" },

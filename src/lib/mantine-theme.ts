@@ -1,7 +1,7 @@
 import type { MantineThemeOverride } from "@mantine/core";
 
 export const mantineTheme: MantineThemeOverride = {
-  primaryShade: { light: 4, dark: 6 },
+  primaryShade: { light: 5, dark: 6 },
   primaryColor: "teal",
   autoContrast: true,
   defaultGradient: {

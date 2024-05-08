@@ -13,7 +13,7 @@ import {
 import { IconCheck } from "@tabler/icons-react";
 import HeroImage from "@/components/images/hero-image";
 import classes from "@/styles/components/hero.module.css";
-import { publicNavlinks as navlinks } from "@/lib/nav-data";
+import { publicLinks as navlinks } from "@/lib/nav-data";
 import Link from "next/link";
 
 export function Hero() {

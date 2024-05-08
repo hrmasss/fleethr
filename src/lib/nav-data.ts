@@ -1,4 +1,4 @@
-export const publicNavlinks = {
+export const publicLinks = {
   login: "/login",
   logout: "/logout",
   features: "#features",
@@ -7,6 +7,10 @@ export const publicNavlinks = {
   contact: "#contact",
   blog: "#",
   privacy: "#",
+};
+
+export const protectedLinks = {
+  dashboard: "/dashboard",
 };
 
 export const socials = {
