@@ -21,55 +21,14 @@ import {
   Stack,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
-import {
-  IconNotification,
-  IconCode,
-  IconTimeline,
-  IconFingerprint,
-  IconCoin,
-  IconChevronDown,
-  IconRocket,
-} from "@tabler/icons-react";
+import { IconChevronDown } from "@tabler/icons-react";
 import classes from "@/components/styles/header.module.css";
 import Logo from "@/components/images/logo";
 import { cn } from "@/lib/utils";
 import { ThemeSwitch } from "../theme-switch";
 import Link from "next/link";
 import { publicNavlinks as navlinks } from "@/lib/nav-data";
-
-const features = [
-  {
-    icon: IconCode,
-    title: "Open Source",
-    description: "Built on open-source technologies.",
-  },
-  {
-    icon: IconCoin,
-    title: "Modular Pricing",
-    description: "Choose and pay only for the modules you need.",
-  },
-  {
-    icon: IconFingerprint,
-    title: "Robust Security",
-    description: "Industry-standard security measures.",
-  },
-  {
-    icon: IconTimeline,
-    title: "Advanced Analytics",
-    description: "Powerful analytics tools for data-driven decision-making.",
-  },
-  {
-    icon: IconNotification,
-    title: "Intuitive User Interface",
-    description: "Clean and user-friendly interface for enhanced productivity.",
-  },
-  {
-    icon: IconRocket,
-    title: "Easy Onboarding",
-    description:
-      "Streamlined onboarding process for a quick and hassle-free setup.",
-  },
-];
+import { features } from "./features-data";
 
 export function Header({ className }: { className?: string }) {
   const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] =
