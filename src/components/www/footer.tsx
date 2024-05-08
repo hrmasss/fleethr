@@ -6,7 +6,7 @@ import {
   IconBrandTwitter,
   IconBrandInstagram,
 } from "@tabler/icons-react";
-import classes from "@/components/styles/footer.module.css";
+import classes from "@/styles/components/footer.module.css";
 import Logo from "@/components/images/logo";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
@@ -35,7 +35,7 @@ export function Footer({ className }: { className?: string }) {
 
   return (
     <div className={cn(classes.footer, className)}>
-      <div className={classes.inner}>
+      <div className={cn(classes.inner, "gap-4")}>
         <a href="/" className="flex items-center gap-2">
           <Logo className="size-6" />
           <span className="text-xl font-bold">fleethr</span>

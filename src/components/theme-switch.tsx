@@ -1,7 +1,7 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import classes from "@/components/styles/theme-switch.module.css";
+import classes from "@/styles/components/theme-switch.module.css";
 import { IconSun, IconMoon } from "@tabler/icons-react";
 import {
   ActionIcon,

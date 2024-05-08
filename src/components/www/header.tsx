@@ -22,13 +22,13 @@ import {
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { IconChevronDown } from "@tabler/icons-react";
-import classes from "@/components/styles/header.module.css";
+import classes from "@/styles/components/header.module.css";
 import Logo from "@/components/images/logo";
 import { cn } from "@/lib/utils";
-import { ThemeSwitch } from "../theme-switch";
+import { ThemeSwitch } from "@/components/theme-switch";
 import Link from "next/link";
 import { publicNavlinks as navlinks } from "@/lib/nav-data";
-import { features } from "./features-data";
+import { features } from "@/lib/data";
 
 export function Header({ className }: { className?: string }) {
   const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] =
@@ -125,11 +125,11 @@ export function Header({ className }: { className?: string }) {
                 </div>
               </HoverCard.Dropdown>
             </HoverCard>
-            <Link href={navlinks.pricing} className={classes.link}>
-              Pricing
-            </Link>
             <Link href={navlinks.contact} className={classes.link}>
               Contact us
+            </Link>
+            <Link href={navlinks.faq} className={classes.link}>
+              FAQ
             </Link>
           </Group>
 
@@ -180,18 +180,18 @@ export function Header({ className }: { className?: string }) {
             </UnstyledButton>
             <Collapse in={linksOpened}>{links}</Collapse>
             <Link
-              href={navlinks.pricing}
-              className={classes.link}
-              onClick={closeDrawer}
-            >
-              Pricing
-            </Link>
-            <Link
               href={navlinks.contact}
               className={classes.link}
               onClick={closeDrawer}
             >
               Contact us
+            </Link>
+            <Link
+              href={navlinks.faq}
+              className={classes.link}
+              onClick={closeDrawer}
+            >
+              FAQ
             </Link>
             <span className={classes.link}>
               <ThemeSwitch variant="text" />

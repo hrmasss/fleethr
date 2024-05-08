@@ -2,7 +2,7 @@ export const publicNavlinks = {
   login: "/login",
   logout: "/logout",
   features: "#features",
-  pricing: "#pricing",
+  faq: "#faq",
   singup: "#",
   contact: "#",
   blog: "#",

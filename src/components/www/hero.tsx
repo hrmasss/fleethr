@@ -12,7 +12,7 @@ import {
 } from "@mantine/core";
 import { IconCheck } from "@tabler/icons-react";
 import HeroImage from "@/components/images/hero-image";
-import classes from "@/components/styles/hero.module.css";
+import classes from "@/styles/components/hero.module.css";
 import { publicNavlinks as navlinks } from "@/lib/nav-data";
 import Link from "next/link";
 
@@ -73,7 +73,7 @@ export function Hero() {
               radius="xl"
               size="md"
               component={Link}
-              href={navlinks.pricing}
+              href={navlinks.faq}
               className={classes.control}
             >
               See Pricing

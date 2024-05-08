@@ -11,8 +11,8 @@ import {
   rem,
   useMantineTheme,
 } from "@mantine/core";
-import classes from "@/components/styles/features.module.css";
-import { features } from "./features-data";
+import classes from "@/styles/components/features.module.css";
+import { features } from "@/lib/data";
 
 export function Features({ id }: { id?: string }) {
   const theme = useMantineTheme();
