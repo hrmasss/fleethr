@@ -7,6 +7,7 @@ import { Sora } from "next/font/google";
 import { TRPCReactProvider } from "@/trpc/react";
 import { ColorSchemeScript, MantineProvider, createTheme } from "@mantine/core";
 import { mantineTheme } from "@/lib/mantine-theme";
+import SessionProvider from "@/components/session-provider";
 
 const theme = createTheme(mantineTheme);
 
@@ -32,12 +33,14 @@ export default function RootLayout({
         <ColorSchemeScript />
       </head>
       <body className={`font-sans ${sora.variable}`}>
-        <TRPCReactProvider>
-          <MantineProvider defaultColorScheme="auto" theme={theme}>
-            {children}
-            <Notifications />
-          </MantineProvider>
-        </TRPCReactProvider>
+        <SessionProvider>
+          <TRPCReactProvider>
+            <MantineProvider defaultColorScheme="auto" theme={theme}>
+              {children}
+              <Notifications />
+            </MantineProvider>
+          </TRPCReactProvider>
+        </SessionProvider>
       </body>
     </html>
   );

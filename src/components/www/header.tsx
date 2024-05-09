@@ -30,17 +30,13 @@ import Link from "next/link";
 import { publicLinks as navlinks } from "@/lib/nav-data";
 import { features } from "@/lib/data";
 import LogoutButton from "@/components/logout-button";
+import { useSession } from "next-auth/react";
 
-export function Header({
-  className,
-  isAuthenticated,
-}: {
-  className?: string;
-  isAuthenticated?: boolean;
-}) {
+export function Header({ className }: { className?: string }) {
   const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] =
     useDisclosure(false);
   const [linksOpened, { toggle: toggleLinks }] = useDisclosure(false);
+  const { status } = useSession();
   const theme = useMantineTheme();
 
   const links = features.map((item) => (
@@ -142,7 +138,7 @@ export function Header({
 
           <Group visibleFrom="md">
             <ThemeSwitch />
-            {isAuthenticated ? (
+            {status === "authenticated" ? (
               <>
                 <LogoutButton variant="default">Log out</LogoutButton>
                 <Button component={Link} href={navlinks.dashboard}>
@@ -223,7 +219,7 @@ export function Header({
           <Divider my="sm" />
 
           <Group justify="center" grow p="md">
-            {isAuthenticated ? (
+            {status === "authenticated" ? (
               <>
                 <LogoutButton variant="default" onClick={closeDrawer}>
                   Log out
