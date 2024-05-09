@@ -3,6 +3,7 @@
 import type { MouseEvent } from "react";
 import { type ButtonProps, Button } from "@mantine/core";
 import { signOut } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 interface LogoutButtonProps extends ButtonProps {
   children: React.ReactNode;
@@ -14,8 +15,11 @@ export default function LogoutButton({
   onClick,
   ...props
 }: LogoutButtonProps) {
+  const router = useRouter();
+
   const handleClick = async (event: MouseEvent<HTMLButtonElement>) => {
-    await signOut({ callbackUrl: "/" });
+    await signOut({ redirect: false, callbackUrl: "/" });
+    router.refresh();
     onClick?.(event);
   };
 
