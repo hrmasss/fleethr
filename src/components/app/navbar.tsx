@@ -11,10 +11,6 @@ import { appLinks } from "@/lib/nav-data";
 import { ThemeSwitch } from "@/components/theme-switch";
 
 export function Navbar({ user }: { user: User }) {
-  const links = appLinks.map((item) => (
-    <LinksGroup {...item} key={item.label} />
-  ));
-
   return (
     <nav className={classes.navbar}>
       <div className={classes.header}>
@@ -28,7 +24,11 @@ export function Navbar({ user }: { user: User }) {
       </div>
 
       <ScrollArea className={classes.links}>
-        <div className={classes.linksInner}>{links}</div>
+        <div className={classes.linksInner}>
+          {appLinks.map((item) => (
+            <LinksGroup {...item} key={item.label} />
+          ))}
+        </div>
       </ScrollArea>
 
       <div className={classes.footer}>

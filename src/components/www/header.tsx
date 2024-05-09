@@ -161,7 +161,7 @@ export function Header({ className }: { className?: string }) {
         zIndex={100}
       >
         <ScrollArea h={`calc(100vh - ${rem(80)})`} mx="-md">
-          <Divider my="sm" />
+          <Divider mb="sm" />
 
           <Stack gap="md">
             <Link href="/" className={classes.link} onClick={closeDrawer}>

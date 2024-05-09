@@ -20,6 +20,7 @@ interface LinksGroupProps {
   href?: string;
   initiallyOpened?: boolean;
   links?: { label: string; href: string }[];
+  onLinkClicked?: () => void;
 }
 
 export function LinksGroup({
@@ -28,6 +29,7 @@ export function LinksGroup({
   href,
   initiallyOpened,
   links,
+  onLinkClicked
 }: LinksGroupProps) {
   const hasLinks = Array.isArray(links);
   const [opened, setOpened] = useState(initiallyOpened ?? false);
@@ -37,6 +39,7 @@ export function LinksGroup({
       className={classes.link}
       href={link.href}
       key={link.label}
+      onClick={onLinkClicked}
     >
       {link.label}
     </Text>
@@ -54,6 +57,7 @@ export function LinksGroup({
               style={{ display: "flex", alignItems: "center" }}
               component={Link}
               href={href}
+              onClick={onLinkClicked}
             >
               <ThemeIcon variant="light" size={30}>
                 <Icon style={{ width: rem(18), height: rem(18) }} />
