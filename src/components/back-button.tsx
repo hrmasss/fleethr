@@ -1,7 +1,6 @@
 "use client";
 
-import type { ButtonProps } from "@mantine/core";
-import { Button } from "@mantine/core";
+import { Button, type ButtonProps } from "@mantine/core";
 import { useRouter } from "next/navigation";
 
 interface BackButtonProps extends ButtonProps {

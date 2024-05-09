@@ -29,6 +29,7 @@ import { ThemeSwitch } from "@/components/theme-switch";
 import Link from "next/link";
 import { publicLinks as navlinks } from "@/lib/nav-data";
 import { features } from "@/lib/data";
+import LogoutButton from "@/components/logout-button";
 
 export function Header({
   className,
@@ -143,13 +144,7 @@ export function Header({
             <ThemeSwitch />
             {isAuthenticated ? (
               <>
-                <Button
-                  variant="default"
-                  component={Link}
-                  href={navlinks.logout}
-                >
-                  Log out
-                </Button>
+                <LogoutButton variant="default">Log out</LogoutButton>
                 <Button component={Link} href={navlinks.dashboard}>
                   Dashboard
                 </Button>
@@ -230,14 +225,9 @@ export function Header({
           <Group justify="center" grow p="md">
             {isAuthenticated ? (
               <>
-                <Button
-                  variant="default"
-                  component={Link}
-                  href={navlinks.logout}
-                  onClick={closeDrawer}
-                >
+                <LogoutButton variant="default" onClick={closeDrawer}>
                   Log out
-                </Button>
+                </LogoutButton>
                 <Button
                   component={Link}
                   href={navlinks.dashboard}
