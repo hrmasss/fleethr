@@ -15,10 +15,10 @@ export default async function Layout({
 
   return (
     <div className="flex min-h-screen">
-      <aside className="hidden h-screen lg:block">
+      <aside className="fixed left-0 hidden h-screen lg:block">
         <Navbar user={user} />
       </aside>
-      <section className="flex-1">
+      <section className="flex-1 lg:ml-[300px]">
         <Header user={user} className="px-4 lg:hidden" />
         {children}
       </section>
