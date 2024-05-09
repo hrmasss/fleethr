@@ -84,10 +84,10 @@ export function LoginForm() {
           <Button type="submit" fullWidth mt="xl" size="md" autoContrast>
             {loading ? (
               <>
-                <Loader size={20} color="dark.9" mr="sm" /> Trying to login...
+                <Loader size={20} color="dark.9" mr="sm" /> Trying to log in...
               </>
             ) : (
-              "Login"
+              "Log in"
             )}
           </Button>
         </form>

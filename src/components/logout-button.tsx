@@ -18,8 +18,13 @@ export default function LogoutButton({
   const router = useRouter();
 
   const handleClick = async (event: MouseEvent<HTMLButtonElement>) => {
-    await signOut({ redirect: false, callbackUrl: "/" });
+    const res = await signOut({
+      redirect: false,
+      callbackUrl: "/",
+    });
+
     router.refresh();
+    router.push(res.url);
     onClick?.(event);
   };
 
