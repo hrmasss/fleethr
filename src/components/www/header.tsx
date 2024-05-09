@@ -30,7 +30,13 @@ import Link from "next/link";
 import { publicLinks as navlinks } from "@/lib/nav-data";
 import { features } from "@/lib/data";
 
-export function Header({ className }: { className?: string }) {
+export function Header({
+  className,
+  isAuthenticated,
+}: {
+  className?: string;
+  isAuthenticated?: boolean;
+}) {
   const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] =
     useDisclosure(false);
   const [linksOpened, { toggle: toggleLinks }] = useDisclosure(false);
@@ -135,12 +141,33 @@ export function Header({ className }: { className?: string }) {
 
           <Group visibleFrom="md">
             <ThemeSwitch />
-            <Button variant="default" component={Link} href={navlinks.login}>
-              Log in
-            </Button>
-            <Button component={Link} href={navlinks.singup}>
-              Sign up
-            </Button>
+            {isAuthenticated ? (
+              <>
+                <Button
+                  variant="default"
+                  component={Link}
+                  href={navlinks.logout}
+                >
+                  Log out
+                </Button>
+                <Button component={Link} href={navlinks.dashboard}>
+                  Dashboard
+                </Button>
+              </>
+            ) : (
+              <>
+                <Button
+                  variant="default"
+                  component={Link}
+                  href={navlinks.login}
+                >
+                  Log in
+                </Button>
+                <Button component={Link} href={navlinks.singup}>
+                  Sign up
+                </Button>
+              </>
+            )}
           </Group>
 
           <Burger
@@ -201,21 +228,43 @@ export function Header({ className }: { className?: string }) {
           <Divider my="sm" />
 
           <Group justify="center" grow p="md">
-            <Button
-              variant="default"
-              component={Link}
-              href={navlinks.login}
-              onClick={closeDrawer}
-            >
-              Log in
-            </Button>
-            <Button
-              component={Link}
-              href={navlinks.singup}
-              onClick={closeDrawer}
-            >
-              Sign up
-            </Button>
+            {isAuthenticated ? (
+              <>
+                <Button
+                  variant="default"
+                  component={Link}
+                  href={navlinks.logout}
+                  onClick={closeDrawer}
+                >
+                  Log out
+                </Button>
+                <Button
+                  component={Link}
+                  href={navlinks.dashboard}
+                  onClick={closeDrawer}
+                >
+                  Dashboard
+                </Button>
+              </>
+            ) : (
+              <>
+                <Button
+                  variant="default"
+                  component={Link}
+                  href={navlinks.login}
+                  onClick={closeDrawer}
+                >
+                  Log in
+                </Button>
+                <Button
+                  component={Link}
+                  href={navlinks.singup}
+                  onClick={closeDrawer}
+                >
+                  Sign up
+                </Button>
+              </>
+            )}
           </Group>
         </ScrollArea>
       </Drawer>
