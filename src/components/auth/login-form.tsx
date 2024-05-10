@@ -35,19 +35,26 @@ export function LoginForm() {
     validate: zodResolver(CredentialsSchema),
   });
 
-  const handleSubmit = async (data: CredentialsSchema) => {
+  const handleSubmit = (data: CredentialsSchema) => {
     setError("");
     setLoading(true);
 
-    const response = await signIn("credentials", {
-      ...data,
-      callbackUrl: publicLinks.dashboard,
-      redirect: false,
-    });
+    const login = async () => {
+      const response = await signIn("credentials", {
+        ...data,
+        callbackUrl: publicLinks.dashboard,
+        redirect: false,
+      });
 
-    if (response?.ok) router.push(publicLinks.dashboard);
-    else if (response?.status === 401) setError("Invalid email or password");
-    else setError("Something went wrong, try again later");
+      if (response?.ok) router.push(publicLinks.dashboard);
+      else if (response?.status === 401) setError("Invalid email or password");
+      else setError("Something went wrong, try again later");
+    };
+
+    login().catch((error) => {
+      console.log(error);
+      setError("Something went wrong, try again later");
+    });
 
     setLoading(false);
   };
@@ -63,6 +70,7 @@ export function LoginForm() {
           <TextInput
             label="Email address"
             placeholder="user@provider.com"
+            type="email"
             size="md"
             required
             key={form.key("email")}
@@ -81,7 +89,14 @@ export function LoginForm() {
 
           {error && <Text c="red">{error}</Text>}
 
-          <Button type="submit" fullWidth mt="xl" size="md" autoContrast>
+          <Button
+            type="submit"
+            fullWidth
+            mt="xl"
+            size="md"
+            autoContrast
+            disabled={loading}
+          >
             {loading ? (
               <>
                 <Loader size={20} color="dark.9" mr="sm" /> Trying to log in...

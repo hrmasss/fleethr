@@ -5,4 +5,4 @@ export const CredentialsSchema = z.object({
   password: z.string().min(1, { message: "Required" }),
 });
 
-export type CredentialsSchema = z.TypeOf<typeof CredentialsSchema>;
+export type CredentialsSchema = z.infer<typeof CredentialsSchema>;

@@ -1,23 +1,26 @@
 import { z } from "zod";
-import { UserRole } from "@prisma/client";
+
+// User model fields
+const id = z.string();
+const name = z.string().optional();
+const image = z.string().optional();
+const email = z.string().email("Invalid email");
+const password = z.string().min(8, { message: "Minimum 8 characters" });
 
 export const CreateUserSchema = z
   .object({
-    name: z
-      .string()
-      .min(3, { message: "Name is too short" })
-      .max(255, { message: "Name is too long" })
-      .optional(),
-    email: z.string().email("Please provide a valid email"),
-    password: z
-      .string()
-      .min(8, { message: "Password must contain at least 8 characters" }),
+    name,
+    image,
+    email,
+    password,
     confirmPassword: z.string(),
-    role: z.nativeEnum(UserRole).optional().default("BASE"),
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: "Passwords don't match",
     path: ["confirmPassword"],
   });
 
+export const UpdateUserSchema = z.object({ id, name, image, email });
+
 export type CreateUserSchema = z.TypeOf<typeof CreateUserSchema>;
+export type UpdateUserSchema = z.TypeOf<typeof UpdateUserSchema>;
