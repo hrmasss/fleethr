@@ -36,10 +36,9 @@ export function LoginForm() {
   });
 
   const handleSubmit = (data: Credentials) => {
-    setError("");
-    setLoading(true);
-
     const login = async () => {
+      setError("");
+      setLoading(true);
       const response = await signIn("credentials", {
         ...data,
         callbackUrl: publicLinks.dashboard,
@@ -49,14 +48,14 @@ export function LoginForm() {
       if (response?.ok) router.push(publicLinks.dashboard);
       else if (response?.status === 401) setError("Invalid email or password");
       else setError("Something went wrong, try again later");
+
+      setLoading(false);
     };
 
     login().catch((error) => {
       console.log(error);
       setError("Something went wrong, try again later");
     });
-
-    setLoading(false);
   };
 
   return (
