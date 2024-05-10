@@ -87,6 +87,6 @@ model Subscription {
     paymentCompleted DateTime?
     startingDate     DateTime
     endDate          DateTime
-    autoRenewal      Boolean
+    autoRenewal      Boolean           @default(true)
     type             SubscriptionType? @default(MONTHLY)
 }
