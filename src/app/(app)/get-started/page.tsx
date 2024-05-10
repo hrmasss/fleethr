@@ -1,5 +1,4 @@
 import GetStartedFlow from "@/components/app/get-started-flow";
-import classes from "@/styles/components/login-form.module.css";
 import { Paper, Title, Text } from "@mantine/core";
 import { getServerAuthSession } from "@/server/auth";
 import { api } from "@/trpc/server";
@@ -17,8 +16,9 @@ export default async function Page() {
         : 0;
 
   return (
-    <section className={classes.wrapper}>
+    <section className="image-background">
       <Paper
+        withBorder
         maw={{ base: "100%", md: 950 }}
         mih="100vh"
         className="ml-auto px-4 py-12 md:px-12 xl:px-32"

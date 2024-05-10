@@ -3,3 +3,9 @@
 }
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  .image-background {
+    @apply min-h-screen bg-[url(https://images.unsplash.com/photo-1567609562303-974f34396acb)] bg-cover;
+  }
+}

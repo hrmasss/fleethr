@@ -2,7 +2,6 @@
 
 import { publicLinks } from "@/lib/nav-data";
 import { Credentials } from "@/schemas/auth";
-import classes from "@/styles/components/login-form.module.css";
 import { useForm } from "@mantine/form";
 import { zodResolver } from "mantine-form-zod-resolver";
 import { signIn } from "next-auth/react";
@@ -59,9 +58,15 @@ export function LoginForm() {
   };
 
   return (
-    <div className={classes.wrapper}>
-      <Paper className={classes.form} radius={0} py={60}>
-        <Title order={2} className={classes.title} ta="center" mt="md" mb={50}>
+    <div className="image-background">
+      <Paper
+        withBorder
+        maw={{ base: "100%", md: 650 }}
+        mih="100vh"
+        className="ml-auto px-4 py-12 md:px-12 xl:px-32"
+        py={60}
+      >
+        <Title order={2} ta="center" mt="md" mb={50}>
           Welcome back to FleetHR!
         </Title>
 

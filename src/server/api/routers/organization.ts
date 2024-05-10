@@ -18,13 +18,24 @@ export const organizationRouter = createTRPCRouter({
           message: "Already in an organization.",
         });
 
-      // Create the organization
-      const organization = await ctx.db.organization.create({ data: input });
+      // Perform the operations within a transaction
+      const organization = await ctx.db.$transaction(async (prisma) => {
+        // Create the organization
+        const newOrganization = await prisma.organization.create({
+          data: input,
+        });
 
-      // Update user role to SUPERADMIN [Complete control to the creator of the organization]
-      await ctx.db.user.update({
-        where: { id: ctx.session.user.id },
-        data: { role: "SUPERADMIN", organizationId: organization.id },
+        // Update the user's role and associate them with the new organization
+        await prisma.user.update({
+          where: { id: ctx.session.user.id },
+          data: {
+            role: "SUPERADMIN",
+            organizationId: newOrganization.id,
+          },
+        });
+
+        // Return the new organization
+        return newOrganization;
       });
 
       return organization;
