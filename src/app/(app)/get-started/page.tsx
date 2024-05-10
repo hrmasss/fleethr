@@ -1,15 +1,20 @@
-"use client";
-
-import { useState } from "react";
+import GetStartedFlow from "@/components/app/get-started-flow";
 import classes from "@/styles/components/login-form.module.css";
-import { CreateAccountForm } from "@/components/app/create-account-form";
-import { Stepper, Paper, Title, Text } from "@mantine/core";
+import { Paper, Title, Text } from "@mantine/core";
+import { getServerAuthSession } from "@/server/auth";
+import { api } from "@/trpc/server";
 
-export default function Page() {
-  const [active, setActive] = useState(0);
+export default async function Page() {
+  const session = await getServerAuthSession();
+  const organization = session ? await api.user.getOrganization() : null;
 
-  const nextStep = () =>
-    setActive((current) => (current < 3 ? current + 1 : current));
+  const step = organization?.subscription
+    ? 3
+    : organization
+      ? 2
+      : session
+        ? 1
+        : 0;
 
   return (
     <section className={classes.wrapper}>
@@ -29,19 +34,7 @@ export default function Page() {
             Let&apos;s get you started.
           </Text>
 
-          <Stepper
-            mt={{ base: "sm", md: "lg" }}
-            active={active}
-            classNames={{ steps: "mantine-visible-from-sm" }}
-          >
-            <Stepper.Step label="Create account">
-              <CreateAccountForm onSuccess={nextStep} className="mt-2" />
-            </Stepper.Step>
-            <Stepper.Step label="Add organization">Step 2</Stepper.Step>
-            <Stepper.Step label="Choose features">Step 3</Stepper.Step>
-
-            <Stepper.Completed>Completed!</Stepper.Completed>
-          </Stepper>
+          <GetStartedFlow step={step} />
         </main>
       </Paper>
     </section>
