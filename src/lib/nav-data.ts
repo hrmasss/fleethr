@@ -13,11 +13,11 @@ export const publicLinks = {
   logout: "/logout",
   features: "#features",
   faq: "#faq",
-  singup: "#",
+  singup: "/get-started",
   contact: "#contact",
   blog: "#",
   privacy: "#",
-  dashboard: "/dashboard",
+  dashboard: "/app",
 };
 
 export const socials = {
