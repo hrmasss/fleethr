@@ -1,7 +1,7 @@
 "use client";
 
 import { publicLinks } from "@/lib/nav-data";
-import { CredentialsSchema } from "@/schemas/auth";
+import { Credentials } from "@/schemas/auth";
 import classes from "@/styles/components/login-form.module.css";
 import { useForm } from "@mantine/form";
 import { zodResolver } from "mantine-form-zod-resolver";
@@ -25,17 +25,17 @@ export function LoginForm() {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
-  const form = useForm<CredentialsSchema>({
+  const form = useForm<Credentials>({
     mode: "controlled",
     initialValues: {
       email: "",
       password: "",
     },
 
-    validate: zodResolver(CredentialsSchema),
+    validate: zodResolver(Credentials),
   });
 
-  const handleSubmit = (data: CredentialsSchema) => {
+  const handleSubmit = (data: Credentials) => {
     setError("");
     setLoading(true);
 

@@ -1,7 +1,7 @@
 "use client";
 
 import { api } from "@/trpc/react";
-import { CreateUserSchema } from "@/schemas/user";
+import { CreateUser } from "@/schemas/user";
 import { useForm } from "@mantine/form";
 import { zodResolver } from "mantine-form-zod-resolver";
 import { signIn } from "next-auth/react";
@@ -18,7 +18,7 @@ export function CreateAccountForm({ onSuccess, className }: Props) {
   const { mutate, status, error } = api.user.create.useMutation();
   const [loginError, setLoginError] = useState("");
 
-  const form = useForm<CreateUserSchema>({
+  const form = useForm<CreateUser>({
     mode: "controlled",
     initialValues: {
       name: "",
@@ -27,10 +27,10 @@ export function CreateAccountForm({ onSuccess, className }: Props) {
       confirmPassword: "",
     },
 
-    validate: zodResolver(CreateUserSchema),
+    validate: zodResolver(CreateUser),
   });
 
-  const handleSubmit = (data: CreateUserSchema) => {
+  const handleSubmit = (data: CreateUser) => {
     mutate(data);
   };
 

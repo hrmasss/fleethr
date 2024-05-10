@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const CreateSubscriptionSchema = z.object({
+export const CreateSubscription = z.object({
   modules: z.array(z.string()).refine((value) => value.some((item) => item), {
     message: "You have to select at least one module.",
   }),
@@ -8,6 +8,4 @@ export const CreateSubscriptionSchema = z.object({
   autoRenewal: z.boolean().optional().default(false),
 });
 
-export type CreateSubscriptionSchema = z.TypeOf<
-  typeof CreateSubscriptionSchema
->;
+export type CreateSubscription = z.infer<typeof CreateSubscription>;

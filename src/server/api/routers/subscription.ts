@@ -1,10 +1,10 @@
-import { CreateSubscriptionSchema } from "@/schemas/subscription";
+import { CreateSubscription } from "@/schemas/subscription";
 import { createTRPCRouter, protectedProcedure } from "@/server/api/trpc";
 import { TRPCError } from "@trpc/server";
 
 export const subscriptionRouter = createTRPCRouter({
   create: protectedProcedure
-    .input(CreateSubscriptionSchema)
+    .input(CreateSubscription)
     .mutation(async ({ ctx, input }) => {
       const user = await ctx.db.user.findUnique({
         where: { id: ctx.session.user.id },

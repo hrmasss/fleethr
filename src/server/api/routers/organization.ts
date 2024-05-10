@@ -1,10 +1,10 @@
-import { CreateOrganizationSchema } from "@/schemas/organization";
+import { CreateOrganization } from "@/schemas/organization";
 import { createTRPCRouter, protectedProcedure } from "@/server/api/trpc";
 import { TRPCError } from "@trpc/server";
 
 export const organizationRouter = createTRPCRouter({
   create: protectedProcedure
-    .input(CreateOrganizationSchema)
+    .input(CreateOrganization)
     .mutation(async ({ ctx, input }) => {
       const user = await ctx.db.user.findFirst({
         where: { id: ctx.session.user.id },
@@ -14,14 +14,12 @@ export const organizationRouter = createTRPCRouter({
       // Check if user is already associated with an organization
       if (user?.organization)
         throw new TRPCError({
-          code: "CONFLICT",
-          message: "User is already in an organization.",
+          code: "BAD_REQUEST",
+          message: "Already in an organization.",
         });
 
       // Create the organization
-      const organization = await ctx.db.organization.create({
-        data: { ...input, maxSize: parseInt(input.maxSize) },
-      });
+      const organization = await ctx.db.organization.create({ data: input });
 
       // Update user role to SUPERADMIN [Complete control to the creator of the organization]
       await ctx.db.user.update({
@@ -31,19 +29,4 @@ export const organizationRouter = createTRPCRouter({
 
       return organization;
     }),
-
-  get: protectedProcedure.query(async ({ ctx }) => {
-    const user = await ctx.db.user.findFirst({
-      where: { id: ctx.session.user.id },
-      include: { organization: true },
-    });
-
-    if (!user)
-      throw new TRPCError({
-        code: "UNAUTHORIZED",
-        message: "User does not exist.",
-      });
-
-    return user.organization;
-  }),
 });

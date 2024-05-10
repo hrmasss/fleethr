@@ -1,3 +1,4 @@
+import { api } from "@/trpc/server";
 import { Navbar } from "@/components/app/navbar";
 import { getServerAuthSession } from "@/server/auth";
 import { redirect } from "next/navigation";
@@ -10,8 +11,10 @@ export default async function Layout({
   children: React.ReactNode;
 }) {
   const user = (await getServerAuthSession())?.user;
-
   if (!user) redirect(publicLinks.login);
+
+  const organization = await api.user.getOrganization();
+  if (!organization?.subscription) redirect(publicLinks.singup);
 
   return (
     <div className="flex min-h-screen">

@@ -7,7 +7,7 @@ const image = z.string().optional();
 const email = z.string().email("Invalid email");
 const password = z.string().min(8, { message: "Minimum 8 characters" });
 
-export const CreateUserSchema = z
+export const CreateUser = z
   .object({
     name,
     image,
@@ -20,7 +20,7 @@ export const CreateUserSchema = z
     path: ["confirmPassword"],
   });
 
-export const UpdateUserSchema = z.object({ id, name, image, email });
+export const UpdateUser = z.object({ id, name, image, email });
 
-export type CreateUserSchema = z.TypeOf<typeof CreateUserSchema>;
-export type UpdateUserSchema = z.TypeOf<typeof UpdateUserSchema>;
+export type CreateUser = z.infer<typeof CreateUser>;
+export type UpdateUser = z.infer<typeof UpdateUser>;

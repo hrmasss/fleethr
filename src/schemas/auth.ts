@@ -1,8 +1,8 @@
 import { z } from "zod";
 
-export const CredentialsSchema = z.object({
+export const Credentials = z.object({
   email: z.string().email("Required"),
   password: z.string().min(1, { message: "Required" }),
 });
 
-export type CredentialsSchema = z.infer<typeof CredentialsSchema>;
+export type Credentials = z.infer<typeof Credentials>;
