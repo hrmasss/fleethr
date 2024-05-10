@@ -20,8 +20,8 @@ export const subscriptionRouter = createTRPCRouter({
       // Check if a subscription already exist
       if (user?.organization?.subscription)
         throw new TRPCError({
-          code: "CONFLICT",
-          message: "There is already a subscription.",
+          code: "BAD_REQUEST",
+          message: "A subscription already exist",
         });
 
       // Get the modules based on their IDs
@@ -37,8 +37,8 @@ export const subscriptionRouter = createTRPCRouter({
       // Check if all modules exist
       if (modules.length !== input.modules.length) {
         throw new TRPCError({
-          code: "NOT_FOUND",
-          message: "One or more selected modules do not exist.",
+          code: "BAD_REQUEST",
+          message: "Some modules don't exist",
         });
       }
 
@@ -52,7 +52,7 @@ export const subscriptionRouter = createTRPCRouter({
       if (missingDependencies.length > 0) {
         throw new TRPCError({
           code: "BAD_REQUEST",
-          message: `The following dependencies are missing: [${missingDependencies.map((dep) => dep.name).join(", ")}]`,
+          message: `Missing dependencies: [${missingDependencies.map((dep) => dep.name).join(", ")}]`,
         });
       }
 
@@ -67,7 +67,7 @@ export const subscriptionRouter = createTRPCRouter({
       }
 
       // Create the subscription
-      const subscription = await ctx.db.subscription.create({
+      return await ctx.db.subscription.create({
         data: {
           organization: { connect: { id: user?.organization?.id } },
           modules: { connect: modules.map((module) => ({ id: module.id })) },
@@ -77,8 +77,6 @@ export const subscriptionRouter = createTRPCRouter({
           endDate,
         },
       });
-
-      return subscription;
     }),
 
   get: protectedProcedure.query(async ({ ctx }) => {
@@ -93,12 +91,6 @@ export const subscriptionRouter = createTRPCRouter({
       },
     });
 
-    if (!user)
-      throw new TRPCError({
-        code: "UNAUTHORIZED",
-        message: "User does not exist.",
-      });
-
-    return user.organization?.subscription;
+    return user?.organization?.subscription;
   }),
 });
