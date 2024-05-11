@@ -1,6 +1,10 @@
-import { createTRPCRouter, publicProcedure } from "@/server/api/trpc";
-import { GetMonthlyCharge } from "@/schemas/module";
+import { GetSubscriptionCharge } from "@/schemas/module";
 import { TRPCError } from "@trpc/server";
+import {
+  createTRPCRouter,
+  publicProcedure,
+  protectedProcedure,
+} from "@/server/api/trpc";
 
 export const moduleRouter = createTRPCRouter({
   getAll: publicProcedure.query(async ({ ctx }) => {
@@ -12,9 +16,23 @@ export const moduleRouter = createTRPCRouter({
     });
   }),
 
-  getMonthlyCharge: publicProcedure
-    .input(GetMonthlyCharge)
+  getSubscriptionCharge: protectedProcedure
+    .input(GetSubscriptionCharge)
     .query(async ({ ctx, input }) => {
+      const user = await ctx.db.user.findUnique({
+        where: { id: ctx.session.user.id },
+        include: {
+          organization: true,
+        },
+      });
+
+      // Check if user belongs to an organization
+      if (!user?.organization)
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "Organization not found",
+        });
+
       // Get the modules based on their IDs
       const modules = await ctx.db.module.findMany({
         where: {
@@ -52,7 +70,9 @@ export const moduleRouter = createTRPCRouter({
         (sum, module) => sum + module.price,
         0,
       );
-
-      return totalBasePrice * input.maxSize;
+      
+      return input.subscriptionType === "YEARLY"
+        ? totalBasePrice * user.organization.maxSize * 12
+        : totalBasePrice * user.organization.maxSize;
     }),
 });

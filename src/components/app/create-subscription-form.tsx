@@ -17,6 +17,7 @@ import {
   Input,
   SimpleGrid,
   Skeleton,
+  NumberFormatter,
 } from "@mantine/core";
 
 interface Props {
@@ -25,13 +26,6 @@ interface Props {
 }
 
 export function CreateSubscriptionForm({ onSuccess, className }: Props) {
-  const { mutate, status, error } = api.subscription.create.useMutation();
-  const {
-    data: modules,
-    status: modulesStatus,
-    error: modulesError,
-  } = api.module.getAll.useQuery();
-
   const form = useForm<CreateSubscription>({
     mode: "controlled",
     initialValues: {
@@ -42,6 +36,18 @@ export function CreateSubscriptionForm({ onSuccess, className }: Props) {
 
     validate: zodResolver(CreateSubscription),
   });
+
+  const { mutate, status, error } = api.subscription.create.useMutation();
+  const {
+    data: modules,
+    status: modulesStatus,
+    error: modulesError,
+  } = api.module.getAll.useQuery();
+  const { data: subscriptionCharge, status: chargeStatus } =
+    api.module.getSubscriptionCharge.useQuery({
+      modulesId: form.getValues().modules,
+      subscriptionType: form.getValues().type,
+    });
 
   const handleSubmit = (data: CreateSubscription) => {
     mutate(data);
@@ -159,6 +165,22 @@ export function CreateSubscriptionForm({ onSuccess, className }: Props) {
         checked={form.getValues().autoRenewal}
         styles={{ input: { cursor: "pointer" }, label: { cursor: "pointer" } }}
       />
+
+      <Text size="lg" c="teal" fw={700} mt="xl">
+        {chargeStatus === "pending" ? (
+          <Skeleton  h={25} w={300}/>
+        ) : (
+          <NumberFormatter
+            prefix="$ "
+            value={subscriptionCharge}
+            thousandSeparator
+            suffix={
+              form.getValues().type === "MONTHLY" ? " per month" : " per year"
+            }
+            decimalScale={2}
+          />
+        )}
+      </Text>
 
       {error && (
         <Text c="red">

@@ -8,7 +8,7 @@ export const modules = z
     message: "No modules selected",
   });
 const autoRenewal = z.boolean().optional().default(true);
-const type = z.enum(["MONTHLY", "YEARLY"]).optional().default("MONTHLY");
+export const type = z.enum(["MONTHLY", "YEARLY"]).optional().default("MONTHLY");
 
 export const GetSubscription = z.object({ id });
 export const CreateSubscription = z.object({ modules, autoRenewal, type });

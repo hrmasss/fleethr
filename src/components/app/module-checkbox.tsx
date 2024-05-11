@@ -50,7 +50,7 @@ export function ModuleCheckbox({
           {module.description}
         </Text>
         <Text fz="sm" fw={500}>
-          {module.price === 0 ? "Free" : `$ ${module.price.toPrecision(2)}`}
+          {module.price === 0 ? "Free" : `$ ${module.price.toFixed(2)} / month / member`}
         </Text>
       </div>
     </UnstyledButton>
