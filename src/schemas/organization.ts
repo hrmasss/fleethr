@@ -4,7 +4,7 @@ import { z } from "zod";
 const id = z.string();
 const name = z.string().min(3, { message: "Minimum 3 characters" });
 const description = z.string().optional();
-const maxSize = z
+export const maxSize = z
   .number()
   .int()
   .min(5, { message: "Minimum 5 members" })

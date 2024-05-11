@@ -1,7 +1,7 @@
 import { userRouter } from "@/server/api/routers/user";
 import { organizationRouter } from "@/server/api/routers/organization";
 import { subscriptionRouter } from "@/server/api/routers/subscription";
-import { moduleRouter } from "@/server/api/routers/modules";
+import { moduleRouter } from "@/server/api/routers/module";
 import { createCallerFactory, createTRPCRouter } from "@/server/api/trpc";
 
 /**

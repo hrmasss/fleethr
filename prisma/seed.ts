@@ -25,7 +25,7 @@ async function main() {
           "Shift Management",
           "Overtime Calculations",
         ],
-        price: 0.5,
+        price: 0.1,
         dependsOn: {
           connect: { name: "Core" },
         },
@@ -42,7 +42,7 @@ async function main() {
           "Tax Management",
           "Payslip Generation",
         ],
-        price: 0.65,
+        price: 0.15,
         dependsOn: {
           connect: [{ name: "Core" }, { name: "Attendance" }],
         },
@@ -55,7 +55,7 @@ async function main() {
         name: "Leave Management",
         description: "Manage employee leave requests and policies.",
         features: ["Leave Requests", "Leave Policies", "Leave Tracking"],
-        price: 0.45,
+        price: 0.11,
         dependsOn: {
           connect: { name: "Core" },
         },
@@ -68,7 +68,7 @@ async function main() {
         name: "Notice",
         description: "Publish company notices and announcements.",
         features: ["Notice Board", "Email Notifications", "Push Notifications"],
-        price: 0.3,
+        price: 0.07 ,
       },
     },
   ];

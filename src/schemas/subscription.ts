@@ -1,8 +1,8 @@
 import { z } from "zod";
 
-// User model fields
+// Subscription model fields
 const id = z.string();
-const modules = z
+export const modules = z
   .array(z.string())
   .refine((value) => value.some((item) => item), {
     message: "No modules selected",
