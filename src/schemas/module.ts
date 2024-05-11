@@ -1,13 +1,10 @@
 import { z } from "zod";
-import {
-  modules as modulesId,
-  type as subscriptionType,
-} from "@/schemas/subscription";
+import { modules as modulesId, durationInMonths } from "@/schemas/subscription";
 
 export const GetModules = z.object({ modulesId });
 export const GetSubscriptionCharge = z.object({
   modulesId,
-  subscriptionType,
+  durationInMonths,
 });
 
 export type GetModules = z.infer<typeof GetModules>;

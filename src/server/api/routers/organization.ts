@@ -25,12 +25,12 @@ export const organizationRouter = createTRPCRouter({
           data: input,
         });
 
-        // Update the user's role and associate them with the new organization
+        // Associate the user with the new organization and mark them as owner
         await prisma.user.update({
           where: { id: ctx.session.user.id },
           data: {
-            role: "SUPERADMIN",
             organizationId: newOrganization.id,
+            isOrganizationOwner: true,
           },
         });
 

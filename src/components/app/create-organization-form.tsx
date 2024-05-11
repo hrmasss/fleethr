@@ -59,7 +59,7 @@ export function CreateOrganizationForm({ onSuccess, className }: Props) {
 
       <Input.Wrapper
         required
-        label="Organization members"
+        label="Maximum team members"
         description="The number of members affects the pricing plan for your organization"
         size="md"
         error={form.errors.maxSize}

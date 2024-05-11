@@ -70,9 +70,9 @@ export const moduleRouter = createTRPCRouter({
         (sum, module) => sum + module.price,
         0,
       );
-      
-      return input.subscriptionType === "YEARLY"
-        ? totalBasePrice * user.organization.maxSize * 12
-        : totalBasePrice * user.organization.maxSize;
+
+      return (
+        totalBasePrice * user.organization.maxSize * input.durationInMonths
+      );
     }),
 });

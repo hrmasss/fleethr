@@ -68,7 +68,10 @@ async function main() {
         name: "Notice",
         description: "Publish company notices and announcements.",
         features: ["Notice Board", "Email Notifications", "Push Notifications"],
-        price: 0.07 ,
+        price: 0.07,
+        dependsOn: {
+          connect: { name: "Core" },
+        },
       },
     },
   ];

@@ -7,11 +7,19 @@ export const modules = z
   .refine((value) => value.some((item) => item), {
     message: "No modules selected",
   });
-const autoRenewal = z.boolean().optional().default(true);
-export const type = z.enum(["MONTHLY", "YEARLY"]).optional().default("MONTHLY");
+const isAutoRenewEnabled = z.boolean().optional().default(true);
+export const durationInMonths = z.coerce
+  .number()
+  .int()
+  .min(1, { message: "Minimum 1 months" })
+  .max(12, { message: "Maximum 12 months" });
 
 export const GetSubscription = z.object({ id });
-export const CreateSubscription = z.object({ modules, autoRenewal, type });
+export const CreateSubscription = z.object({
+  modules,
+  isAutoRenewEnabled,
+  durationInMonths,
+});
 export const UpdateSubscription = CreateSubscription.merge(GetSubscription);
 
 export type GetSubscription = z.infer<typeof GetSubscription>;

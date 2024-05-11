@@ -56,24 +56,22 @@ export const subscriptionRouter = createTRPCRouter({
         });
       }
 
-      // Calculate end date based on type
-      let endDate;
-      if (input.type === "YEARLY") {
-        endDate = new Date();
-        endDate.setFullYear(endDate.getFullYear() + 1);
-      } else {
-        endDate = new Date();
-        endDate.setMonth(endDate.getMonth() + 1);
-      }
+      // Calculate end date based on duration (months)
+      const startingDate = new Date();
+
+      const endDate = new Date(
+        startingDate.getTime() +
+          input.durationInMonths * 30 * 24 * 60 * 60 * 1000,
+      );
 
       // Create the subscription
       return await ctx.db.subscription.create({
         data: {
           organization: { connect: { id: user?.organization?.id } },
           modules: { connect: modules.map((module) => ({ id: module.id })) },
-          type: input.type,
-          autoRenewal: input.autoRenewal,
-          startingDate: new Date(),
+          durationInMonths: input.durationInMonths,
+          isAutoRenewEnabled: input.isAutoRenewEnabled,
+          startingDate,
           endDate,
         },
       });

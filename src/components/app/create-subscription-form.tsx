@@ -12,12 +12,12 @@ import {
   Text,
   Loader,
   Radio,
-  Group,
   Checkbox,
   Input,
   SimpleGrid,
   Skeleton,
   NumberFormatter,
+  Flex,
 } from "@mantine/core";
 
 interface Props {
@@ -30,8 +30,8 @@ export function CreateSubscriptionForm({ onSuccess, className }: Props) {
     mode: "controlled",
     initialValues: {
       modules: [],
-      autoRenewal: true,
-      type: "MONTHLY",
+      isAutoRenewEnabled: true,
+      durationInMonths: 1,
     },
 
     validate: zodResolver(CreateSubscription),
@@ -43,11 +43,14 @@ export function CreateSubscriptionForm({ onSuccess, className }: Props) {
     status: modulesStatus,
     error: modulesError,
   } = api.module.getAll.useQuery();
-  const { data: subscriptionCharge, status: chargeStatus } =
-    api.module.getSubscriptionCharge.useQuery({
-      modulesId: form.getValues().modules,
-      subscriptionType: form.getValues().type,
-    });
+  const { data: subscriptionCharge, isLoading: isChargeLoading } =
+    api.module.getSubscriptionCharge.useQuery(
+      {
+        modulesId: form.getValues().modules,
+        durationInMonths: form.getValues().durationInMonths,
+      },
+      { enabled: form.getValues().modules.length > 0 },
+    );
 
   const handleSubmit = (data: CreateSubscription) => {
     mutate(data);
@@ -63,15 +66,25 @@ export function CreateSubscriptionForm({ onSuccess, className }: Props) {
       className={cn("space-y-4", className)}
     >
       <Radio.Group
-        label="Select subscription type"
+        required
+        mt="lg"
+        label="Subscription duration"
         size="md"
-        key={form.key("type")}
-        {...form.getInputProps("type")}
+        key={form.key("durationInMonths")}
+        {...form.getInputProps("durationInMonths")}
+        value={form.getValues().durationInMonths.toString()}
+        onChange={(value) =>
+          form.setFieldValue("durationInMonths", parseInt(value))
+        }
       >
-        <Group mt="sm">
+        <Flex
+          my="sm"
+          direction={{ base: "column", sm: "row" }}
+          gap={{ base: "sm", sm: "lg" }}
+        >
           <Radio
             size="md"
-            value="MONTHLY"
+            value="1"
             label="Monthly"
             styles={{
               radio: { cursor: "pointer" },
@@ -80,17 +93,27 @@ export function CreateSubscriptionForm({ onSuccess, className }: Props) {
           />
           <Radio
             size="md"
-            value="YEARLY"
+            value="6"
+            label="Half yearly"
+            styles={{
+              radio: { cursor: "pointer" },
+              label: { cursor: "pointer" },
+            }}
+          />
+          <Radio
+            size="md"
+            value="12"
             label="Yearly"
             styles={{
               radio: { cursor: "pointer" },
               label: { cursor: "pointer" },
             }}
           />
-        </Group>
+        </Flex>
       </Radio.Group>
 
       <Input.Wrapper
+        required
         mt="xl"
         label="Select modules"
         description="Dependencies will be selected automatically"
@@ -162,25 +185,29 @@ export function CreateSubscriptionForm({ onSuccess, className }: Props) {
         size="md"
         {...form.getInputProps("autoRenewal")}
         key={form.key("autoRenewal")}
-        checked={form.getValues().autoRenewal}
+        checked={form.getValues().isAutoRenewEnabled}
         styles={{ input: { cursor: "pointer" }, label: { cursor: "pointer" } }}
       />
 
-      <Text size="lg" c="teal" fw={700} mt="xl">
-        {chargeStatus === "pending" ? (
-          <Skeleton  h={25} w={300}/>
-        ) : (
+      {isChargeLoading ? (
+        <Skeleton h={25} w={300} mt="xl" />
+      ) : (
+        <Text size="lg" c="teal" fw={700} mt="xl">
           <NumberFormatter
             prefix="$ "
             value={subscriptionCharge}
             thousandSeparator
             suffix={
-              form.getValues().type === "MONTHLY" ? " per month" : " per year"
+              form.getValues().durationInMonths === 1
+                ? " / month"
+                : form.getValues().durationInMonths === 12
+                  ? " / year"
+                  : ` / ${form.getValues().durationInMonths} months`
             }
             decimalScale={2}
           />
-        )}
-      </Text>
+        </Text>
+      )}
 
       {error && (
         <Text c="red">
