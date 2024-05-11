@@ -33,23 +33,19 @@ model Account {
     @@unique([provider, providerAccountId])
 }
 
-enum UserRole {
-    BASE
-    HRADMIN
-    SUPERADMIN
-}
-
 model User {
-    id             String        @id @default(cuid())
-    name           String?
-    email          String        @unique
-    password       String
-    emailVerified  DateTime?
-    image          String?
-    role           UserRole?     @default(BASE)
-    accounts       Account[]
-    organization   Organization? @relation(fields: [organizationId], references: [id])
-    organizationId String?
+    id                String        @id @default(cuid())
+    name              String?
+    email             String        @unique
+    password          String
+    emailVerified     DateTime?
+    image             String?
+    roleId            String?
+    role              Role?         @relation(fields: [roleId], references: [id])
+    accounts          Account[]
+    organization      Organization? @relation(fields: [organizationId], references: [id])
+    organizationId    String?
+    organizationOwner Boolean?      @default(false)
 
     @@index([email])
 }
@@ -60,7 +56,10 @@ model Organization {
     description  String?       @db.Text
     maxSize      Int
     subscription Subscription?
+    roles        Role[]
     members      User[]
+    createdAt    DateTime      @default(now())
+    updatedAt    DateTime      @updatedAt
 }
 
 model Module {
@@ -74,19 +73,31 @@ model Module {
     subscribers Subscription[]
 }
 
-enum SubscriptionType {
-    YEARLY
-    MONTHLY
+model Permission {
+    id    String @id @default(cuid())
+    name  String @unique
+    route String
+    roles Role[]
+}
+
+model Role {
+    id             String       @id @default(cuid())
+    name           String       @unique
+    description    String?      @db.Text
+    organization   Organization @relation(fields: [organizationId], references: [id])
+    organizationId String
+    users          User[]
+    permissions    Permission[]
 }
 
 model Subscription {
-    id               String            @id @default(cuid())
-    organization     Organization      @relation(fields: [organizationId], references: [id])
-    organizationId   String            @unique
+    id               String       @id @default(cuid())
+    organization     Organization @relation(fields: [organizationId], references: [id])
+    organizationId   String       @unique
     modules          Module[]
     paymentCompleted DateTime?
     startingDate     DateTime
     endDate          DateTime
-    autoRenewal      Boolean           @default(true)
-    type             SubscriptionType? @default(MONTHLY)
+    autoRenewal      Boolean      @default(true)
+    durationInMonths Int          @default(1)
 }
