@@ -1,5 +1,5 @@
 import { type Adapter } from "next-auth/adapters";
-import type { UserRole } from "@prisma/client";
+import type { Role } from "@prisma/client";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { compare } from "bcryptjs";
@@ -20,19 +20,19 @@ declare module "next-auth" {
   interface Session extends DefaultSession {
     user: {
       id: string;
-      role: UserRole;
+      role?: Role | null;
     } & DefaultSession["user"];
   }
 
   interface User {
-    role: UserRole;
+    role?: Role | null;
   }
 }
 
 declare module "next-auth/jwt" {
   /** Returned by the `jwt` callback and `getToken`, when using JWT sessions */
   interface JWT {
-    role: UserRole;
+    role?: Role | null;
   }
 }
 
@@ -77,7 +77,6 @@ export const authOptions: NextAuthOptions = {
         password: { label: "Password", type: "password" },
       },
 
-      // @ts-expect-error Next auth issues with strict mode (See issue #2701 on github)
       authorize: async (credentials) => {
         if (!credentials?.email || !credentials?.password) return null;
 
@@ -120,15 +119,17 @@ export const authOptions: NextAuthOptions = {
 export const getServerAuthSession = () => getServerSession(authOptions);
 
 // Utility function for getting user role
-export async function getUserRole(userId?: string): Promise<UserRole> {
+export async function getUserRole(
+  userId?: string,
+): Promise<Role | null | undefined> {
   "use server";
 
-  if (!userId) return "BASE";
+  if (!userId) return null;
 
   const user = await db.user.findUnique({
     where: { id: userId },
     select: { role: true },
   });
 
-  return user?.role ?? "BASE";
+  return user?.role;
 }
