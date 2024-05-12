@@ -64,13 +64,13 @@ export function Header({ className }: { className?: string }) {
     <Box>
       <header className={cn(classes.header, className)}>
         <Group justify="space-between" h="100%">
-          <Link href="/" className="flex items-center gap-2">
+          <Link href={navlinks.www} className="flex items-center gap-2">
             <Logo className="size-8" />
             <span className="hidden text-xl font-bold md:flex">fleethr</span>
           </Link>
 
           <Group h="100%" gap={0} visibleFrom="md" className="flex-nowrap">
-            <Link href="/" className={classes.link}>
+            <Link href={navlinks.www} className={classes.link}>
               Home
             </Link>
             <HoverCard
@@ -182,7 +182,11 @@ export function Header({ className }: { className?: string }) {
           <Divider mb="sm" />
 
           <Stack gap="md">
-            <Link href="/" className={classes.link} onClick={closeDrawer}>
+            <Link
+              href={navlinks.www}
+              className={classes.link}
+              onClick={closeDrawer}
+            >
               Home
             </Link>
             <UnstyledButton

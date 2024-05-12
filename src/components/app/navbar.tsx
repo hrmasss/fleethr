@@ -15,7 +15,7 @@ export function Navbar({ user }: { user: User }) {
     <nav className={classes.navbar}>
       <div className={classes.header}>
         <Group justify="space-between">
-          <Link href="/" className="flex items-center gap-2">
+          <Link href="/app" className="flex items-center gap-2">
             <Logo className="size-6" />
             <span className="hidden text-xl font-bold md:flex">fleethr</span>
           </Link>

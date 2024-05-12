@@ -10,6 +10,7 @@ import {
 } from "@tabler/icons-react";
 
 export const publicLinks = {
+  www: "/",
   login: "/login",
   logout: "/logout",
   features: "#features",

@@ -36,7 +36,7 @@ export function Footer({ className }: { className?: string }) {
   return (
     <div className={cn(classes.footer, className)}>
       <div className={cn(classes.inner, "gap-4")}>
-        <a href="/" className="flex items-center gap-2">
+        <a href={navlinks.www} className="flex items-center gap-2">
           <Logo className="size-6" />
           <span className="text-xl font-bold">fleethr</span>
         </a>

@@ -9,6 +9,7 @@ async function main() {
       update: {},
       create: {
         name: "Core",
+        baseRoute: "/app",
         description: "Manage employee & organization data.",
         features: ["Organization Info", "Employee Records"],
         price: 0,
@@ -19,6 +20,7 @@ async function main() {
       update: {},
       create: {
         name: "Attendance",
+        baseRoute: "/app/attendance",
         description: "Track employee attendance and manage time-offs.",
         features: [
           "Time Tracking",
@@ -36,6 +38,7 @@ async function main() {
       update: {},
       create: {
         name: "Payroll",
+        baseRoute: "/app/payroll",
         description: "Handle payroll calculations and disbursements.",
         features: [
           "Salary Calculations",
@@ -53,6 +56,7 @@ async function main() {
       update: {},
       create: {
         name: "Leave Management",
+        baseRoute: "/app/leave",
         description: "Manage employee leave requests and policies.",
         features: ["Leave Requests", "Leave Policies", "Leave Tracking"],
         price: 0.11,
@@ -66,6 +70,7 @@ async function main() {
       update: {},
       create: {
         name: "Notice",
+        baseRoute: "/app/notice",
         description: "Publish company notices and announcements.",
         features: ["Notice Board", "Email Notifications", "Push Notifications"],
         price: 0.07,

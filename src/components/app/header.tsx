@@ -26,7 +26,7 @@ export function Header({
     <Box>
       <header className={cn(classes.header, className)}>
         <Group justify="space-between" h="100%">
-          <Link href="/" className="flex items-center gap-2">
+          <Link href="/app" className="flex items-center gap-2">
             <Logo className="size-8" />
             <span className="hidden text-xl font-bold md:flex">fleethr</span>
           </Link>

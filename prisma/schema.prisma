@@ -65,6 +65,7 @@ model Organization {
 model Module {
     id          String         @id @default(cuid())
     name        String         @unique
+    baseRoute   String         @unique
     description String?        @db.Text
     features    String[]
     price       Float
