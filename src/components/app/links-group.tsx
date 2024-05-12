@@ -29,7 +29,7 @@ export function LinksGroup({
   href,
   initiallyOpened,
   links,
-  onLinkClicked
+  onLinkClicked,
 }: LinksGroupProps) {
   const hasLinks = Array.isArray(links);
   const [opened, setOpened] = useState(initiallyOpened ?? false);
@@ -47,45 +47,51 @@ export function LinksGroup({
 
   return (
     <>
-      <UnstyledButton
-        onClick={() => setOpened((o) => !o)}
-        className={classes.control}
-      >
-        <Group justify="space-between" gap={0}>
-          {href ? (
-            <Box
-              style={{ display: "flex", alignItems: "center" }}
-              component={Link}
-              href={href}
-              onClick={onLinkClicked}
-            >
-              <ThemeIcon variant="light" size={30}>
-                <Icon style={{ width: rem(18), height: rem(18) }} />
-              </ThemeIcon>
-              <Box ml="md">{label}</Box>
-            </Box>
-          ) : (
+      {href ? (
+        <UnstyledButton
+          component={Link}
+          href={href}
+          onClick={onLinkClicked}
+          className={classes.control}
+        >
+          <Group justify="space-between" gap={0}>
             <Box style={{ display: "flex", alignItems: "center" }}>
               <ThemeIcon variant="light" size={30}>
                 <Icon style={{ width: rem(18), height: rem(18) }} />
               </ThemeIcon>
               <Box ml="md">{label}</Box>
             </Box>
-          )}
-          {hasLinks && (
-            <IconChevronRight
-              className={classes.chevron}
-              stroke={1.5}
-              style={{
-                width: rem(16),
-                height: rem(16),
-                transform: opened ? "rotate(-90deg)" : "none",
-              }}
-            />
-          )}
-        </Group>
-      </UnstyledButton>
-      {hasLinks ? <Collapse in={opened}>{items}</Collapse> : null}
+          </Group>
+        </UnstyledButton>
+      ) : (
+        <>
+          <UnstyledButton
+            onClick={() => setOpened((o) => !o)}
+            className={classes.control}
+          >
+            <Group justify="space-between" gap={0}>
+              <Box style={{ display: "flex", alignItems: "center" }}>
+                <ThemeIcon variant="light" size={30}>
+                  <Icon style={{ width: rem(18), height: rem(18) }} />
+                </ThemeIcon>
+                <Box ml="md">{label}</Box>
+              </Box>
+              {links && (
+                <IconChevronRight
+                  className={classes.chevron}
+                  stroke={1.5}
+                  style={{
+                    width: rem(16),
+                    height: rem(16),
+                    transform: opened ? "rotate(-90deg)" : "none",
+                  }}
+                />
+              )}
+            </Group>
+          </UnstyledButton>
+          {links && <Collapse in={opened}>{items}</Collapse>}
+        </>
+      )}
     </>
   );
 }

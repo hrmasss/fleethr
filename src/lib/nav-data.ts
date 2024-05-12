@@ -6,6 +6,7 @@ import {
   IconUsers,
   IconAdjustments,
   IconPuzzle,
+  IconSpeakerphone,
 } from "@tabler/icons-react";
 
 export const publicLinks = {
@@ -46,8 +47,13 @@ export const appLinks = [
       { label: "Attendance Submission", href: "#" },
     ],
   },
-  { label: "Projects", icon: IconPuzzle, href: "#" },
-  { label: "Payroll", icon: IconCoin, href: "#" },
-  { label: "Analytics", icon: IconPresentationAnalytics, href: "#" },
-  { label: "Settings", icon: IconAdjustments, href: "#" },
+  { label: "Notice", icon: IconSpeakerphone, href: "/app/notice" },
+  { label: "Payroll", icon: IconCoin, href: "/app/payroll" },
+  { label: "Projects", icon: IconPuzzle, href: "/app/projects" },
+  {
+    label: "Analytics",
+    icon: IconPresentationAnalytics,
+    href: "/app/analytics",
+  },
+  { label: "Settings", icon: IconAdjustments, href: "/app/settings" },
 ];
