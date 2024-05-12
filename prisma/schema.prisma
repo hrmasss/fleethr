@@ -45,7 +45,8 @@ model User {
     accounts            Account[]
     organization        Organization? @relation(fields: [organizationId], references: [id])
     organizationId      String?
-    isOrganizationOwner Boolean?      @default(false)
+    ownedOrganization   Organization? @relation("OrganizationOwner")
+    ownedOrganizationId String?       @unique
 
     @@index([email])
 }
@@ -55,6 +56,8 @@ model Organization {
     name         String
     description  String?       @db.Text
     maxSize      Int
+    owner        User          @relation("OrganizationOwner", fields: [ownerId], references: [id])
+    ownerId      String        @unique
     subscription Subscription?
     roles        Role[]
     members      User[]
@@ -66,6 +69,7 @@ model Module {
     id          String         @id @default(cuid())
     name        String         @unique
     baseRoute   String         @unique
+    actions     Action[]
     description String?        @db.Text
     features    String[]
     price       Float
@@ -74,11 +78,13 @@ model Module {
     subscribers Subscription[]
 }
 
-model Permission {
-    id    String @id @default(cuid())
-    name  String @unique
-    route String
-    roles Role[]
+model Action {
+    id       String @id @default(cuid())
+    name     String @unique
+    route    String
+    moduleId String
+    module   Module @relation(fields: [moduleId], references: [id])
+    roles    Role[]
 }
 
 model Role {
@@ -88,7 +94,7 @@ model Role {
     organization   Organization @relation(fields: [organizationId], references: [id])
     organizationId String
     users          User[]
-    permissions    Permission[]
+    permissions    Action[]
 }
 
 model Subscription {

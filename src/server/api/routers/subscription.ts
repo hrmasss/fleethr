@@ -9,7 +9,7 @@ export const subscriptionRouter = createTRPCRouter({
       const user = await ctx.db.user.findUnique({
         where: { id: ctx.session.user.id },
         include: {
-          organization: {
+          ownedOrganization: {
             include: {
               subscription: true,
             },
@@ -18,7 +18,7 @@ export const subscriptionRouter = createTRPCRouter({
       });
 
       // Check if a subscription already exist
-      if (user?.organization?.subscription)
+      if (user?.ownedOrganization?.subscription)
         throw new TRPCError({
           code: "BAD_REQUEST",
           message: "A subscription already exist",
@@ -67,7 +67,7 @@ export const subscriptionRouter = createTRPCRouter({
       // Create the subscription
       return await ctx.db.subscription.create({
         data: {
-          organization: { connect: { id: user?.organization?.id } },
+          organization: { connect: { id: user?.ownedOrganization?.id } },
           modules: { connect: modules.map((module) => ({ id: module.id })) },
           durationInMonths: input.durationInMonths,
           isAutoRenewEnabled: input.isAutoRenewEnabled,
