@@ -91,4 +91,23 @@ export const subscriptionRouter = createTRPCRouter({
 
     return user?.organization?.subscription;
   }),
+
+  getSubscribedModules: protectedProcedure.query(async ({ ctx }) => {
+    const user = await ctx.db.user.findUnique({
+      where: { id: ctx.session.user.id },
+      include: {
+        organization: {
+          include: {
+            subscription: {
+              include: {
+                modules: true,
+              },
+            },
+          },
+        },
+      },
+    });
+
+    return user?.organization?.subscription?.modules;
+  }),
 });

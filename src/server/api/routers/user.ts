@@ -65,4 +65,19 @@ export const userRouter = createTRPCRouter({
 
     return user?.organization;
   }),
+
+  getPermissions: protectedProcedure.query(async ({ ctx }) => {
+    const user = await ctx.db.user.findUnique({
+      where: { id: ctx.session.user.id },
+      include: {
+        role: {
+          include: {
+            permissions: true,
+          },
+        },
+      },
+    });
+
+    return user?.role?.permissions;
+  }),
 });
