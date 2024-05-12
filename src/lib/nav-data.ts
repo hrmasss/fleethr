@@ -28,15 +28,26 @@ export const socials = {
   instagram: "#",
 };
 
-export const appLinks = [
+export type TablerIcon = typeof IconGauge;
+
+export type AppLink = {
+  label: string;
+  icon: TablerIcon;
+  href?: string;
+  links?: {
+    label: string;
+    href: string;
+  }[];
+};
+
+export const appLinks: AppLink[] = [
   { label: "Dashboard", icon: IconGauge, href: publicLinks.dashboard },
   {
     label: "Employees",
     icon: IconUsers,
-    initiallyOpened: false,
     links: [
-      { label: "Overview", href: "#" },
-      { label: "Manage", href: "#" },
+      { label: "Overview", href: "/app/employees/view" },
+      { label: "Manage", href: "/app/employees/add" },
       { label: "Assign", href: "#" },
     ],
   },

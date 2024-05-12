@@ -18,26 +18,22 @@ export const organizationRouter = createTRPCRouter({
           message: "Already in an organization.",
         });
 
-      // Perform the operations within a transaction
-      const organization = await ctx.db.$transaction(async (prisma) => {
-        // Create the organization and set user as owner
-        const newOrganization = await prisma.organization.create({
-          data: { ...input, ownerId: ctx.session.user.id },
-        });
-
-        // Also set the owner as a member of the organization
-        await prisma.user.update({
-          where: { id: ctx.session.user.id },
-          data: {
-            organizationId: newOrganization.id,
+      // Create the organization and connect the user as the owner & as a member
+      return await ctx.db.organization.create({
+        data: {
+          ...input,
+          owner: {
+            connect: {
+              id: ctx.session.user.id,
+            },
           },
-        });
-
-        // Return the new organization
-        return newOrganization;
+          members: {
+            connect: {
+              id: ctx.session.user.id,
+            },
+          },
+        },
       });
-
-      return organization;
     }),
 
   get: protectedProcedure.query(async ({ ctx }) => {

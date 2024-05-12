@@ -75,9 +75,28 @@ export const userRouter = createTRPCRouter({
             permissions: true,
           },
         },
+        organization: {
+          include: {
+            subscription: {
+              include: {
+                modules: {
+                  include: {
+                    actions: true,
+                  },
+                },
+              },
+            },
+          },
+        },
       },
     });
 
-    return user?.role?.permissions;
+    // If the user is the owner, return all available actions in the organization's subscription
+    if (user?.organization?.ownerId === user?.id)
+      return user?.organization?.subscription?.modules.flatMap(
+        (module) => module.actions,
+      );
+    // If the user is not the owner, return the actions based on their role permissions
+    else return user?.role?.permissions;
   }),
 });
