@@ -2,10 +2,8 @@ import {
   IconCoin,
   IconCalendarStats,
   IconGauge,
-  IconPresentationAnalytics,
   IconUsers,
   IconAdjustments,
-  IconPuzzle,
   IconSpeakerphone,
   IconBeach,
   IconShield,
@@ -66,7 +64,7 @@ export const appLinks: AppLink[] = [
     links: [
       {
         label: "Salary Calculations",
-        href: "/app/payroll/salary-calculations",
+        href: "/app/payroll/salary",
       },
       { label: "Payment History", href: "/app/payroll/history" },
     ],

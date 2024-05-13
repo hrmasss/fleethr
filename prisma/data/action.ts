@@ -59,7 +59,7 @@
       where: { name: "Access Salary Calculations" },
       create: {
         name: "Access Salary Calculations",
-        route: "/app/payroll/salary-calculations",
+        route: "/app/payroll/salary",
         module: { connect: { name: "Payroll Management" } },
       },
       update: {},
@@ -76,7 +76,7 @@
     {
       where: { name: "Apply for Leave" },
       create: {
-        name: "Apply for Leave",
+        name: "Apply For Leave",
         route: "/app/leave/apply",
         module: { connect: { name: "Leave Management" } },
       },
@@ -115,6 +115,15 @@
         name: "Manage Notice",
         route: "/app/notice/manage",
         module: { connect: { name: "Notice" } },
+      },
+      update: {},
+    },
+    {
+      where: { name: "Manage Settings" },
+      create: {
+        name: "Manage Settings",
+        route: "/app/settings",
+        module: { connect: { name: "Core" } },
       },
       update: {},
     },
