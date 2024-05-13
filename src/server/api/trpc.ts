@@ -106,3 +106,23 @@ export const protectedProcedure = t.procedure.use(({ ctx, next }) => {
     },
   });
 });
+
+export const organizationProcedure = protectedProcedure.use(
+  async ({ ctx, next }) => {
+    const user = await ctx.db.user.findUnique({
+      where: { id: ctx.session.user.id },
+      include: {
+        organization: true,
+      },
+    });
+
+    if (!user?.organization) throw new TRPCError({ code: "BAD_REQUEST" });
+
+    return next({
+      ctx: {
+        ...ctx,
+        organization: user.organization,
+      },
+    });
+  },
+);
