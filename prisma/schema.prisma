@@ -34,18 +34,19 @@ model Account {
 }
 
 model User {
-    id                  String        @id @default(cuid())
-    name                String?
-    email               String        @unique
-    password            String
-    emailVerified       DateTime?
-    image               String?
-    roleId              String?
-    role                Role?         @relation(fields: [roleId], references: [id])
-    accounts            Account[]
-    organization        Organization? @relation(fields: [organizationId], references: [id])
-    organizationId      String?
-    ownedOrganization   Organization? @relation("OrganizationOwner")
+    id                String        @id @default(cuid())
+    name              String?
+    email             String        @unique
+    password          String
+    emailVerified     DateTime?
+    image             String?
+    roleId            String?
+    role              Role?         @relation(fields: [roleId], references: [id])
+    accounts          Account[]
+    organization      Organization? @relation(fields: [organizationId], references: [id])
+    organizationId    String?
+    ownedOrganization Organization? @relation("OrganizationOwner")
+
     @@index([email])
 }
 
@@ -66,7 +67,6 @@ model Organization {
 model Module {
     id          String         @id @default(cuid())
     name        String         @unique
-    baseRoute   String         @unique
     actions     Action[]
     description String?        @db.Text
     features    String[]
@@ -87,12 +87,14 @@ model Action {
 
 model Role {
     id             String       @id @default(cuid())
-    name           String       @unique
+    name           String
     description    String?      @db.Text
     organization   Organization @relation(fields: [organizationId], references: [id])
     organizationId String
     users          User[]
     permissions    Action[]
+
+    @@unique([organizationId, name])
 }
 
 model Subscription {

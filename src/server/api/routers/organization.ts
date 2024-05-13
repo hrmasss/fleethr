@@ -1,4 +1,5 @@
 import { CreateOrganization } from "@/schemas/organization";
+import { defaultRoles } from "prisma/data/role";
 import { createTRPCRouter, protectedProcedure } from "@/server/api/trpc";
 import { TRPCError } from "@trpc/server";
 
@@ -19,7 +20,7 @@ export const organizationRouter = createTRPCRouter({
         });
 
       // Create the organization and connect the user as the owner & as a member
-      return await ctx.db.organization.create({
+      const newOrganization = await ctx.db.organization.create({
         data: {
           ...input,
           owner: {
@@ -34,6 +35,30 @@ export const organizationRouter = createTRPCRouter({
           },
         },
       });
+
+      // Check if the organization creation was successful
+      if (!newOrganization) {
+        throw new TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
+          message: "Failed to create organization.",
+        });
+      }
+
+      // Create default roles for the new organization
+      await Promise.all(
+        defaultRoles.map(async ({data: role}) => {
+          await ctx.db.role.create({
+            data: {
+              name: role.name,
+              description: role.description,
+              permissions: role.permissions,
+              organizationId: newOrganization.id,
+            },
+          });
+        }),
+      );
+
+      return newOrganization;
     }),
 
   get: protectedProcedure.query(async ({ ctx }) => {

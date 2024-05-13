@@ -7,6 +7,8 @@ import {
   IconAdjustments,
   IconPuzzle,
   IconSpeakerphone,
+  IconBeach,
+  IconShield,
 } from "@tabler/icons-react";
 
 export const publicLinks = {
@@ -41,31 +43,51 @@ export type AppLink = {
 };
 
 export const appLinks: AppLink[] = [
-  { label: "Dashboard", icon: IconGauge, href: publicLinks.dashboard },
+  { label: "Dashboard", icon: IconGauge, href: "/app" },
   {
     label: "Employees",
     icon: IconUsers,
     links: [
-      { label: "Overview", href: "/app/employees/view" },
-      { label: "Manage", href: "/app/employees/add" },
-      { label: "Assign", href: "#" },
+      { label: "Overview", href: "/app/employees/overview" },
+      { label: "Manage", href: "/app/employees/manage" },
     ],
   },
   {
     label: "Attendance",
     icon: IconCalendarStats,
     links: [
-      { label: "Attendance Report", href: "#" },
-      { label: "Attendance Submission", href: "#" },
+      { label: "Attendance Submission", href: "/app/attendance/record" },
+      { label: "Attendance Report", href: "/app/attendance/report" },
     ],
   },
-  { label: "Notice", icon: IconSpeakerphone, href: "/app/notice" },
-  { label: "Payroll", icon: IconCoin, href: "/app/payroll" },
-  { label: "Projects", icon: IconPuzzle, href: "/app/projects" },
   {
-    label: "Analytics",
-    icon: IconPresentationAnalytics,
-    href: "/app/analytics",
+    label: "Payroll",
+    icon: IconCoin,
+    links: [
+      {
+        label: "Salary Calculations",
+        href: "/app/payroll/salary-calculations",
+      },
+      { label: "Payment History", href: "/app/payroll/history" },
+    ],
   },
+  {
+    label: "Leave Management",
+    icon: IconBeach,
+    links: [
+      { label: "Apply for Leave", href: "/app/leave/apply" },
+      { label: "Leave Management", href: "/app/leave/manage" },
+      { label: "Leave History", href: "/app/leave/history" },
+    ],
+  },
+  {
+    label: "Notice",
+    icon: IconSpeakerphone,
+    links: [
+      { label: "Internal Notice Board", href: "/app/notice/internal" },
+      { label: "Manage Notice", href: "/app/notice/manage" },
+    ],
+  },
+  { label: "Role Management", icon: IconShield, href: "/app/role/manage" },
   { label: "Settings", icon: IconAdjustments, href: "/app/settings" },
 ];
