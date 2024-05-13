@@ -1,7 +1,6 @@
 "use client";
 
 import type { AppLink } from "@/lib/nav-data";
-import { api } from "@/trpc/react";
 import { useState } from "react";
 import {
   Group,
@@ -10,7 +9,6 @@ import {
   ThemeIcon,
   Text,
   UnstyledButton,
-  Skeleton,
   rem,
 } from "@mantine/core";
 import { IconChevronRight } from "@tabler/icons-react";
@@ -20,6 +18,7 @@ import classes from "@/styles/components/links-group.module.css";
 interface LinksGroupProps extends AppLink {
   initiallyOpened?: boolean;
   onLinkClicked?: () => void;
+  permittedRoutes: string[];
 }
 
 export function LinksGroup({
@@ -29,24 +28,15 @@ export function LinksGroup({
   initiallyOpened,
   links,
   onLinkClicked,
+  permittedRoutes,
 }: LinksGroupProps) {
   const hasLinks = Array.isArray(links);
   const [opened, setOpened] = useState(initiallyOpened ?? false);
-  const { data: userPermissions, isLoading } =
-    api.user.getPermissions.useQuery();
 
-  if (isLoading)
-    return (
-      <Box px={15} py={5}>
-        <Skeleton h={30} />
-      </Box>
-    );
-
-  const isPermitted =
-    !href || userPermissions?.some((permission) => permission.route === href);
+  const isPermitted = !href || permittedRoutes.some((route) => route === href);
 
   const permittedLinks = links?.filter((link) =>
-    userPermissions?.some((permission) => permission.route === link.href),
+    permittedRoutes?.some((route) => route === link.href),
   );
 
   if (!isPermitted && (!links || permittedLinks?.length === 0)) {

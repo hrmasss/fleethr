@@ -17,16 +17,25 @@ export default async function Layout({
   const subscribedModules = await api.subscription.getSubscribedModules();
   const userPermissions = await api.user.getPermissions();
 
+  const permittedRoutes = userPermissions?.map(
+    (permission) => permission.route,
+  );
+
+  if (!permittedRoutes) redirect(publicLinks.www);
   if (!subscribedModules) redirect(publicLinks.singup);
 
   return (
-    <AccessControl permissions={userPermissions}>
+    <AccessControl permittedRoutes={permittedRoutes}>
       <div className="flex min-h-screen">
         <aside className="fixed left-0 hidden h-screen lg:block">
-          <Navbar user={user} />
+          <Navbar user={user} permittedRoutes={permittedRoutes} />
         </aside>
         <section className="flex-1 lg:ml-[300px]">
-          <Header user={user} className="px-4 lg:hidden" />
+          <Header
+            user={user}
+            permittedRoutes={permittedRoutes}
+            className="px-4 lg:hidden"
+          />
           {children}
         </section>
       </div>

@@ -13,9 +13,11 @@ import { cn } from "@/lib/utils";
 import Link from "next/link";
 
 export function Header({
+  permittedRoutes,
   className,
   user,
 }: {
+  permittedRoutes: string[];
   className?: string;
   user: User;
 }) {
@@ -59,6 +61,7 @@ export function Header({
             <LinksGroup
               {...item}
               key={item.label}
+              permittedRoutes={permittedRoutes}
               onLinkClicked={closeDrawer}
             />
           ))}

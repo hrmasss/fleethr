@@ -10,7 +10,13 @@ import Link from "next/link";
 import { appLinks } from "@/lib/nav-data";
 import { ThemeSwitch } from "@/components/theme-switch";
 
-export function Navbar({ user }: { user: User }) {
+export function Navbar({
+  user,
+  permittedRoutes,
+}: {
+  user: User;
+  permittedRoutes: string[];
+}) {
   return (
     <nav className={classes.navbar}>
       <div className={classes.header}>
@@ -26,7 +32,11 @@ export function Navbar({ user }: { user: User }) {
       <ScrollArea className={classes.links}>
         <div className={classes.linksInner}>
           {appLinks.map((item) => (
-            <LinksGroup {...item} key={item.label} />
+            <LinksGroup
+              permittedRoutes={permittedRoutes}
+              {...item}
+              key={item.label}
+            />
           ))}
         </div>
       </ScrollArea>
