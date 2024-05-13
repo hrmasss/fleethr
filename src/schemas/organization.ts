@@ -8,7 +8,7 @@ export const maxSize = z
   .number()
   .int()
   .min(5, { message: "Minimum 5 members" })
-  .max(500, { message: "Maximum 500 members" });
+  .max(200, { message: "Maximum 200 members" });
 
 export const GetOrganization = z.object({ id });
 export const CreateOrganization = z.object({ name, description, maxSize });

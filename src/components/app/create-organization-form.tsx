@@ -70,14 +70,14 @@ export function CreateOrganizationForm({ onSuccess, className }: Props) {
           thumbSize={25}
           step={5}
           min={5}
-          max={500}
+          max={200}
           key={form.key("maxSize")}
           {...form.getInputProps("maxSize")}
           marks={[
             { value: 20, label: "20" },
+            { value: 50, label: "50" },
             { value: 100, label: "100" },
-            { value: 250, label: "250" },
-            { value: 500, label: "500" },
+            { value: 200, label: "200" },
           ]}
         />
       </Input.Wrapper>
