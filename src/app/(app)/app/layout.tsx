@@ -17,8 +17,8 @@ export default async function Layout({
   const subscribedModules = await api.subscription.getSubscribedModules();
   const userPermissions = await api.user.getPermissions();
 
-  const permittedRoutes = userPermissions?.map(
-    (permission) => permission.route,
+  const permittedRoutes = userPermissions?.flatMap(
+    (permission) => permission.routes,
   );
 
   if (!permittedRoutes) redirect(publicLinks.www);
@@ -30,14 +30,14 @@ export default async function Layout({
         <aside className="fixed left-0 hidden h-screen lg:block">
           <Navbar user={user} permittedRoutes={permittedRoutes} />
         </aside>
-        <section className="flex-1 lg:ml-[300px]">
+        <div className="flex-1 lg:ml-[300px]">
           <Header
             user={user}
             permittedRoutes={permittedRoutes}
             className="px-4 lg:hidden"
           />
-          {children}
-        </section>
+          <div className="p-4 md:p-8 lg:p-12 size-full">{children}</div>
+        </div>
       </div>
     </AccessControl>
   );

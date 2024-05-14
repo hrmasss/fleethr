@@ -78,11 +78,11 @@ model Module {
 }
 
 model Action {
-    id       String @id @default(cuid())
-    name     String @unique
-    route    String
+    id       String   @id @default(cuid())
+    name     String   @unique
+    routes   String[]
     moduleId String
-    module   Module @relation(fields: [moduleId], references: [id])
+    module   Module   @relation(fields: [moduleId], references: [id])
     roles    Role[]
 }
 
