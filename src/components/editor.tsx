@@ -34,7 +34,8 @@ export default function Editor({
     ],
     content,
     onUpdate({ editor }) {
-      onChange(editor.getHTML());
+      const value = editor.isEmpty ? "" : editor.getHTML();
+      onChange(value);
     },
   });
 
@@ -44,6 +45,10 @@ export default function Editor({
         editor={editor}
         mb={5}
         className={`focus-within:border-[var(--mantine-primary-color-filled)] ${props.error ? "border-[var(--mantine-color-red-8)]" : ""}`}
+        styles={{
+          content: { background: "inherit" },
+          toolbar: { background: "inherit" },
+        }}
       >
         <RichTextEditor.Toolbar sticky>
           <RichTextEditor.ControlsGroup>
