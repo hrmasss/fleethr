@@ -1,6 +1,7 @@
 import "@/styles/globals.css";
 import "@mantine/core/styles.css";
 import "@mantine/notifications/styles.css";
+import "@mantine/tiptap/styles.css";
 import { Notifications } from "@mantine/notifications";
 import type { Metadata } from "next";
 import { Sora } from "next/font/google";

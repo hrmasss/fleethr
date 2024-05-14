@@ -8,13 +8,13 @@ import { useForm } from "@mantine/form";
 import { zodResolver } from "mantine-form-zod-resolver";
 import { notifications } from "@mantine/notifications";
 import { cn } from "@/lib/utils";
+import Editor from "@/components/editor";
 import {
   Button,
   Text,
   TextInput,
   TagsInput,
   Loader,
-  Textarea,
   Switch,
 } from "@mantine/core";
 
@@ -50,7 +50,7 @@ export function NoticeForm({ className }: Props) {
         withBorder: true,
       });
 
-      router.back();
+      router.push("/app/notice/manage");
     }
   }, [status, router]);
 
@@ -70,27 +70,30 @@ export function NoticeForm({ className }: Props) {
 
       <TagsInput
         label="Tags"
-        placeholder="Enter tags for the notice"
+        placeholder="Notice tags"
         size="md"
         clearable
         key={form.key("tags")}
         {...form.getInputProps("tags")}
       />
 
-      <Textarea
+      <Editor
         required
-        label="Description"
-        placeholder="Write a short description about your organization"
+        label="Body"
+        placeholder="Notice content"
         size="md"
-        autosize
-        minRows={3}
-        maxRows={5}
         key={form.key("description")}
         {...form.getInputProps("description")}
       />
 
       <Switch
-        styles={{ input: { cursor: "pointer" }, label: { cursor: "pointer" } }}
+        styles={{
+          track: { cursor: "pointer" },
+          label: { cursor: "pointer" },
+          body: {
+            width: "fit-content",
+          },
+        }}
         size="md"
         label="Make public"
         key={form.key("isPublic")}
