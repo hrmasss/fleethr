@@ -85,4 +85,11 @@ export const noticeRouter = createTRPCRouter({
         where: { isPublic: true, organizationId: input.id },
       });
     }),
+
+  // *Get all notices
+  getAll: organizationProcedure.query(async ({ ctx }) => {
+    return ctx.db.notice.findMany({
+      where: { organizationId: ctx.organization.id },
+    });
+  }),
 });
