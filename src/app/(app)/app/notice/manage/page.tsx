@@ -1,4 +1,5 @@
 import { Button } from "@mantine/core";
+import Link from "next/link";
 
 export default function Page() {
   return (
@@ -13,7 +14,9 @@ export default function Page() {
           both internal and public notice board from here.
         </p>
 
-        <Button className="mt-2">Add notice</Button>
+        <Button component={Link} href="/app/notice/manage/new" className="mt-2">
+          Add notice
+        </Button>
       </div>
     </main>
   );

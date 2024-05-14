@@ -1,7 +1,16 @@
+import { NoticeForm } from "@/components/app/notice-form";
+import { Card } from "@mantine/core";
+
 export default function Page() {
   return (
-    <main className="flex h-full flex-col items-center justify-center">
-      <h1 className="text-3xl font-bold lg:text-5xl">New Notice</h1>
+    <main>
+      <h3 className="mt-2 mb-4 text-xl font-bold md:text-3xl">
+        Publish a new notice
+      </h3>
+
+      <Card shadow="sm" padding="lg" radius="md" withBorder>
+        <NoticeForm />
+      </Card>
     </main>
   );
 }
