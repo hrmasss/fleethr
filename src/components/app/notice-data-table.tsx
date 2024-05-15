@@ -28,7 +28,7 @@ export default function NoticeDataTable({ notices }: Props) {
 
         return (
           <div className="min-w-48">
-            {notice.createdAt.toLocaleDateString("en-UK")}
+            {notice.createdAt.toLocaleDateString("en-GB")}
           </div>
         );
       },
