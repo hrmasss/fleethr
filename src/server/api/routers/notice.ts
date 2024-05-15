@@ -4,7 +4,13 @@ import {
   publicProcedure,
 } from "@/server/api/trpc";
 import { TRPCError } from "@trpc/server";
-import { CreateNotice, GetNotice, UpdateNotice } from "@/schemas/notice";
+import {
+  CreateNotice,
+  GetNotice,
+  UpdateNotice,
+  GetPublicNotice,
+  GetAllPublicNotices,
+} from "@/schemas/notice";
 
 export const noticeRouter = createTRPCRouter({
   // *Create a new notice
@@ -76,18 +82,27 @@ export const noticeRouter = createTRPCRouter({
   }),
 
   // *Get a single public notice
-  getPublic: publicProcedure.input(GetNotice).query(async ({ ctx, input }) => {
-    return ctx.db.notice.findUnique({
-      where: { id: input.id, isPublic: true },
-    });
-  }),
+  getPublic: publicProcedure
+    .input(GetPublicNotice)
+    .query(async ({ ctx, input }) => {
+      return ctx.db.notice.findUnique({
+        where: {
+          organizationId: input.orgId,
+          id: input.noticeId,
+          isPublic: true,
+        },
+      });
+    }),
 
   // *Get all public notices
   getAllPublic: publicProcedure
-    .input(GetNotice)
+    .input(GetAllPublicNotices)
     .query(async ({ ctx, input }) => {
       return ctx.db.notice.findMany({
-        where: { isPublic: true, organizationId: input.id },
+        where: {
+          organizationId: input.orgId,
+          isPublic: true,
+        },
         orderBy: { createdAt: "desc" },
       });
     }),

@@ -4,13 +4,14 @@ import Link from "next/link";
 
 interface Props {
   notice: Notices[0];
+  href: string;
 }
 
-export function NoticeCard({ notice }: Props) {
+export function NoticeCard({ notice, href }: Props) {
   return (
     <Card
       component={Link}
-      href={`/app/notice/internal/${notice.id}`}
+      href={href}
       shadow="sm"
       padding="lg"
       radius="md"

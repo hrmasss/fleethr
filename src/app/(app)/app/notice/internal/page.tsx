@@ -5,6 +5,7 @@ import Link from "next/link";
 import { NoticeCard } from "@/components/app/notice-card";
 
 export default async function Page() {
+  const organization = await api.organization.get();
   const notices = await api.notice.getAllInternal();
 
   return (
@@ -23,7 +24,7 @@ export default async function Page() {
           rightSection={<IconArrowRight size={20} />}
           variant="outline"
           component={Link}
-          href="#"
+          href={`/${organization?.id}/notice`}
           className="mt-4"
         >
           Visit public notice board
@@ -33,7 +34,11 @@ export default async function Page() {
       <Paper mt="xl" radius="md" className="space-y-4">
         {notices.length !== 0 ? (
           notices.map((notice) => (
-            <NoticeCard key={notice.id} notice={notice} />
+            <NoticeCard
+              key={notice.id}
+              notice={notice}
+              href={`/app/notice/internal/${notice.id}`}
+            />
           ))
         ) : (
           <Text c="dimmed" fw="bold">

@@ -1,6 +1,10 @@
-import { CreateOrganization } from "@/schemas/organization";
+import { CreateOrganization, GetOrganization } from "@/schemas/organization";
 import { defaultRoles } from "prisma/data/role";
-import { createTRPCRouter, protectedProcedure } from "@/server/api/trpc";
+import {
+  createTRPCRouter,
+  protectedProcedure,
+  publicProcedure,
+} from "@/server/api/trpc";
 import { TRPCError } from "@trpc/server";
 
 export const organizationRouter = createTRPCRouter({
@@ -46,7 +50,7 @@ export const organizationRouter = createTRPCRouter({
 
       // Create default roles for the new organization
       await Promise.all(
-        defaultRoles.map(async ({data: role}) => {
+        defaultRoles.map(async ({ data: role }) => {
           await ctx.db.role.create({
             data: {
               name: role.name,
@@ -71,4 +75,18 @@ export const organizationRouter = createTRPCRouter({
 
     return user?.organization;
   }),
+
+  getPublicInfo: publicProcedure
+    .input(GetOrganization)
+    .query(async ({ ctx, input }) => {
+      const organization = await ctx.db.organization.findUnique({
+        where: { id: input.id },
+      });
+
+      return {
+        id: organization?.id,
+        name: organization?.name,
+        description: organization?.description,
+      };
+    }),
 });
