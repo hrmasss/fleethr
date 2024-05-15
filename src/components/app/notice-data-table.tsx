@@ -84,7 +84,9 @@ export default function NoticeDataTable({ notices }: Props) {
                 </Badge>
               ))
             ) : (
-              <span className="text-destructive text-sm">N/A</span>
+              <Badge variant="light" color="red">
+                N/A
+              </Badge>
             )}
           </div>
         );
