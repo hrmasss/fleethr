@@ -28,7 +28,7 @@ export default function Notice({ notice }: Props) {
         shadow="sm"
       >
         <Text c="gray.7" fw={700}>
-          Published at{" "}
+          Published on{" "}
           {notice.createdAt.toLocaleDateString("en-GB", {
             day: "numeric",
             month: "long",

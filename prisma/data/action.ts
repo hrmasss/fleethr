@@ -26,7 +26,8 @@ export const actionData: Prisma.ActionUpsertArgs[] = [
       routes: [
         "/app/employees/manage",
         "/app/employees/manage/new",
-        "/app/employees/manage/modify",
+        "/app/employees/manage/modify/[id]",
+        "/app/employees/manage/view/[id]",
       ],
       module: { connect: { name: "Core" } },
     },
@@ -36,7 +37,12 @@ export const actionData: Prisma.ActionUpsertArgs[] = [
     where: { name: "Manage Roles" },
     create: {
       name: "Manage Roles",
-      routes: ["/app/roles/manage"],
+      routes: [
+        "/app/roles/manage",
+        "/app/roles/manage/new",
+        "/app/roles/manage/modify/[id]",
+        "/app/roles/manage/view/[id]",
+      ],
       module: { connect: { name: "Core" } },
     },
     update: {},
@@ -54,7 +60,7 @@ export const actionData: Prisma.ActionUpsertArgs[] = [
     where: { name: "Access Attendance Report" },
     create: {
       name: "Access Attendance Report",
-      routes: ["/app/attendance/report"],
+      routes: ["/app/attendance/report", "/app/attendance/report/[id]"],
       module: { connect: { name: "Attendance Management" } },
     },
     update: {},
@@ -63,7 +69,7 @@ export const actionData: Prisma.ActionUpsertArgs[] = [
     where: { name: "Access Salary Calculations" },
     create: {
       name: "Access Salary Calculations",
-      routes: ["/app/payroll/salary"],
+      routes: ["/app/payroll/salary", "/app/payroll/salary/[id]"],
       module: { connect: { name: "Payroll Management" } },
     },
     update: {},
@@ -72,7 +78,7 @@ export const actionData: Prisma.ActionUpsertArgs[] = [
     where: { name: "Access Payroll History" },
     create: {
       name: "Access Payroll History",
-      routes: ["/app/payroll/history"],
+      routes: ["/app/payroll/history", "/app/payroll/history/[id]"],
       module: { connect: { name: "Payroll Management" } },
     },
     update: {},
@@ -99,7 +105,7 @@ export const actionData: Prisma.ActionUpsertArgs[] = [
     where: { name: "Access Leave History" },
     create: {
       name: "Access Leave History",
-      routes: ["/app/leave/history"],
+      routes: ["/app/leave/history", "/app/leave/history/[id]"],
       module: { connect: { name: "Leave Management" } },
     },
     update: {},
@@ -108,7 +114,7 @@ export const actionData: Prisma.ActionUpsertArgs[] = [
     where: { name: "Access Internal Notice Board" },
     create: {
       name: "Access Internal Notice Board",
-      routes: ["/app/notice/internal"],
+      routes: ["/app/notice/internal", "/app/notice/internal/[id]"],
       module: { connect: { name: "Notice" } },
     },
     update: {},
@@ -120,7 +126,7 @@ export const actionData: Prisma.ActionUpsertArgs[] = [
       routes: [
         "/app/notice/manage",
         "/app/notice/manage/new",
-        "/app/notice/manage/modify",
+        "/app/notice/manage/modify/[id]",
       ],
       module: { connect: { name: "Notice" } },
     },
