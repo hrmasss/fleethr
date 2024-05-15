@@ -7,20 +7,26 @@ import {
   getCoreRowModel,
   getSortedRowModel,
   useReactTable,
+  getFilteredRowModel,
+  type ColumnFiltersState,
   type ColumnDef,
 } from "@tanstack/react-table";
-import { Table, ScrollArea, Text } from "@mantine/core";
+import { IconSearch } from "@tabler/icons-react";
+import { Table, ScrollArea, Text, TextInput, rem } from "@mantine/core";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
+  filterBy: string;
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
+  filterBy,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([]);
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
 
   const table = useReactTable({
     data,
@@ -28,13 +34,30 @@ export function DataTable<TData, TValue>({
     getCoreRowModel: getCoreRowModel(),
     onSortingChange: setSorting,
     getSortedRowModel: getSortedRowModel(),
+    onColumnFiltersChange: setColumnFilters,
+    getFilteredRowModel: getFilteredRowModel(),
     state: {
       sorting,
+      columnFilters,
     },
   });
 
   return (
     <>
+      <TextInput
+        placeholder="Type to search"
+        mb="md"
+        leftSection={
+          <IconSearch
+            style={{ width: rem(16), height: rem(16) }}
+            stroke={1.5}
+          />
+        }
+        value={(table.getColumn(filterBy)?.getFilterValue() as string) ?? ""}
+        onChange={(event) =>
+          table.getColumn(filterBy)?.setFilterValue(event.target.value)
+        }
+      />
       <ScrollArea>
         <Table>
           <Table.Thead>
@@ -76,7 +99,7 @@ export function DataTable<TData, TValue>({
             ) : (
               <Table.Tr>
                 <Table.Td colSpan={columns.length}>
-                  <Text fw={500} ta="center">
+                  <Text fw={500} ta="center" py="md" c="red">
                     Nothing found
                   </Text>
                 </Table.Td>

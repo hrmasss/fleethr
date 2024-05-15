@@ -113,5 +113,5 @@ export default function NoticeDataTable({ notices }: Props) {
     },
   ];
 
-  return <DataTable columns={columns} data={notices} />;
+  return <DataTable columns={columns} data={notices} filterBy="title"/>;
 }
