@@ -62,19 +62,24 @@ export const noticeRouter = createTRPCRouter({
   getInternal: organizationProcedure
     .input(GetNotice)
     .query(async ({ ctx, input }) => {
-      return ctx.db.notice.findUnique({ where: { id: input.id } });
+      return ctx.db.notice.findUnique({
+        where: { id: input.id, isPublic: false },
+      });
     }),
 
   // *Get all internal notices
   getAllInternal: organizationProcedure.query(async ({ ctx }) => {
     return ctx.db.notice.findMany({
       where: { isPublic: false, organizationId: ctx.organization.id },
+      orderBy: { createdAt: "desc" },
     });
   }),
 
   // *Get a single public notice
   getPublic: publicProcedure.input(GetNotice).query(async ({ ctx, input }) => {
-    return ctx.db.notice.findUnique({ where: { id: input.id } });
+    return ctx.db.notice.findUnique({
+      where: { id: input.id, isPublic: true },
+    });
   }),
 
   // *Get all public notices
@@ -83,6 +88,7 @@ export const noticeRouter = createTRPCRouter({
     .query(async ({ ctx, input }) => {
       return ctx.db.notice.findMany({
         where: { isPublic: true, organizationId: input.id },
+        orderBy: { createdAt: "desc" },
       });
     }),
 
