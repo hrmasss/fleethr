@@ -37,7 +37,7 @@ export default function NoticeDataTable({ notices }: Props) {
       accessorKey: "title",
       header: ({ column }) => (
         <SortableTableHeader
-          label="Publish date"
+          label="Title"
           sortDirection={column.getIsSorted()}
           toggleSort={() =>
             column.toggleSorting(column.getIsSorted() === "asc")
@@ -48,6 +48,25 @@ export default function NoticeDataTable({ notices }: Props) {
         const notice = row.original;
 
         return <div className="min-w-48">{notice.title}</div>;
+      },
+    },
+    {
+      accessorKey: "isPublic",
+      header: "Visibility",
+      cell: ({ row }) => {
+        const notice = row.original;
+
+        return (
+          <div className="min-w-48">
+            {notice.isPublic ? (
+              <Badge variant="dot" color="orange">
+                Public
+              </Badge>
+            ) : (
+              <Badge variant="dot">Internal</Badge>
+            )}
+          </div>
+        );
       },
     },
     {

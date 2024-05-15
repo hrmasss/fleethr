@@ -30,7 +30,7 @@ export const SortableTableHeader = ({
       className="w-full py-[var(--mantine-spacing-xs)]"
     >
       <Group justify="space-between">
-        <Text fw={500} fz="sm">
+        <Text fw="bold" fz="sm">
           {label}
         </Text>
         <Center className="size-[rem(21px)] rounded-[rem(21px)]">

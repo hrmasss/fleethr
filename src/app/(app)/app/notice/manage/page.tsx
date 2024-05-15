@@ -1,5 +1,6 @@
 import { api } from "@/trpc/server";
 import NoticeDataTable from "@/components/app/notice-data-table";
+import { IconPlus } from "@tabler/icons-react";
 import { Button, Card } from "@mantine/core";
 import Link from "next/link";
 
@@ -18,8 +19,14 @@ export default async function Page() {
           both internal and public notice board from here.
         </p>
 
-        <Button component={Link} href="/app/notice/manage/new" className="mt-4">
-          Add notice
+        <Button
+          leftSection={<IconPlus size={20} />}
+          variant="outline"
+          component={Link}
+          href="/app/notice/manage/new"
+          className="mt-4"
+        >
+          New notice
         </Button>
       </div>
 
