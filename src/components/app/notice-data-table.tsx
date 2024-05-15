@@ -1,184 +1,117 @@
 "use client";
 
-import { useState } from "react";
-import {
-  Table,
-  ScrollArea,
-  UnstyledButton,
-  Group,
-  Text,
-  Center,
-  TextInput,
-  rem,
-  keys,
-} from "@mantine/core";
+import type { Notices } from "@/lib/types";
+import type { ColumnDef } from "@tanstack/react-table";
+import { DataTable } from "@/components/app/data-table";
+import { UnstyledButton, Group, Text, Badge, Center, rem } from "@mantine/core";
 import {
   IconSelector,
   IconChevronDown,
   IconChevronUp,
-  IconSearch,
 } from "@tabler/icons-react";
 
-interface RowData {
-  name: string;
-  email: string;
+interface Props {
+  notices: Notices;
 }
 
-interface ThProps {
-  children: React.ReactNode;
-  reversed: boolean;
-  sorted: boolean;
-  onSort(): void;
-}
+export default function NoticeDataTable({ notices }: Props) {
+  const columns: ColumnDef<Notices[0]>[] = [
+    {
+      accessorKey: "createdAt",
+      header: ({ column }) => {
+        const Icon =
+          column.getIsSorted() === "asc"
+            ? IconChevronUp
+            : column.getIsSorted() === "desc"
+              ? IconChevronDown
+              : IconSelector;
 
-function Th({ children, reversed, sorted, onSort }: ThProps) {
-  const Icon = sorted
-    ? reversed
-      ? IconChevronUp
-      : IconChevronDown
-    : IconSelector;
-  return (
-    <Table.Th className="p-0">
-      <UnstyledButton
-        onClick={onSort}
-        className="w-full px-[var(--mantine-spacing-md)] py-[var(--mantine-spacing-xs)]"
-      >
-        <Group justify="space-between">
-          <Text fw={500} fz="sm">
-            {children}
-          </Text>
-          <Center className="size-[rem(21px)] rounded-[rem(21px)]">
-            <Icon style={{ width: rem(16), height: rem(16) }} stroke={1.5} />
-          </Center>
-        </Group>
-      </UnstyledButton>
-    </Table.Th>
-  );
-}
+        return (
+          <UnstyledButton
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+            className="w-full py-[var(--mantine-spacing-xs)]"
+          >
+            <Group justify="space-between">
+              <Text fw={500} fz="sm">
+                Publish date
+              </Text>
+              <Center className="size-[rem(21px)] rounded-[rem(21px)]">
+                <Icon
+                  style={{ width: rem(16), height: rem(16) }}
+                  stroke={1.5}
+                />
+              </Center>
+            </Group>
+          </UnstyledButton>
+        );
+      },
+      cell: ({ row }) => {
+        const notice = row.original;
 
-function filterData(data: RowData[], search: string) {
-  const query = search.toLowerCase().trim();
-  return data.filter((item) =>
-    keys(data[0]).some((key) => item[key].toLowerCase().includes(query)),
-  );
-}
+        return (
+          <div className="min-w-48">
+            {notice.createdAt.toLocaleDateString("en-UK")}
+          </div>
+        );
+      },
+    },
+    {
+      accessorKey: "title",
+      header: ({ column }) => {
+        const Icon =
+          column.getIsSorted() === "asc"
+            ? IconChevronUp
+            : column.getIsSorted() === "desc"
+              ? IconChevronDown
+              : IconSelector;
 
-function sortData(
-  data: RowData[],
-  payload: { sortBy: keyof RowData | null; reversed: boolean; search: string },
-) {
-  const { sortBy } = payload;
+        return (
+          <UnstyledButton
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+            className="w-full py-[var(--mantine-spacing-xs)]"
+          >
+            <Group justify="space-between">
+              <Text fw={500} fz="sm">
+                Title
+              </Text>
+              <Center className="size-[rem(21px)] rounded-[rem(21px)]">
+                <Icon
+                  style={{ width: rem(16), height: rem(16) }}
+                  stroke={1.5}
+                />
+              </Center>
+            </Group>
+          </UnstyledButton>
+        );
+      },
+      cell: ({ row }) => {
+        const notice = row.original;
 
-  if (!sortBy) {
-    return filterData(data, payload.search);
-  }
+        return <div className="min-w-48">{notice.title}</div>;
+      },
+    },
+    {
+      accessorKey: "tags",
+      header: "Tags",
+      cell: ({ row }) => {
+        const notice = row.original;
 
-  return filterData(
-    [...data].sort((a, b) => {
-      if (payload.reversed) {
-        return b[sortBy].localeCompare(a[sortBy]);
-      }
-
-      return a[sortBy].localeCompare(b[sortBy]);
-    }),
-    payload.search,
-  );
-}
-
-const data = [
-  {
-    name: "Athena Weissnat",
-    email: "Elouise.Prohaska@yahoo.com",
-  },
-  {
-    name: "Deangelo Runolfsson",
-    email: "Kadin_Trantow87@yahoo.com",
-  },
-];
-
-export function NoticeDataTable() {
-  const [search, setSearch] = useState("");
-  const [sortedData, setSortedData] = useState(data);
-  const [sortBy, setSortBy] = useState<keyof RowData | null>(null);
-  const [reverseSortDirection, setReverseSortDirection] = useState(false);
-
-  const setSorting = (field: keyof RowData) => {
-    const reversed = field === sortBy ? !reverseSortDirection : false;
-    setReverseSortDirection(reversed);
-    setSortBy(field);
-    setSortedData(sortData(data, { sortBy: field, reversed, search }));
-  };
-
-  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { value } = event.currentTarget;
-    setSearch(value);
-    setSortedData(
-      sortData(data, { sortBy, reversed: reverseSortDirection, search: value }),
-    );
-  };
-
-  const rows = sortedData.map((row) => (
-    <Table.Tr key={row.name}>
-      <Table.Td>{row.name}</Table.Td>
-      <Table.Td>{row.email}</Table.Td>
-    </Table.Tr>
-  ));
-
-  return (
-    <>
-      <TextInput
-        placeholder="Search by any field"
-        mb="md"
-        leftSection={
-          <IconSearch
-            style={{ width: rem(16), height: rem(16) }}
-            stroke={1.5}
-          />
-        }
-        value={search}
-        onChange={handleSearchChange}
-      />
-
-      <ScrollArea>
-        <Table
-          horizontalSpacing="md"
-          verticalSpacing="xs"
-          miw={700}
-          layout="fixed"
-        >
-          <Table.Tbody>
-            <Table.Tr>
-              <Th
-                sorted={sortBy === "name"}
-                reversed={reverseSortDirection}
-                onSort={() => setSorting("name")}
-              >
-                Name
-              </Th>
-              <Th
-                sorted={sortBy === "email"}
-                reversed={reverseSortDirection}
-                onSort={() => setSorting("email")}
-              >
-                Email
-              </Th>
-            </Table.Tr>
-          </Table.Tbody>
-          <Table.Tbody>
-            {rows.length > 0 ? (
-              rows
+        return (
+          <div className="flex min-w-48 flex-wrap gap-2">
+            {notice.tags.length !== 0 ? (
+              notice.tags.map((tag, idx) => (
+                <Badge variant="light" key={idx} className="cursor-pointer">
+                  {tag}
+                </Badge>
+              ))
             ) : (
-              <Table.Tr>
-                <Table.Td colSpan={Object.keys(data[0]).length}>
-                  <Text fw={500} ta="center">
-                    Nothing found
-                  </Text>
-                </Table.Td>
-              </Table.Tr>
+              <span className="text-destructive text-sm">N/A</span>
             )}
-          </Table.Tbody>
-        </Table>
-      </ScrollArea>
-    </>
-  );
+          </div>
+        );
+      },
+    },
+  ];
+
+  return <DataTable columns={columns} data={notices} />;
 }

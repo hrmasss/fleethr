@@ -1,5 +1,5 @@
 import { api } from "@/trpc/server";
-import { NoticeDataTable } from "@/components/app/notice-data-table";
+import NoticeDataTable from "@/components/app/notice-data-table";
 import { Button, Card } from "@mantine/core";
 import Link from "next/link";
 
@@ -24,7 +24,7 @@ export default async function Page() {
       </div>
 
       <Card mt="xl" shadow="sm" padding="lg" radius="md" withBorder>
-        <NoticeDataTable notices={notices}/>
+        <NoticeDataTable notices={notices} />
       </Card>
     </main>
   );

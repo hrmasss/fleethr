@@ -24,6 +24,7 @@
     "@t3-oss/env-nextjs": "^0.10.1",
     "@tabler/icons-react": "^3.3.0",
     "@tanstack/react-query": "^5.25.0",
+    "@tanstack/react-table": "^8.17.3",
     "@tiptap/extension-highlight": "^2.4.0",
     "@tiptap/extension-link": "^2.4.0",
     "@tiptap/extension-placeholder": "^2.4.0",
