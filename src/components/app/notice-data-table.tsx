@@ -3,12 +3,8 @@
 import type { Notices } from "@/lib/types";
 import type { ColumnDef } from "@tanstack/react-table";
 import { DataTable } from "@/components/app/data-table";
-import { UnstyledButton, Group, Text, Badge, Center, rem } from "@mantine/core";
-import {
-  IconSelector,
-  IconChevronDown,
-  IconChevronUp,
-} from "@tabler/icons-react";
+import { Badge } from "@mantine/core";
+import { SortableTableHeader } from "@/components/app/sortable-table-header";
 
 interface Props {
   notices: Notices;
@@ -18,33 +14,15 @@ export default function NoticeDataTable({ notices }: Props) {
   const columns: ColumnDef<Notices[0]>[] = [
     {
       accessorKey: "createdAt",
-      header: ({ column }) => {
-        const Icon =
-          column.getIsSorted() === "asc"
-            ? IconChevronUp
-            : column.getIsSorted() === "desc"
-              ? IconChevronDown
-              : IconSelector;
-
-        return (
-          <UnstyledButton
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-            className="w-full py-[var(--mantine-spacing-xs)]"
-          >
-            <Group justify="space-between">
-              <Text fw={500} fz="sm">
-                Publish date
-              </Text>
-              <Center className="size-[rem(21px)] rounded-[rem(21px)]">
-                <Icon
-                  style={{ width: rem(16), height: rem(16) }}
-                  stroke={1.5}
-                />
-              </Center>
-            </Group>
-          </UnstyledButton>
-        );
-      },
+      header: ({ column }) => (
+        <SortableTableHeader
+          label="Publish date"
+          sortDirection={column.getIsSorted()}
+          toggleSort={() =>
+            column.toggleSorting(column.getIsSorted() === "asc")
+          }
+        />
+      ),
       cell: ({ row }) => {
         const notice = row.original;
 
@@ -57,33 +35,15 @@ export default function NoticeDataTable({ notices }: Props) {
     },
     {
       accessorKey: "title",
-      header: ({ column }) => {
-        const Icon =
-          column.getIsSorted() === "asc"
-            ? IconChevronUp
-            : column.getIsSorted() === "desc"
-              ? IconChevronDown
-              : IconSelector;
-
-        return (
-          <UnstyledButton
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-            className="w-full py-[var(--mantine-spacing-xs)]"
-          >
-            <Group justify="space-between">
-              <Text fw={500} fz="sm">
-                Title
-              </Text>
-              <Center className="size-[rem(21px)] rounded-[rem(21px)]">
-                <Icon
-                  style={{ width: rem(16), height: rem(16) }}
-                  stroke={1.5}
-                />
-              </Center>
-            </Group>
-          </UnstyledButton>
-        );
-      },
+      header: ({ column }) => (
+        <SortableTableHeader
+          label="Publish date"
+          sortDirection={column.getIsSorted()}
+          toggleSort={() =>
+            column.toggleSorting(column.getIsSorted() === "asc")
+          }
+        />
+      ),
       cell: ({ row }) => {
         const notice = row.original;
 
@@ -113,5 +73,5 @@ export default function NoticeDataTable({ notices }: Props) {
     },
   ];
 
-  return <DataTable columns={columns} data={notices} filterBy="title"/>;
+  return <DataTable columns={columns} data={notices} filterBy="title" />;
 }
