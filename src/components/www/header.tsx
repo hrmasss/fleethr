@@ -140,7 +140,9 @@ export function Header({ className }: { className?: string }) {
             <ThemeSwitch />
             {status === "authenticated" ? (
               <>
-                <LogoutButton variant="default">Log out</LogoutButton>
+                <Button component={LogoutButton} variant="default">
+                  Log out
+                </Button>
                 <Button component={Link} href={navlinks.dashboard}>
                   Dashboard
                 </Button>
@@ -225,9 +227,13 @@ export function Header({ className }: { className?: string }) {
           <Group justify="center" grow p="md">
             {status === "authenticated" ? (
               <>
-                <LogoutButton variant="default" onClick={closeDrawer}>
+                <Button
+                  component={LogoutButton}
+                  variant="default"
+                  onClick={closeDrawer}
+                >
                   Log out
-                </LogoutButton>
+                </Button>
                 <Button
                   component={Link}
                   href={navlinks.dashboard}

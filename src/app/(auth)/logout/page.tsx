@@ -1,4 +1,4 @@
-import { Title, Text, Container, Group } from "@mantine/core";
+import { Title, Text, Container, Group, Button } from "@mantine/core";
 import BackButton from "@/components/back-button";
 import LogoutButton from "@/components/logout-button";
 
@@ -19,9 +19,9 @@ export default function Page() {
           <BackButton variant="default" size="md">
             Get back
           </BackButton>
-          <LogoutButton variant="filled" size="md" color="red">
+          <Button component={LogoutButton} variant="filled" size="md" color="red">
             Log out
-          </LogoutButton>
+          </Button>
         </Group>
       </Container>
     </div>

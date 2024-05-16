@@ -1,11 +1,10 @@
 "use client";
 
-import type { MouseEvent } from "react";
-import { type ButtonProps, Button } from "@mantine/core";
-import { signOut } from "next-auth/react";
+import { type UnstyledButtonProps, UnstyledButton } from "@mantine/core";
 import { useRouter } from "next/navigation";
-
-interface LogoutButtonProps extends ButtonProps {
+import { signOut } from "next-auth/react";
+import type { MouseEvent } from "react";
+interface LogoutButtonProps extends UnstyledButtonProps {
   children: React.ReactNode;
   onClick?: (event: MouseEvent<HTMLButtonElement>) => void;
 }
@@ -29,8 +28,8 @@ export default function LogoutButton({
   };
 
   return (
-    <Button {...props} onClick={handleClick}>
+    <UnstyledButton {...props} onClick={handleClick}>
       {children}
-    </Button>
+    </UnstyledButton>
   );
 }
