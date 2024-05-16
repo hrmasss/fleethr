@@ -4,6 +4,7 @@ import { organizationRouter } from "@/server/api/routers/organization";
 import { subscriptionRouter } from "@/server/api/routers/subscription";
 import { moduleRouter } from "@/server/api/routers/module";
 import { noticeRouter } from "@/server/api/routers/notice";
+import { departmentRouter } from "@/server/api/routers/department";
 
 /**
  * This is the primary router for your server.
@@ -16,6 +17,7 @@ export const appRouter = createTRPCRouter({
   subscription: subscriptionRouter,
   module: moduleRouter,
   notice: noticeRouter,
+  department: departmentRouter,
 });
 
 // export type definition of API

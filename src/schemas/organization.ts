@@ -1,6 +1,5 @@
 import { z } from "zod";
 
-// User model fields
 const id = z.string();
 const name = z.string().min(3, { message: "Minimum 3 characters" });
 const description = z.string().optional();
