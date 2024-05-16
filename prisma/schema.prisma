@@ -46,6 +46,8 @@ model User {
     organization      Organization? @relation(fields: [organizationId], references: [id])
     organizationId    String?
     ownedOrganization Organization? @relation("OrganizationOwner")
+    employeeId        String?       @unique
+    employeeRecord    Employee?     @relation(fields: [employeeId], references: [employeeId])
 
     @@index([email])
 }
@@ -61,6 +63,8 @@ model Organization {
     roles        Role[]
     members      User[]
     notices      Notice[]
+    departments  Department[]
+    employees    Employee[]
     createdAt    DateTime      @default(now())
     updatedAt    DateTime      @updatedAt
 }
@@ -120,4 +124,33 @@ model Notice {
     organizationId String
     createdAt      DateTime     @default(now())
     updatedAt      DateTime     @updatedAt
+}
+
+model Department {
+    id             String       @id @default(cuid())
+    name           String
+    description    String?
+    employees      Employee[]
+    organization   Organization @relation(fields: [organizationId], references: [id])
+    organizationId String
+
+    @@unique([organizationId, name])
+}
+
+model Employee {
+    id               String       @id @default(cuid())
+    employeeId       String       @unique
+    name             String
+    email            String       @unique
+    phone            String
+    presentAddress   String
+    permanentAddress String
+    jobTitle         String
+    department       Department   @relation(fields: [departmentId], references: [id])
+    departmentId     String
+    organization     Organization @relation(fields: [organizationId], references: [id])
+    organizationId   String
+    user             User?
+    createdAt        DateTime     @default(now())
+    updatedAt        DateTime     @updatedAt
 }
