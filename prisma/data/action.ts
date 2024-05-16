@@ -34,6 +34,20 @@ export const actionData: Prisma.ActionUpsertArgs[] = [
     update: {},
   },
   {
+    where: { name: "Manage Departments" },
+    create: {
+      name: "Manage Departments",
+      routes: [
+        "/app/departments/manage",
+        "/app/departments/manage/new",
+        "/app/departments/manage/modify/[id]",
+        "/app/departments/manage/view/[id]",
+      ],
+      module: { connect: { name: "Core" } },
+    },
+    update: {},
+  },
+  {
     where: { name: "Manage Roles" },
     create: {
       name: "Manage Roles",

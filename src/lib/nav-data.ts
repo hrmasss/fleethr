@@ -7,6 +7,7 @@ import {
   IconSpeakerphone,
   IconBeach,
   IconShield,
+  IconAffiliate,
 } from "@tabler/icons-react";
 
 export const publicLinks = {
@@ -42,6 +43,14 @@ export type AppLink = {
 
 export const appLinks: AppLink[] = [
   { label: "Dashboard", icon: IconGauge, href: "/app" },
+  {
+    label: "Organization",
+    icon: IconAffiliate,
+    links: [
+      { label: "Manage Departments", href: "/app/departments/manage" },
+      { label: "Manage Roles", href: "/app/roles/manage" },
+    ],
+  },
   {
     label: "Employees",
     icon: IconUsers,
