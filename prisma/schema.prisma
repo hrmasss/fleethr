@@ -65,6 +65,7 @@ model Organization {
     notices      Notice[]
     departments  Department[]
     employees    Employee[]
+    settings     Setting[]
     createdAt    DateTime      @default(now())
     updatedAt    DateTime      @updatedAt
 }
@@ -138,19 +139,84 @@ model Department {
 }
 
 model Employee {
-    id               String       @id @default(cuid())
-    employeeId       String       @unique
-    name             String
-    email            String       @unique
-    phone            String
-    presentAddress   String
-    permanentAddress String
-    jobTitle         String
-    department       Department   @relation(fields: [departmentId], references: [id])
-    departmentId     String
-    organization     Organization @relation(fields: [organizationId], references: [id])
-    organizationId   String
-    user             User?
-    createdAt        DateTime     @default(now())
-    updatedAt        DateTime     @updatedAt
+    id                String             @id @default(cuid())
+    employeeId        String             @unique
+    name              String
+    email             String             @unique
+    phone             String
+    presentAddress    String
+    permanentAddress  String
+    jobTitle          String
+    department        Department         @relation(fields: [departmentId], references: [id])
+    departmentId      String
+    organization      Organization       @relation(fields: [organizationId], references: [id])
+    organizationId    String
+    user              User?
+    payrollRecords    PayrollRecord[]
+    attendanceRecords AttendanceRecord[]
+    leaveApplications LeaveApplication[]
+    createdAt         DateTime           @default(now())
+    updatedAt         DateTime           @updatedAt
+}
+
+model AttendanceRecord {
+    id           String    @id @default(cuid())
+    employee     Employee  @relation(fields: [employeeId], references: [id])
+    employeeId   String
+    date         DateTime  @default(now())
+    checkinTime  DateTime?
+    checkoutTime DateTime?
+    status       String    @default("absent")
+    remarks      String?
+
+    @@unique([employeeId, date])
+}
+
+model LeaveApplication {
+    id         String   @id @default(cuid())
+    employee   Employee @relation(fields: [employeeId], references: [id])
+    employeeId String
+    leaveType  String
+    startDate  DateTime
+    endDate    DateTime
+    reason     String   @db.Text
+    status     String   @default("pending")
+    createdAt  DateTime @default(now())
+    updatedAt  DateTime @updatedAt
+}
+
+model PayrollPeriod {
+    id             String          @id @default(cuid())
+    startDate      DateTime
+    endDate        DateTime
+    payrollRecords PayrollRecord[]
+}
+
+model PayrollRecord {
+    id              String        @id @default(cuid())
+    employee        Employee      @relation(fields: [employeeId], references: [id])
+    employeeId      String
+    payrollPeriod   PayrollPeriod @relation(fields: [payrollPeriodId], references: [id])
+    payrollPeriodId String
+    baseSalary      Float
+    overtime        Float
+    deductions      Deduction[]
+    netPay          Float
+    paidOn          DateTime?
+}
+
+model Deduction {
+    id              String        @id @default(cuid())
+    name            String
+    amount          Float
+    payrollRecord   PayrollRecord @relation(fields: [payrollRecordId], references: [id])
+    payrollRecordId String
+}
+
+model Setting {
+    id             String       @id @default(cuid())
+    key            String       @unique
+    value          String
+    organization   Organization @relation(fields: [organizationId], references: [id])
+    organizationId String
 }
