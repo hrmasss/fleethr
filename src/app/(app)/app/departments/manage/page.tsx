@@ -1,4 +1,5 @@
 import { api } from "@/trpc/server";
+import DepartmentsDataTable from "@/components/app/department-data-table";
 import { IconPlus } from "@tabler/icons-react";
 import { Button, Card } from "@mantine/core";
 import Link from "next/link";
@@ -21,7 +22,7 @@ export default async function Page() {
           leftSection={<IconPlus size={20} />}
           variant="outline"
           component={Link}
-          href="/app/department/manage/new"
+          href="/app/departments/manage/new"
           className="mt-4"
         >
           New Department
@@ -29,7 +30,7 @@ export default async function Page() {
       </div>
 
       <Card mt="xl" shadow="sm" padding="lg" radius="md" withBorder>
-        All departments
+        <DepartmentsDataTable departments={departments} />
       </Card>
     </main>
   );

@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 const id = z.string();
-const name = z.string().min(3, { message: "Minimum 3 characters" });
+const name = z.string().min(1, { message: "Required" });
 const description = z.string().optional();
 
 export const GetDepartment = z.object({ id });
