@@ -5,6 +5,7 @@ import { subscriptionRouter } from "@/server/api/routers/subscription";
 import { moduleRouter } from "@/server/api/routers/module";
 import { noticeRouter } from "@/server/api/routers/notice";
 import { departmentRouter } from "@/server/api/routers/department";
+import { roleRouter } from "@/server/api/routers/role";
 
 /**
  * This is the primary router for your server.
@@ -18,6 +19,7 @@ export const appRouter = createTRPCRouter({
   module: moduleRouter,
   notice: noticeRouter,
   department: departmentRouter,
+  role: roleRouter,
 });
 
 // export type definition of API
