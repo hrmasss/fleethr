@@ -94,6 +94,9 @@ export const employeeRouter = createTRPCRouter({
   getAll: organizationProcedure.query(async ({ ctx }) => {
     return ctx.db.employee.findMany({
       where: { organizationId: ctx.organization.id },
+      include: {
+        department: true,
+      },
     });
   }),
 });

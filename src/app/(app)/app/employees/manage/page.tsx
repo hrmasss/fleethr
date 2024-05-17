@@ -1,11 +1,11 @@
 import { api } from "@/trpc/server";
 import { IconPlus, IconBolt } from "@tabler/icons-react";
 import { Button, Card, Group } from "@mantine/core";
-import RoleDataTable from "@/components/app/role-data-table";
+import EmployeeDataTable from "@/components/app/employee-data-table";
 import Link from "next/link";
 
 export default async function Page() {
-  const roles = await api.role.getAll();
+  const employees = await api.employee.getAll();
 
   return (
     <main>
@@ -40,7 +40,7 @@ export default async function Page() {
       </div>
 
       <Card mt="xl" shadow="sm" padding="lg" radius="md" withBorder>
-        <RoleDataTable roles={roles} />
+        <EmployeeDataTable employees={employees} />
       </Card>
     </main>
   );

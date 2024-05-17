@@ -1,7 +1,6 @@
 "use client";
 
 import type { User } from "next-auth";
-import { Group, Divider, Box, Burger, Drawer, ScrollArea } from "@mantine/core";
 import classes from "@/styles/components/header.module.css";
 import { useDisclosure } from "@mantine/hooks";
 import Logo from "@/components/images/logo";
@@ -11,6 +10,15 @@ import { UserButton } from "@/components/app/user-button";
 import { appLinks } from "@/lib/nav-data";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
+import {
+  Group,
+  Divider,
+  Box,
+  Burger,
+  Drawer,
+  ScrollArea,
+  Paper,
+} from "@mantine/core";
 
 export function Header({
   permittedRoutes,
@@ -26,7 +34,7 @@ export function Header({
 
   return (
     <Box>
-      <header className={cn(classes.header, className)}>
+      <Paper px="sm" className={cn(classes.header, className)}>
         <Group justify="space-between" h="100%">
           <Link href="/app" className="flex items-center gap-2">
             <Logo className="size-8" />
@@ -39,7 +47,7 @@ export function Header({
             hiddenFrom="md"
           />
         </Group>
-      </header>
+      </Paper>
 
       <Drawer
         opened={drawerOpened}

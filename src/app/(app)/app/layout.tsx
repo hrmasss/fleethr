@@ -5,6 +5,7 @@ import { redirect } from "next/navigation";
 import { publicLinks } from "@/lib/nav-data";
 import { Header } from "@/components/app/header";
 import AccessControl from "@/components/app/access-control";
+import { AppLayout } from "@/components/app/app-layout";
 
 export default async function Layout({
   children,
@@ -26,19 +27,12 @@ export default async function Layout({
 
   return (
     <AccessControl permittedRoutes={permittedRoutes}>
-      <div className="flex min-h-screen">
-        <aside className="fixed left-0 hidden h-screen lg:block">
-          <Navbar user={user} permittedRoutes={permittedRoutes} />
-        </aside>
-        <div className="size-full lg:ml-[300px]">
-          <Header
-            user={user}
-            permittedRoutes={permittedRoutes}
-            className="px-4 lg:hidden"
-          />
-          <div className="size-full p-4 md:p-8 lg:p-12">{children}</div>
-        </div>
-      </div>
+      <AppLayout
+        navbar={<Navbar user={user} permittedRoutes={permittedRoutes} />}
+        header={<Header user={user} permittedRoutes={permittedRoutes} />}
+      >
+        {children}
+      </AppLayout>
     </AccessControl>
   );
 }
