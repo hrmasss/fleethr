@@ -9,12 +9,14 @@ const employeeId = requiredString;
 const jobTitle = requiredString;
 const departmentId = requiredString;
 const name = optionalString;
-const phone = optionalString;
 const idVerificationDoc = optionalString;
 const idVerificationStatus = optionalString;
 const presentAddress = optionalString;
 const permanentAddress = optionalString;
 const email = z.string().email("Invalid email");
+const phone = z.string().refine((value) => /^\d+$/.test(value), {
+  message: "Only digits are allowed",
+});
 
 export const CreateEmployee = z.object({
   employeeId,

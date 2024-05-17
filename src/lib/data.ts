@@ -90,3 +90,9 @@ export const contactInfo = [
   { title: "Address", description: "DSC, Ashuliya, Savar", icon: IconMapPin },
   { title: "Working hours", description: "10 a.m. – 5 p.m.", icon: IconSun },
 ];
+
+export const applicationStatus = [
+  { value: "pending", label: "Pending" },
+  { value: "approved", label: "Approved" },
+  { value: "declined", label: "Declined" },
+];
