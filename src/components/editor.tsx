@@ -46,7 +46,7 @@ export default function Editor({
         mb={5}
         className={`focus-within:border-[var(--mantine-primary-color-filled)] ${props.error ? "border-[var(--mantine-color-red-8)]" : ""}`}
         styles={{
-          content: { background: "inherit" },
+          content: { background: "inherit", minHeight: "200px" },
           toolbar: { background: "inherit" },
         }}
       >

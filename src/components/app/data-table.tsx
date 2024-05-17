@@ -58,7 +58,10 @@ export function DataTable<TData, TValue>({
           table.getColumn(filterBy)?.setFilterValue(event.target.value)
         }
       />
-      <ScrollArea>
+      <ScrollArea
+        offsetScrollbars
+        styles={{ scrollbar: { backgroundColor: "transparent" } }}
+      >
         <Table>
           <Table.Thead>
             {table.getHeaderGroups().map((headerGroup) => (

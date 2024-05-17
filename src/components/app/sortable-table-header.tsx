@@ -29,8 +29,8 @@ export const SortableTableHeader = ({
       onClick={toggleSort}
       className="w-full py-[var(--mantine-spacing-xs)]"
     >
-      <Group justify="space-between">
-        <Text fw="bold" fz="sm">
+      <Group justify="space-between" style={{flexWrap: "nowrap"}}>
+        <Text fw="bold" fz="sm" style={{textWrap: "nowrap"}}>
           {label}
         </Text>
         <Center className="size-[rem(21px)] rounded-[rem(21px)]">
