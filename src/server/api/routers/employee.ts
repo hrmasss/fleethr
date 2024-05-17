@@ -5,44 +5,28 @@ import {
 } from "@/schemas/employee";
 import { TRPCError } from "@trpc/server";
 import { createTRPCRouter, organizationProcedure } from "@/server/api/trpc";
+import {
+  checkUniqueEmployeeId,
+  checkUniqueEmployeeEmail,
+} from "@/server/api/helpers/employee";
 
 export const employeeRouter = createTRPCRouter({
   // *Create a new employee
   create: organizationProcedure
     .input(CreateEmployee)
     .mutation(async ({ ctx, input }) => {
-      const existingEmployeeId = await ctx.db.employee.findFirst({
-        where: {
-          organizationId: ctx.organization.id,
-          employeeId: input.employeeId,
-        },
-      });
+      return ctx.db.$transaction(async (db) => {
+        await checkUniqueEmployeeId(db, ctx.organization.id, input.employeeId);
+        await checkUniqueEmployeeEmail(db, ctx.organization.id, input.email);
 
-      // Check if a employee with same employee ID already exist
-      if (existingEmployeeId)
-        throw new TRPCError({
-          code: "BAD_REQUEST",
-          message: "A employee with the same employee ID already exist",
+        return db.employee.create({
+          data: {
+            ...input,
+            departmentId: undefined,
+            department: { connect: { id: input.departmentId } },
+            organization: { connect: { id: ctx.organization.id } },
+          },
         });
-
-      const existingEmployeeEmail = await ctx.db.employee.findFirst({
-        where: { organizationId: ctx.organization.id, email: input.email },
-      });
-
-      // Check if a employee with same email already exist
-      if (existingEmployeeEmail)
-        throw new TRPCError({
-          code: "BAD_REQUEST",
-          message: "A employee with the email already exist",
-        });
-
-      return await ctx.db.employee.create({
-        data: {
-          ...input,
-          departmentId: undefined,
-          department: { connect: { id: input.departmentId } },
-          organization: { connect: { id: ctx.organization.id } },
-        },
       });
     }),
 
@@ -50,49 +34,28 @@ export const employeeRouter = createTRPCRouter({
   update: organizationProcedure
     .input(UpdateEmployee)
     .mutation(async ({ ctx, input }) => {
-      await ctx.db.employee
-        .findUniqueOrThrow({
-          where: { organizationId: ctx.organization.id, id: input.id },
-        })
-        .catch(() => {
-          throw new TRPCError({
-            code: "NOT_FOUND",
-            message: "Employee doesn't exist",
-          });
+      return ctx.db.$transaction(async (db) => {
+        await checkUniqueEmployeeId(
+          db,
+          ctx.organization.id,
+          input.employeeId,
+          input.id,
+        );
+        await checkUniqueEmployeeEmail(
+          db,
+          ctx.organization.id,
+          input.email,
+          input.id,
+        );
+
+        return db.employee.update({
+          where: { id: input.id },
+          data: {
+            ...input,
+            departmentId: undefined,
+            department: { connect: { id: input.departmentId } },
+          },
         });
-
-      const existingEmployeeId = await ctx.db.employee.findFirst({
-        where: {
-          organizationId: ctx.organization.id,
-          employeeId: input.employeeId,
-        },
-      });
-
-      // Check if a employee with same employee ID already exist
-      if (existingEmployeeId)
-        throw new TRPCError({
-          code: "BAD_REQUEST",
-          message: "A employee with the same employee ID already exist",
-        });
-
-      const existingEmployeeEmail = await ctx.db.employee.findFirst({
-        where: { organizationId: ctx.organization.id, email: input.email },
-      });
-
-      // Check if a employee with same employee ID already exist
-      if (existingEmployeeEmail)
-        throw new TRPCError({
-          code: "BAD_REQUEST",
-          message: "A employee with the email already exist",
-        });
-
-      return await ctx.db.employee.update({
-        where: { id: input.id },
-        data: {
-          ...input,
-          departmentId: undefined,
-          department: { connect: { id: input.departmentId } },
-        },
       });
     }),
 
