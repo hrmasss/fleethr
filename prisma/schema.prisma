@@ -139,24 +139,26 @@ model Department {
 }
 
 model Employee {
-    id                String             @id @default(cuid())
-    employeeId        String             @unique
-    name              String
-    email             String             @unique
-    phone             String
-    presentAddress    String
-    permanentAddress  String
-    jobTitle          String
-    department        Department         @relation(fields: [departmentId], references: [id])
-    departmentId      String
-    organization      Organization       @relation(fields: [organizationId], references: [id])
-    organizationId    String
-    user              User?
-    payrollRecords    PayrollRecord[]
-    attendanceRecords AttendanceRecord[]
-    leaveApplications LeaveApplication[]
-    createdAt         DateTime           @default(now())
-    updatedAt         DateTime           @updatedAt
+    id                   String             @id @default(cuid())
+    employeeId           String             @unique
+    name                 String?
+    email                String             @unique
+    phone                String?
+    presentAddress       String?
+    permanentAddress     String?
+    idVerificationDoc    String?
+    idVerificationStatus String?            @default("pending")
+    jobTitle             String
+    department           Department         @relation(fields: [departmentId], references: [id])
+    departmentId         String
+    organization         Organization       @relation(fields: [organizationId], references: [id])
+    organizationId       String
+    user                 User?
+    payrollRecords       PayrollRecord[]
+    attendanceRecords    AttendanceRecord[]
+    leaveApplications    LeaveApplication[]
+    createdAt            DateTime           @default(now())
+    updatedAt            DateTime           @updatedAt
 }
 
 model AttendanceRecord {
