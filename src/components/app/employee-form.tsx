@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { cn } from "@/lib/utils";
 import { useState, useEffect } from "react";
 import { api } from "@/trpc/react";
 import type { Departments } from "@/lib/types";
@@ -8,9 +9,10 @@ import { CreateEmployee } from "@/schemas/employee";
 import { useForm } from "@mantine/form";
 import { zodResolver } from "mantine-form-zod-resolver";
 import { notifications } from "@mantine/notifications";
-import { cn } from "@/lib/utils";
+import { useUploadThing } from "@/components/uploadthing";
 import { applicationStatus } from "@/lib/data";
 import { IconFileText } from "@tabler/icons-react";
+import { useRouter } from "next/navigation";
 import {
   Button,
   Text,
@@ -29,6 +31,8 @@ interface Props {
 export function EmployeeForm({ className, departments }: Props) {
   const [file, setFile] = useState<File | null>(null);
   const { mutate, status, error } = api.employee.create.useMutation();
+  const { startUpload, isUploading } = useUploadThing("pdfUploader");
+  const router = useRouter();
 
   const selectableDepartments =
     departments?.map(({ id, name }) => ({
@@ -55,7 +59,23 @@ export function EmployeeForm({ className, departments }: Props) {
   });
 
   const handleSubmit = (data: CreateEmployee) => {
-    mutate(data);
+    const uploadFileAndSubmit = async (file: File) => {
+      try {
+        const res = await startUpload([file]);
+        if (!res?.[0]) throw new Error("File could not be uploaded");
+
+        mutate({ ...data, idVerificationDoc: res[0].url });
+      } catch (error) {
+        form.setErrors({ idVerificationDoc: "File could not be uploaded" });
+      }
+    };
+
+    if (file)
+      uploadFileAndSubmit(file).catch((error) => {
+        console.error(error);
+        form.setErrors({ idVerificationDoc: "File could not be uploaded" });
+      });
+    else mutate(data);
   };
 
   useEffect(() => {
@@ -65,8 +85,10 @@ export function EmployeeForm({ className, departments }: Props) {
         message: "Please refresh the page if you don't see the record.",
         withBorder: true,
       });
+
+      router.push("/app/employees/manage");
     }
-  }, [status]);
+  }, [status, router]);
 
   return (
     <form
@@ -206,11 +228,12 @@ export function EmployeeForm({ className, departments }: Props) {
         mt="xl"
         size="md"
         autoContrast
-        disabled={status === "pending"}
+        disabled={status === "pending" || isUploading}
       >
-        {status === "pending" ? (
+        {status === "pending" || isUploading ? (
           <>
-            <Loader size={20} color="dark.9" mr="sm" /> Adding employee...
+            <Loader size={20} color="dark.9" mr="sm" />{" "}
+            {isUploading ? "Uploading document..." : "Adding employee..."}
           </>
         ) : (
           "Add employee"
