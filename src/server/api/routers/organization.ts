@@ -1,4 +1,5 @@
 import { CreateOrganization, GetOrganization } from "@/schemas/organization";
+import { generateUniqueOrganizationSlug } from "../helpers/organization";
 import { defaultRoles } from "prisma/data/role";
 import {
   createTRPCRouter,
@@ -23,10 +24,13 @@ export const organizationRouter = createTRPCRouter({
           message: "Already in an organization.",
         });
 
+      const slug = await generateUniqueOrganizationSlug(ctx.db, input.name);
+
       // Create the organization and connect the user as the owner & as a member
       const newOrganization = await ctx.db.organization.create({
         data: {
           ...input,
+          slug,
           owner: {
             connect: {
               id: ctx.session.user.id,
