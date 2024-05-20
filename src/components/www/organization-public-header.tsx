@@ -7,6 +7,7 @@ import { ThemeSwitch } from "@/components/theme-switch";
 import { IconX } from "@tabler/icons-react";
 import { Group, Box } from "@mantine/core";
 import Logo from "@/components/images/logo";
+import { notFound } from "next/navigation";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 
@@ -16,6 +17,8 @@ interface Props {
 }
 
 export function Header({ className, organization }: Props) {
+  if (!organization) notFound();
+
   return (
     <Box>
       <header className={cn(classes.header, className)}>

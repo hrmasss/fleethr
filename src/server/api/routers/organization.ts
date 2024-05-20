@@ -1,12 +1,15 @@
-import { CreateOrganization, GetOrganization } from "@/schemas/organization";
 import { generateUniqueOrganizationSlug } from "../helpers/organization";
 import { defaultRoles } from "prisma/data/role";
+import { TRPCError } from "@trpc/server";
+import {
+  CreateOrganization,
+  GetOrganizationBySlug,
+} from "@/schemas/organization";
 import {
   createTRPCRouter,
   protectedProcedure,
   publicProcedure,
 } from "@/server/api/trpc";
-import { TRPCError } from "@trpc/server";
 
 export const organizationRouter = createTRPCRouter({
   create: protectedProcedure
@@ -81,16 +84,16 @@ export const organizationRouter = createTRPCRouter({
   }),
 
   getPublicInfo: publicProcedure
-    .input(GetOrganization)
+    .input(GetOrganizationBySlug)
     .query(async ({ ctx, input }) => {
-      const organization = await ctx.db.organization.findUnique({
-        where: { id: input.id },
+      return await ctx.db.organization.findUnique({
+        where: { slug: input.slug },
+        select: {
+          id: true,
+          name: true,
+          slug: true,
+          description: true,
+        },
       });
-
-      return {
-        id: organization?.id,
-        name: organization?.name,
-        description: organization?.description,
-      };
     }),
 });

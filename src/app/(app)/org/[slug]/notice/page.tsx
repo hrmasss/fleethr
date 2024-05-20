@@ -5,15 +5,17 @@ import { NoticeCard } from "@/components/app/notice-card";
 
 interface Props {
   params: {
-    org: string;
+    slug: string;
   };
 }
 
 export default async function Page({ params }: Props) {
-  const organization = await api.organization.getPublicInfo({ id: params.org });
+  const organization = await api.organization.getPublicInfo({
+    slug: params.slug,
+  });
   if (!organization) notFound();
 
-  const notices = await api.notice.getAllPublic({ orgId: params.org });
+  const notices = await api.notice.getAllPublic({ orgId: organization.id });
 
   return (
     <main>
@@ -34,7 +36,7 @@ export default async function Page({ params }: Props) {
               <NoticeCard
                 key={notice.id}
                 notice={notice}
-                href={`/${organization.id}/notice/${notice.id}`}
+                href={`/org/${organization.slug}/notice/${notice.id}`}
               />
             ))
           ) : (

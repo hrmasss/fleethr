@@ -9,16 +9,23 @@ import ScrollToTopButton from "@/components/scroll-top-button";
 
 interface Props {
   params: {
-    org: string;
+    slug: string;
     id: string;
   };
 }
 
 export default async function Page({ params }: Props) {
+  const organization = await api.organization.getPublicInfo({
+    slug: params.slug,
+  });
+
+  if (!organization) notFound();
+
   const notice = await api.notice.getPublic({
-    orgId: params.org,
+    orgId: organization.id,
     noticeId: params.id,
   });
+
   if (!notice) notFound();
 
   return (
@@ -26,7 +33,7 @@ export default async function Page({ params }: Props) {
       <Container size="lg">
         <Button
           component={Link}
-          href={`/${params.org}/notice`}
+          href={`/org/${organization.slug}/notice`}
           leftSection={<IconArrowLeft size={20} />}
           variant="subtle"
         >

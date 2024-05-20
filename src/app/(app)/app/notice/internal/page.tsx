@@ -24,7 +24,7 @@ export default async function Page() {
           rightSection={<IconArrowRight size={20} />}
           variant="outline"
           component={Link}
-          href={`/${organization?.id}/notice`}
+          href={`/org/${organization?.slug}/notice`}
           className="mt-4"
         >
           Visit public notice board
