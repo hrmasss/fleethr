@@ -32,7 +32,7 @@ export default async function Page() {
             leftSection={<IconBolt size={20} />}
             variant="gradient"
             component={Link}
-            href="/app/employees/manage/new"
+            href="/app/employees/manage/quick"
           >
             Quick Add
           </Button>

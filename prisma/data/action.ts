@@ -26,6 +26,7 @@ export const actionData: Prisma.ActionUpsertArgs[] = [
       routes: [
         "/app/employees/manage",
         "/app/employees/manage/new",
+        "/app/employees/manage/quick",
         "/app/employees/manage/modify/[id]",
         "/app/employees/manage/view/[id]",
       ],
