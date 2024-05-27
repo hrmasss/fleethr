@@ -1,7 +1,16 @@
+import { LeaveForm } from "@/components/app/leave-form";
+import { Card } from "@mantine/core";
+
 export default function Page() {
   return (
-    <main className="flex h-full flex-col items-center justify-center">
-      <h1 className="text-3xl font-bold lg:text-5xl">Apply For Leave</h1>
+    <main>
+      <h3 className="mb-4 mt-2 text-xl font-bold md:text-3xl">
+        Apply for leave
+      </h3>
+
+      <Card shadow="sm" padding="lg" radius="md" withBorder>
+        <LeaveForm employeeId="xxx"/>
+      </Card>
     </main>
   );
 }
