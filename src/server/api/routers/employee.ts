@@ -15,15 +15,16 @@ export const employeeRouter = createTRPCRouter({
   create: organizationProcedure
     .input(CreateEmployee)
     .mutation(async ({ ctx, input }) => {
+      const { departmentId, ...data } = input;
+
       return ctx.db.$transaction(async (db) => {
-        await checkUniqueEmployeeId(db, ctx.organization.id, input.employeeId);
-        await checkUniqueEmployeeEmail(db, ctx.organization.id, input.email);
+        await checkUniqueEmployeeId(db, ctx.organization.id, data.employeeId);
+        await checkUniqueEmployeeEmail(db, ctx.organization.id, data.email);
 
         return db.employee.create({
           data: {
-            ...input,
-            departmentId: undefined,
-            department: { connect: { id: input.departmentId } },
+            ...data,
+            department: { connect: { id: departmentId } },
             organization: { connect: { id: ctx.organization.id } },
           },
         });
