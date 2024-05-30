@@ -16,6 +16,7 @@
   "dependencies": {
     "@auth/prisma-adapter": "^1.4.0",
     "@mantine/core": "^7.9.1",
+    "@mantine/dates": "^7.10.0",
     "@mantine/form": "^7.9.0",
     "@mantine/hooks": "^7.9.1",
     "@mantine/notifications": "^7.9.0",
@@ -42,6 +43,7 @@
     "@uploadthing/react": "^6.5.4",
     "bcryptjs": "^2.4.3",
     "clsx": "^2.1.1",
+    "dayjs": "^1.11.11",
     "mantine-form-zod-resolver": "^1.1.0",
     "next": "^14.2.1",
     "next-auth": "^4.24.6",

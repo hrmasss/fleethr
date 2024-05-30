@@ -9,14 +9,8 @@ import { zodResolver } from "mantine-form-zod-resolver";
 import { notifications } from "@mantine/notifications";
 import { cn } from "@/lib/utils";
 import Editor from "@/components/editor";
-import {
-  Button,
-  Text,
-  TextInput,
-  TagsInput,
-  Loader,
-  Switch,
-} from "@mantine/core";
+import { DatePickerInput } from "@mantine/dates";
+import { Button, Text, Select, Loader } from "@mantine/core";
 
 interface Props {
   className?: string;
@@ -61,45 +55,60 @@ export function LeaveForm({ className, employeeId }: Props) {
       onSubmit={form.onSubmit(handleSubmit)}
       className={cn("space-y-6", className)}
     >
-      <TextInput
+      <Select
         required
-        label="Title"
-        placeholder="Title of the notice"
+        searchable
+        label="Leave type"
+        placeholder="Select or search leave type"
         size="md"
-        key={form.key("title")}
-        {...form.getInputProps("title")}
+        data={[
+          "Sick Leave",
+          "Annual Leave",
+          "Maternity Leave",
+          "Paternity Leave",
+          "Casual Leave",
+          "Compensatory Leave",
+          "Study Leave",
+          "Medical Leave",
+          "Unpaid Leave",
+          "Vacation Leave",
+          "Personal Leave",
+          "Family Care Leave",
+          "Disability Leave",
+          "Hajj/Pilgrimage Leave",
+          "Marriage Leave",
+        ]}
+        key={form.key("leaveType")}
+        {...form.getInputProps("leaveType")}
       />
 
-      <TagsInput
-        label="Tags"
-        placeholder="Notice tags"
-        size="md"
-        clearable
-        key={form.key("tags")}
-        {...form.getInputProps("tags")}
-      />
+      <div className="grid gap-6 md:grid-cols-2">
+        <DatePickerInput
+          required
+          size="md"
+          label="Start date"
+          placeholder="Select starting date"
+          key={form.key("startDate")}
+          {...form.getInputProps("startDate")}
+        />
+
+        <DatePickerInput
+          required
+          size="md"
+          label="End date"
+          placeholder="Select ending date"
+          key={form.key("endDate")}
+          {...form.getInputProps("endDate")}
+        />
+      </div>
 
       <Editor
         required
         label="Body"
         placeholder="Notice content"
         size="md"
-        key={form.key("description")}
-        {...form.getInputProps("description")}
-      />
-
-      <Switch
-        styles={{
-          track: { cursor: "pointer" },
-          label: { cursor: "pointer" },
-          body: {
-            width: "fit-content",
-          },
-        }}
-        size="md"
-        label="Make public"
-        key={form.key("isPublic")}
-        {...form.getInputProps("isPublic")}
+        key={form.key("reason")}
+        {...form.getInputProps("reason")}
       />
 
       {error && (
@@ -119,10 +128,10 @@ export function LeaveForm({ className, employeeId }: Props) {
       >
         {status === "pending" ? (
           <>
-            <Loader size={20} color="dark.9" mr="sm" /> Publishing notice...
+            <Loader size={20} color="dark.9" mr="sm" /> Submitting...
           </>
         ) : (
-          "Publish notice"
+          "Submit application"
         )}
       </Button>
     </form>
