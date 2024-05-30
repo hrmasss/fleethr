@@ -8,6 +8,7 @@ import { createTRPCRouter, organizationProcedure } from "@/server/api/trpc";
 import {
   checkUniqueEmployeeId,
   checkUniqueEmployeeEmail,
+  sendOnboardingEmail,
 } from "@/server/api/helpers/employee";
 
 export const employeeRouter = createTRPCRouter({
@@ -17,7 +18,7 @@ export const employeeRouter = createTRPCRouter({
     .mutation(async ({ ctx, input }) => {
       const { departmentId, ...data } = input;
 
-      return ctx.db.$transaction(async (db) => {
+      const employee = await ctx.db.$transaction(async (db) => {
         await checkUniqueEmployeeId(db, ctx.organization.id, data.employeeId);
         await checkUniqueEmployeeEmail(db, ctx.organization.id, data.email);
 
@@ -29,6 +30,10 @@ export const employeeRouter = createTRPCRouter({
           },
         });
       });
+
+      if (employee) await sendOnboardingEmail(employee.email, employee.name);
+
+      return employee;
     }),
 
   // *Update an existing employee
