@@ -4,6 +4,8 @@ import {
   UpdateEmployee,
 } from "@/schemas/employee";
 import { TRPCError } from "@trpc/server";
+import { hash } from "bcryptjs";
+import { generateRandomPassword } from "@/lib/utils";
 import { createTRPCRouter, organizationProcedure } from "@/server/api/trpc";
 import {
   checkUniqueEmployeeId,
@@ -18,20 +20,59 @@ export const employeeRouter = createTRPCRouter({
     .mutation(async ({ ctx, input }) => {
       const { departmentId, ...data } = input;
 
-      const employee = await ctx.db.$transaction(async (db) => {
-        await checkUniqueEmployeeId(db, ctx.organization.id, data.employeeId);
-        await checkUniqueEmployeeEmail(db, ctx.organization.id, data.email);
+      const { employee, user, randomPassword } = await ctx.db.$transaction(
+        async (db) => {
+          await checkUniqueEmployeeId(db, ctx.organization.id, data.employeeId);
+          await checkUniqueEmployeeEmail(db, ctx.organization.id, data.email);
 
-        return db.employee.create({
-          data: {
-            ...data,
-            department: { connect: { id: departmentId } },
-            organization: { connect: { id: ctx.organization.id } },
-          },
+          // Check if the provided email is already in use
+          const existingUser = await db.user.findFirst({
+            where: { email: input.email },
+          });
+
+          if (existingUser) {
+            throw new TRPCError({
+              code: "BAD_REQUEST",
+              message: `${input.email} is in use`,
+            });
+          }
+
+          // Generate a random password
+          const randomPassword = generateRandomPassword(8);
+
+          // Hash the password
+          const hashedPassword = await hash(randomPassword, 8);
+
+          // Create the employee record
+          const employee = await db.employee.create({
+            data: {
+              ...data,
+              department: { connect: { id: departmentId } },
+              organization: { connect: { id: ctx.organization.id } },
+            },
+          });
+
+          // Create the user
+          const user = await db.user.create({
+            data: {
+              name: input.name,
+              email: input.email,
+              password: hashedPassword,
+              employeeRecord: { connect: { id: employee.id } },
+            },
+          });
+
+          // Return employee, user and random password
+          return { employee, user, randomPassword };
+        },
+      );
+
+      if (user)
+        await sendOnboardingEmail({
+          email: user.email,
+          password: randomPassword,
+          name: user.name ?? undefined,
         });
-      });
-
-      if (employee) await sendOnboardingEmail(employee.email, employee.name);
 
       return employee;
     }),

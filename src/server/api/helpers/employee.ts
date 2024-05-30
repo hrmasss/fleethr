@@ -49,21 +49,25 @@ export const checkUniqueEmployeeEmail = async (
   }
 };
 
-export const sendOnboardingEmail = async (
-  email: string,
-  name: string | null,
-) => {
+export const sendOnboardingEmail = async ({
+  email,
+  password,
+  name,
+}: {
+  email: string;
+  password: string;
+  name?: string;
+}) => {
   try {
     const { data, error } = await resend.emails.send({
       from: "FleetHR <fleethr@updates.hojayfa.codes>",
       to: [email],
       subject: "Welcome to FleetHR",
       react: EmailTemplate({
-        name: name ?? undefined,
-        actionUrl: "https://fleethr.vercel.app",
-        bodyText:
-          "Your employee account on fleethr is now active. Click the button below to complete onboarding.",
-        actionText: "Go to fleethr",
+        name,
+        actionUrl: "https://fleethr.vercel.app/login",
+        bodyText: `Your employee account on fleethr is now active. Click the button below to login to your account. Use the following password, you can & should change the password after loggin in. Password: ${password}`,
+        actionText: "Login to fleethr",
       }),
     });
 

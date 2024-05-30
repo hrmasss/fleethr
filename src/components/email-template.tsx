@@ -1,6 +1,8 @@
+import type { ReactNode } from "react";
+
 interface Props {
   name?: string;
-  bodyText: string;
+  bodyText: ReactNode;
   actionText: string;
   actionUrl: string;
 }
@@ -36,7 +38,7 @@ export function EmailTemplate({
       </header>
       <main style={{ marginTop: "2rem" }}>
         <p style={{ color: "#4b5563" }}>{name ? `Hello ${name},` : "Hello,"}</p>
-        <p
+        <div
           style={{
             marginBottom: "0.5rem",
             marginTop: "0.5rem",
@@ -44,7 +46,7 @@ export function EmailTemplate({
           }}
         >
           {bodyText}
-        </p>
+        </div>
         <a
           href={actionUrl}
           style={{
