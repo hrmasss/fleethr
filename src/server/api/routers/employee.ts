@@ -59,6 +59,7 @@ export const employeeRouter = createTRPCRouter({
               email: input.email,
               password: hashedPassword,
               employeeRecord: { connect: { id: employee.id } },
+              organization: { connect: { id: ctx.organization.id } },
             },
           });
 
