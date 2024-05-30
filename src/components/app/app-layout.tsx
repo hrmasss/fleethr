@@ -17,7 +17,12 @@ export function AppLayout({ navbar, header, children }: Props) {
         <Box hiddenFrom="md" pos="sticky" top={0} style={{ zIndex: 100 }}>
           {header}
         </Box>
-        <Box p={{ base: "sm", sm: "lg", md: "xl" }}>{children}</Box>
+        <Box
+          p={{ base: "sm", sm: "lg", md: "xl" }}
+          className="h-screen overflow-auto"
+        >
+          {children}
+        </Box>
       </AppShell.Main>
     </AppShell>
   );

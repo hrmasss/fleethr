@@ -90,6 +90,13 @@ export const employeeRouter = createTRPCRouter({
       });
     }),
 
+  // *Get self employee record
+  getSelf: organizationProcedure.query(async ({ ctx }) => {
+    return ctx.db.employee.findFirst({
+      where: { user: { id: ctx.session.user.id } },
+    });
+  }),
+
   // *Get all employees
   getAll: organizationProcedure.query(async ({ ctx }) => {
     return ctx.db.employee.findMany({
