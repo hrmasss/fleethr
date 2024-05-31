@@ -7,5 +7,5 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export function generateRandomPassword(length: number) {
-  return crypto.randomBytes(length).toString("hex");
+  return crypto.randomBytes(length).toString("hex").slice(0, length);
 }
