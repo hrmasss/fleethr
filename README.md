@@ -1,29 +1,61 @@
-# Create T3 App
+# FleetHR
 
-This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
+FleetHR is a cost-effective and flexible Human Resources Management (HRM) Software as a Service (SaaS) targeted at Small to Medium-sized Enterprises (SMEs). It aims to streamline HR processes, making it easier for SMEs to manage their human resources efficiently.
 
-## What's next? How do I make an app with this?
+## Technologies Used
 
-We try to keep this project as simple as possible, so you can start with just the scaffolding we set up for you, and add additional things later when they become necessary.
+FleetHR is built using a modern tech stack to ensure performance, scalability, and ease of use. Key technologies include:
 
-If you are not familiar with the different technologies used in this project, please refer to the respective docs. If you still are in the wind, please join our [Discord](https://t3.gg/discord) and ask for help.
+- **Next.js**: React framework for building server-side rendered applications.
+- **TypeScript**: For type-safe JavaScript.
+- **Prisma**: ORM for database management.
+- **tRPC**: Type-safe APIs.
+- **NextAuth**: Authentication for Next.js.
+- **TailwindCSS**: Utility-first CSS framework.
+- **Mantine**: Component library.
+- **Zod**: Schema validation.
+- **UploadThing**: File uploading service.
+- **Resend**: Email service.
 
-- [Next.js](https://nextjs.org)
-- [NextAuth.js](https://next-auth.js.org)
-- [Prisma](https://prisma.io)
-- [Drizzle](https://orm.drizzle.team)
-- [Tailwind CSS](https://tailwindcss.com)
-- [tRPC](https://trpc.io)
+## Getting Started
 
-## Learn More
+Follow these steps to get started with FleetHR:
 
-To learn more about the [T3 Stack](https://create.t3.gg/), take a look at the following resources:
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/hrmasss/fleethr.git
+   cd fleethr
+   ```
 
-- [Documentation](https://create.t3.gg/)
-- [Learn the T3 Stack](https://create.t3.gg/en/faq#what-learning-resources-are-currently-available) — Check out these awesome tutorials
+2. **Install dependencies:**
+   ```bash
+   npm install
+   ```
 
-You can check out the [create-t3-app GitHub repository](https://github.com/t3-oss/create-t3-app) — your feedback and contributions are welcome!
+3. **Setup environment variables:**
+   - Copy and rename `.env.example` to `.env`:
+     ```bash
+     cp .env.example .env
+     ```
+   - Populate the variables in the `.env` file.
 
-## How do I deploy this?
+4. **Ensure PostgreSQL server is running:**
+   - Make sure the PostgreSQL server mentioned in your `.env` file is up and running.
 
-Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/vercel), [Netlify](https://create.t3.gg/en/deployment/netlify) and [Docker](https://create.t3.gg/en/deployment/docker) for more information.
+5. **Push the database schema:**
+   ```bash
+   npm run db:push
+   ```
+
+6. **Start the development server:**
+   ```bash
+   npm run dev
+   ```
+
+## Deployment
+
+FleetHR is deployed on Vercel and can be accessed at [https://fleethr.vercel.app](https://fleethr.vercel.app).
+
+## License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
