@@ -14,7 +14,7 @@ export default function Page() {
   return (
     <main>
       <div>
-        <h3 className="my-2 text-xl font-bold md:text-3xl">Dashboard</h3>
+        <h1 className="my-2 text-xl font-bold md:text-3xl">Dashboard</h1>
 
         <div className="my-8">
           <DashboardStats />
