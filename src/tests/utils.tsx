@@ -1,17 +1,10 @@
 import userEvent from "@testing-library/user-event";
 import type { ReactNode, ReactElement } from "react";
 import { render, type RenderOptions } from "@testing-library/react";
-import { MantineProvider, createTheme } from "@mantine/core";
-import { mantineTheme } from "@/lib/mantine-theme";
-
-const theme = createTheme(mantineTheme);
+import { MantineProvider } from "@mantine/core";
 
 const AllProviders = ({ children }: { children: ReactNode }) => {
-  return (
-    <MantineProvider defaultColorScheme="auto" theme={theme}>
-      {children}
-    </MantineProvider>
-  );
+  return <MantineProvider>{children}</MantineProvider>;
 };
 
 const renderWithProviders = (
