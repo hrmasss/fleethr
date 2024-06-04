@@ -16,10 +16,6 @@ export default function Page() {
       <div>
         <h3 className="my-2 text-xl font-bold md:text-3xl">Dashboard</h3>
 
-        <p className="max-w-xl">
-          Here you can find some statistics about your organization.
-        </p>
-
         <div className="my-8">
           <DashboardStats />
         </div>

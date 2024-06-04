@@ -48,6 +48,8 @@ model User {
     ownedOrganization Organization? @relation("OrganizationOwner")
     employeeId        String?       @unique
     employeeRecord    Employee?     @relation(fields: [employeeId], references: [employeeId])
+    createdAt         DateTime      @default(now())
+    updatedAt         DateTime      @updatedAt
 
     @@index([email])
 }
@@ -100,6 +102,8 @@ model Role {
     organizationId String
     users          User[]
     permissions    Action[]
+    createdAt      DateTime     @default(now())
+    updatedAt      DateTime     @updatedAt
 
     @@unique([organizationId, name])
 }
@@ -114,6 +118,8 @@ model Subscription {
     endDate            DateTime
     isAutoRenewEnabled Boolean      @default(true)
     durationInMonths   Int          @default(1)
+    createdAt          DateTime     @default(now())
+    updatedAt          DateTime     @updatedAt
 }
 
 model Notice {
@@ -135,6 +141,8 @@ model Department {
     employees      Employee[]
     organization   Organization @relation(fields: [organizationId], references: [id])
     organizationId String
+    createdAt      DateTime     @default(now())
+    updatedAt      DateTime     @updatedAt
 
     @@unique([organizationId, name])
 }
@@ -171,6 +179,8 @@ model AttendanceRecord {
     checkoutTime DateTime?
     status       String    @default("absent")
     remarks      String?
+    createdAt    DateTime  @default(now())
+    updatedAt    DateTime  @updatedAt
 
     @@unique([employeeId, date])
 }
@@ -193,6 +203,8 @@ model PayrollPeriod {
     startDate      DateTime
     endDate        DateTime
     payrollRecords PayrollRecord[]
+    createdAt      DateTime        @default(now())
+    updatedAt      DateTime        @updatedAt
 }
 
 model PayrollRecord {
@@ -206,6 +218,8 @@ model PayrollRecord {
     deductions      Deduction[]
     netPay          Float
     paidOn          DateTime?
+    createdAt       DateTime      @default(now())
+    updatedAt       DateTime      @updatedAt
 }
 
 model Deduction {
@@ -214,6 +228,8 @@ model Deduction {
     amount          Float
     payrollRecord   PayrollRecord @relation(fields: [payrollRecordId], references: [id])
     payrollRecordId String
+    createdAt       DateTime      @default(now())
+    updatedAt       DateTime      @updatedAt
 }
 
 model Setting {
