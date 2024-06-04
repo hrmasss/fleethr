@@ -18,9 +18,9 @@ export default async function Page() {
           Get back
         </BackButton>
 
-        <h3 className="mt-2 text-xl font-bold md:text-3xl">
+        <h1 className="mt-2 text-xl font-bold md:text-3xl">
           Add a new employee
-        </h3>
+        </h1>
       </div>
 
       <Card shadow="sm" padding="lg" radius="md" withBorder>

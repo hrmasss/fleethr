@@ -11,9 +11,9 @@ export default async function Page() {
   return (
     <main>
       <div>
-        <h3 className="my-2 text-xl font-bold md:text-3xl">
+        <h1 className="my-2 text-xl font-bold md:text-3xl">
           Internal notice board
-        </h3>
+        </h1>
 
         <p className="max-w-xl">
           Here you can find notices that are only visible to the members of your

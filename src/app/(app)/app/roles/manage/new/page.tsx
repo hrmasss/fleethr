@@ -7,9 +7,9 @@ export default async function Page() {
 
   return (
     <main>
-      <h3 className="mb-4 mt-2 text-xl font-bold md:text-3xl">
+      <h1 className="mb-4 mt-2 text-xl font-bold md:text-3xl">
         Add a new role
-      </h3>
+      </h1>
 
       <Card shadow="sm" padding="lg" radius="md" withBorder>
         <RoleForm permissions={permissions} />

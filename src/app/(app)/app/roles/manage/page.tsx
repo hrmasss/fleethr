@@ -10,7 +10,7 @@ export default async function Page() {
   return (
     <main>
       <div>
-        <h3 className="my-2 text-xl font-bold md:text-3xl">Role Management</h3>
+        <h1 className="my-2 text-xl font-bold md:text-3xl">Role Management</h1>
 
         <p className="max-w-xl">
           Here you can find & Manage all roles & their permissions from your

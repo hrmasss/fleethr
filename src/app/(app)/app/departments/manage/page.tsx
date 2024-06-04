@@ -10,9 +10,9 @@ export default async function Page() {
   return (
     <main>
       <div>
-        <h3 className="my-2 text-xl font-bold md:text-3xl">
+        <h1 className="my-2 text-xl font-bold md:text-3xl">
           Department Management
-        </h3>
+        </h1>
 
         <p className="max-w-xl">
           Here you can find & Manage all departments from your organization.

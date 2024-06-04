@@ -10,9 +10,9 @@ export default async function Page() {
     <main className="size-full">
       {employee ? (
         <>
-          <h3 className="mb-4 mt-2 text-xl font-bold md:text-3xl">
+          <h1 className="mb-4 mt-2 text-xl font-bold md:text-3xl">
             Apply for leave
-          </h3>
+          </h1>
 
           <Card shadow="sm" padding="lg" radius="md" withBorder>
             <LeaveForm employeeId={employee.id} />
