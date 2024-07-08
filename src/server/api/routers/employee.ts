@@ -13,6 +13,8 @@ import {
   sendOnboardingEmail,
 } from "@/server/api/helpers/employee";
 
+const isDebugMode = process.env.NODE_ENV !== "production";
+
 export const employeeRouter = createTRPCRouter({
   // *Create a new employee
   create: organizationProcedure
@@ -37,10 +39,9 @@ export const employeeRouter = createTRPCRouter({
             });
           }
 
-          // Generate a random password
-          const randomPassword = generateRandomPassword(8);
-
-          // Hash the password
+          const randomPassword = isDebugMode
+            ? input.email
+            : generateRandomPassword(8);
           const hashedPassword = await hash(randomPassword, 8);
 
           // Create the employee record
@@ -68,12 +69,13 @@ export const employeeRouter = createTRPCRouter({
         },
       );
 
-      if (user)
+      if (user && !isDebugMode) {
         await sendOnboardingEmail({
           email: user.email,
           password: randomPassword,
           name: user.name ?? undefined,
         });
+      }
 
       return employee;
     }),
